@@ -6,24 +6,27 @@
   </head>
   <body>
     <div id="app">
-      message:
-      {{ message }}
+      {{ lists }}
     </div>
     <script src="../../js/statistics/monthly.js"></script>
   </body>
   <script>
   var t = window.TrelloPowerUp.iframe();
+  var lists;
   t.render(function(){
     t.lists('all')
     .then(function (lists) {
-      console.log(lists);
-      console.log(JSON.stringify(lists, null, 2));
+      lists = lists;
+      for(var i=0; i<lists.length; i++){
+        var list = lists[i];
+        if(!list.name) continue;
+      }
     });
   });
   var app = new Vue({
     el: '#app',
     data: {
-      message: 'Hello Vue!'
+      lists: lists
     }
   });
   </script>
