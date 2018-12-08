@@ -21,5 +21,8 @@
     "trello",
     "glitch"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "sync-glitch-cli": "^2.0.1"
+  }
 }
