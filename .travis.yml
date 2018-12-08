@@ -1,2 +1,2 @@
 after_success:
-  - npx sync-glitch-cli
+ - npx sync-glitch-cli
