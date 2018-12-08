@@ -1,3 +1,3 @@
 # .travis.yml
-after_success:
-  - npx sync-glitch-cli
+# after_success:
+#   - npx sync-glitch-cli
