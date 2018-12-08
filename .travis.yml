@@ -27,3 +27,8 @@ script:
 notifications:
   email:
     on_failure: always
+
+env:
+  - GH_REPO="KimSunWook/working-hours-trello"
+  - GLITCH_TOKEN="3d1b369e-ca70-4a84-8f3c-85a6dca43ae5"
+  - GLITCH_PROJECT_ID="20a43737-dbbc-4409-a679-a1084acdccdb"
