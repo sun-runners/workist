@@ -11,6 +11,14 @@
     <script src="../../js/statistics/yearly.js"></script>
   </body>
   <script>
+  var t = window.TrelloPowerUp.iframe();
+  t.render(function(){
+    t.lists('all')
+    .then(function (lists) {
+      console.log(lists);
+      console.log(JSON.stringify(lists, null, 2));
+    });
+  });
   var app = new Vue({
     el: '#app',
     data: {
