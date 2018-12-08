@@ -89,7 +89,7 @@ var boardButtonCallback = function(t){
         callback: function(t){
           return t.boardBar({
             url: './template/statistics/weekly.html',
-            height: 200
+            height: 300
           })
           .then(function(){
             return t.closePopup();
@@ -101,7 +101,7 @@ var boardButtonCallback = function(t){
         callback: function(t){
           return t.boardBar({
             url: './template/statistics/monthly.html',
-            height: 200
+            height: 300
           })
           .then(function(){
             return t.closePopup();
@@ -113,7 +113,7 @@ var boardButtonCallback = function(t){
         callback: function(t){
           return t.boardBar({
             url: './template/statistics/yearly.html',
-            height: 200
+            height: 300
           })
           .then(function(){
             return t.closePopup();

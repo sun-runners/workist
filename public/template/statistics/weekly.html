@@ -6,11 +6,20 @@
   </head>
   <body>
     <div id="app">
+      <!-- title -->
       {{ message }}
     </div>
     <script src="../../js/statistics/weekly.js"></script>
   </body>
   <script>
+  var t = window.TrelloPowerUp.iframe();
+  t.render(function(){
+    t.lists('all')
+    .then(function (lists) {
+      console.log(lists);
+      console.log(JSON.stringify(lists, null, 2));
+    });
+  });
   var app = new Vue({
     el: '#app',
     data: {
