@@ -1,0 +1,47 @@
+{
+  "name": "cssist",
+  "version": "1.1.24",
+  "homepage": "https://github.com/KimSunWook/cssist",
+  "main": "cssist.js",
+  "authors": [
+    "Kim Sun Wook <sunus7@naver.com>"
+  ],
+  "description": "Cssist is a JavaScript library that automatically generates classes so that you can develop the web without css",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:KimSunWook/cssist.git"
+  },
+  "keywords": [
+    "cssist"
+  ],
+  "ignore": [
+    "**",
+    "*.json",
+    "webpack.config.js",
+    "*.md",
+    "CNAME"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "angular": "~1.5.8",
+    "angular-animate": "~1.5.8",
+    "angular-aria": "~1.5.8",
+    "angular-cookies": "~1.5.8",
+    "angular-messages": "~1.5.8",
+    "angular-resource": "~1.5.8",
+    "angular-route": "~1.5.8",
+    "angular-sanitize": "~1.5.8",
+    "angular-touch": "~1.5.8",
+    "angular-ui-router": "~0.3.1",
+    "angular-fullpage.js": "~0.2.1",
+    "angular-material": "^1.1.4",
+    "animate.css": "^3.5.2",
+    "ng-lodash": "^0.5.0",
+    "cssist": "*",
+    "animejs": "^2.2.0",
+    "reset.css": "^1.0.2",
+    "ng-gradient": "^1.0.1",
+    "ng-action": "ngAction#^1.1.3"
+  }
+}
