@@ -15,7 +15,7 @@ branches:
     - master
 
 before_install:
-  - npm install -g npm@5
+  - npm install -g npm
 
 before_script:
   - npm prune
