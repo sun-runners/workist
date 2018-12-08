@@ -2,12 +2,20 @@
   <head>
     <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
     <script src="https://p.trellocdn.com/power-up.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   </head>
   <body>
-    /Users/idist/Desktop/git/trello/working-hours-trello/public/template/statistics/yearly.html
-    /Users/idist/Desktop/git/trello/working-hours-trello/public/template/statistics/yearly.html
-    /Users/idist/Desktop/git/trello/working-hours-trello/public/template/statistics/yearly.html
-    /Users/idist/Desktop/git/trello/working-hours-trello/public/template/statistics/yearly.html
+    <div id="app">
+      {{ message }}
+    </div>
     <script src="../../js/statistics/yearly.js"></script>
   </body>
+  <script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello Vue!'
+    }
+  });
+  </script>
 </html>
