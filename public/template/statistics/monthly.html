@@ -6,17 +6,18 @@
   </head>
   <body>
     <div id="app">
-      {{ lists }}
+      <img src="../../js/statistics/monthly.jpg"/>
+      {{months}}
     </div>
     <script src="../../js/statistics/monthly.js"></script>
   </body>
   <script>
   var t = window.TrelloPowerUp.iframe();
-  var lists;
+  var months;
   t.render(function(){
     t.lists('all')
     .then(function (lists) {
-      lists = lists;
+      months = lists;
       for(var i=0; i<lists.length; i++){
         var list = lists[i];
         if(!list.name) continue;
@@ -26,7 +27,7 @@
   var app = new Vue({
     el: '#app',
     data: {
-      lists: lists
+      months: months
     }
   });
   </script>
