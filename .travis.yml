@@ -1,3 +1,7 @@
-# .travis.yml
-# after_success:
-#   - npx sync-glitch-cli
+language: node_js
+node_js:
+  - "iojs"
+  - "7"
+
+after_success:
+  - npx sync-glitch-cli
