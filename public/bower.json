@@ -1,0 +1,26 @@
+{
+  "name": "working-hours-trello",
+  "homepage": "https://github.com/KimSunWook/working-hours-trello",
+  "authors": [
+    "Kim Sun Wook <sunus7@naver.com>"
+  ],
+  "description": "It is a power-up that calculates the working time automatically in the trellis.",
+  "main": "index.html",
+  "keywords": [
+    "working-hours"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "cssist": "^1.1.25",
+    "moment": "^2.22.2",
+    "reset.css": "^1.1.3"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "name": "reset.css",
+  "version": "1.1.3",
+  "homepage": "https://github.com/KimSunWook/reset.css",
+  "main": [
+    "reset.css"
+  ],
+  "authors": [
+    "Kim Sun Wook <sunus7@naver.com>"
+  ],
+  "description": "Reset.css unifies the styles of different html tags for different browsers.",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:KimSunWook/reset.css.git"
+  },
+  "keywords": [
+    "reset.css",
+    "resetcss"
+  ],
+  "ignore": [
+    "**",
+    "*.json",
+    "webpack.config.js",
+    "*.md",
+    "CNAME"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "angular": "~1.5.8",
+    "angular-animate": "~1.5.8",
+    "angular-aria": "~1.5.8",
+    "angular-cookies": "~1.5.8",
+    "angular-messages": "~1.5.8",
+    "angular-resource": "~1.5.8",
+    "angular-route": "~1.5.8",
+    "angular-sanitize": "~1.5.8",
+    "angular-touch": "~1.5.8",
+    "angular-ui-router": "~0.3.1",
+    "angular-material": "^1.1.4",
+    "animate.css": "^3.5.2",
+    "ng-lodash": "^0.5.0",
+    "cssist": "*",
+    "animejs": "^2.2.0",
+    "granim": "^1.1.0"
+  },
+  "_release": "1.1.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.1.3",
+    "commit": "517d3de50ab8471d3a5edc1a348c92ecc54a66e8"
+  },
+  "_source": "https://github.com/KimSunWook/reset.css.git",
+  "_target": "^1.1.3",
+  "_originalSource": "reset.css",
+  "_direct": true
+}

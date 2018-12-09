@@ -1,7 +1,11 @@
 var t = TrelloPowerUp.iframe();
 
-window.addEventListener('unload', function(e) {
+t.render(function(){
 });
 
-t.render(function(){
+var app = new Vue({
+  el: '#app',
+  data: {
+    months: '12312312'
+  }
 });

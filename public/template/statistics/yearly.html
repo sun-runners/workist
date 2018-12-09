@@ -1,35 +1,23 @@
 <html>
   <head>
+    <!-- CDN -->
     <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+    <!-- Bower -->
+    <link rel="stylesheet" href="../../bower_components/reset.css/reset.css">
+    <!-- Custom -->
+    <link rel="stylesheet" href="../../css/main.css">
+
+    <!-- CDN -->
     <script src="https://p.trellocdn.com/power-up.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- Bower -->
     <script src="../../bower_components/cssist/cssist.js"></script>
+    <!-- Custom -->
+    <script src="../../js/statistics/yearly.js"></script>
   </head>
   <body>
     <div id="app">
       <img class="w-100 h-auto" src="../../asset/yearly.jpg"/>
-      {{years}}
     </div>
-    <script src="../../js/statistics/yearly.js"></script>
   </body>
-  <script>
-  var t = window.TrelloPowerUp.iframe();
-  var years;
-  t.render(function(){
-    t.lists('all')
-    .then(function (lists) {
-      years = lists;
-      for(var i=0; i<lists.length; i++){
-        var list = lists[i];
-        if(!list.name) continue;
-      }
-    });
-  });
-  var app = new Vue({
-    el: '#app',
-    data: {
-      years: years
-    }
-  });
-  </script>
 </html>

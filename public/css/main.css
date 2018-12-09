@@ -1,0 +1,21 @@
+* {
+  font-smooth: always;
+  border: 0;
+  font: inherit;
+  background: none;
+}
+
+::placeholder {
+  color: #bdbdbd;
+}
+
+div, img, i, span, button, a, select, input, textarea {
+  position: relative;
+  display: block;
+  float: inherit;
+  border-style: solid;
+}
+
+button {
+  cursor: pointer;
+}
