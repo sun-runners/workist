@@ -15,6 +15,6 @@ angular.module('workingHoursTrello')
 			restrict: "EA",
 			replace: true,
 			scope: {},
-			templateUrl: "../../../templates/statistics/directives/yearlyDir.html"
+			templateUrl: "../../../template/statistics/directives/yearlyDir.html"
 		}
 	});
