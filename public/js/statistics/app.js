@@ -10,6 +10,7 @@ angular.module('workingHoursTrello', [
 
   // Variable Section
   $rootScope.monent = moment();
+  console.log($rootScope.monent);
 
 
 
