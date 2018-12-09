@@ -73,7 +73,10 @@ angular.module('workingHoursTrello', [
         for(var j=0; j<=list.cards.length; j++){
           var card = list.cards[i];
           console.log(card);
-          console.log(card.activities);
+          // if(!card.members[0]){
+          //
+          // };
+          // (https://api.trello.com/1/notifications/id/memberCreator)
         }
       }
 
