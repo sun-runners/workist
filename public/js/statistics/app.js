@@ -4,7 +4,7 @@ angular.module('workingHoursTrello', [
 
   // Codes will he here
 
-}).run(function(){
+}).run(function($rootScope){
 
 
 
