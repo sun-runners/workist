@@ -7,7 +7,6 @@ angular.module('workingHoursTrello')
 
 				// Initialize Function Section
 				var initialize = function(){
-          console.log('yearlyDir');
 				};
 				initialize();
 
@@ -15,6 +14,6 @@ angular.module('workingHoursTrello')
 			restrict: "EA",
 			replace: true,
 			scope: {},
-			templateUrl: "../../../template/statistics/directives/yearlyDir.html"
+			templateUrl: "../../template/statistics/directives/yearlyDir.html"
 		}
 	});

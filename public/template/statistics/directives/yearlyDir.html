@@ -1,5 +1,21 @@
-<div class="w-100">
-  <button><</button>
-  {{$root.momnet.year()}}
-  <button>></button>
+<div class="w-100 c-ACACAC">
+  <div class="w-100 h-69px">
+    <div class="p-a t-0 d-ib h-100 cen-x">
+      <button class="w-45px h-100 mr-30px" ng-click="$root.decreaseYear();">
+        <
+      </button>
+      <span class="f-24px fw-900 cen-y">
+        {{$root.dt.Date|date: 'yyyy'}}
+      </span>
+      <button class="w-45px h-100 ml-30px" ng-click="$root.increaseYear();">
+        >
+      </button>
+    </div>
+  </div>
+  <div class="w-100 h-60px">
+    header
+  </div>
+  <div class="w-100 h-45px">
+    content
+  </div>
 </div>

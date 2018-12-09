@@ -1,5 +1,46 @@
-<div class="w-100">
-  <button><</button>
-  {{$root.momnet.week()}}
-  <button>></button>
+<div class="w-100 c-ACACAC">
+  <div class="w-100 h-69px">
+    <div class="p-a t-0 d-ib h-100 cen-x">
+      <button class="w-45px h-100 mr-30px" ng-click="$root.decreaseWeek();">
+        <
+      </button>
+      <span class="f-24px fw-900 cen-y">
+        {{$root.dt.week}} WEEK
+      </span>
+      <button class="w-45px h-100 ml-30px" ng-click="$root.increaseWeek();">
+        >
+      </button>
+    </div>
+    <div class="p-a t-0 d-ib h-100 l-30px">
+      <span class="f-18px fw-900 cen-y">
+        {{$root.dt.Date|date: 'yyyy'}} {{$root.dt.Date|date: 'MMMM'}}
+      </span>
+    </div>
+  </div>
+  <div class="w-100">
+    <table class="w-100 t-c">
+      <tr class="w-100 h-60px">
+        <!-- name -->
+        <!-- dts -->
+        <th ng-repeat="dt in dts">
+          <span class="f-18px fw-900">
+            {{dt.month}}/{{dt.date}}
+          </span><br>
+          <div class="f-12px fw-900">
+            {{dt.Date|date:'EEE'}}
+          </div>
+        </th>
+        <!-- total -->
+      </tr>
+      <tr class="w-100 h-45px">
+        <!-- name -->
+        <!-- dts -->
+        <td ng-repeat="dt in dts">1</td>
+        <!-- total -->
+      </tr>
+    </table>
+  </div>
+  <div class="w-100 h-45px">
+
+  </div>
 </div>
