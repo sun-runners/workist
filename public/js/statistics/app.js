@@ -10,6 +10,7 @@ angular.module('workingHoursTrello', [
 
   // Variable Section
   $rootScope.moment = moment();
+  $rootScope.trello = {};
 
 
 
@@ -64,12 +65,20 @@ angular.module('workingHoursTrello', [
   t.render(function(){
     t.lists('all')
     .then(function (lists) {
-      console.log(lists);
-      // for(var i=0; i<lists.length; i++){
-      //   var list = lists[i];
-      //   if(!list.name) continue;
-      //   console.log(list.name);
-      // }
+      $rootScope.trello.lists = lists;
+
+      for(var i=0; i<=lists.length; i++){
+        var list = lists[i];
+        console.log(list);
+        for(var j=0; j<=list.cards.length; j++){
+          var card = list.cards[i];
+          console.log(card);
+          console.log(card.activities);
+        }
+      }
+
+      $rootScope.trello.years = [
+      ];
     });
   });
 
