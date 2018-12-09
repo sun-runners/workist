@@ -17,7 +17,6 @@ angular.module('workingHoursTrello')
 
 						// Set new dt
 						var dt_in_week = $rootScope.getDtOfMoment(moment_in_week);
-						console.log(dt_in_week.week!=dt_original.week);
 
 						// Compare same week
 						if(dt_in_week.week!=dt_original.week) continue;
