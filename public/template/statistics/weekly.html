@@ -12,13 +12,12 @@
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <!-- Bower -->
     <script src="../../bower_components/cssist/cssist.js"></script>
+    <script src="../../bower_components/angular/angular.js"></script>
     <!-- Custom -->
-    <script src="../../js/statistics/weekly.js"></script>
+    <script src="../../js/statistics/app.js"></script>
   </head>
-  <body>
-    <div id="app">
-      <img class="w-100 h-auto" src="../../asset/weekly.jpg"/>
-      {{weeks}}
-    </div>
+  <body ng-app="workingHoursTrello">
+    <header-dir class="w-100"></header-dir>
+    <table-dir class="w-100"></table-dir>
   </body>
 </html>
