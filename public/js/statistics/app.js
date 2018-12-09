@@ -72,7 +72,7 @@ angular.module('workingHoursTrello', [
               // Days
               days: [
                 {
-                  day:1
+                  day:1,
                   // Users
                   users:[
                     {
