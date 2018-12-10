@@ -76,8 +76,11 @@ angular.module('workingHoursTrello', [
           // Each Card
           var card = list.cards[j];
 
+          console.log(list.cards);
+          console.log(card);
+
           // Set Data
-          user.card_link = card.url;
+          if(card.url) user.card_link = card.url;
 
           if(!card.members[0]){
             var xhr = new XMLHttpRequest();
