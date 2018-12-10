@@ -66,7 +66,9 @@ angular.module('workingHoursTrello', [
     t.lists('all').then(function (lists) {
       $rootScope.trello.lists = lists;
       console.log('lists', lists);
-    }).cards('all').then(function(cards){
+    });
+    t.cards('all').then(function(cards){
+      $rootScope.trello.cards = cards;
       console.log('cards', cards);
     });
   });
