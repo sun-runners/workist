@@ -74,7 +74,7 @@ angular.module('workingHoursTrello', [
         for(var j=0; j<=list.cards.length; j++){
           var user = {};
           // Each Card
-          var card = list.cards[i];
+          var card = list.cards[j];
 
           // Set Data
           user.card_link = card.url;
@@ -85,7 +85,7 @@ angular.module('workingHoursTrello', [
             xhr.addEventListener("readystatechange", function () {
               if (this.readyState === this.DONE) { console.log(this.responseText); }
             });
-            xhr.open("POST", "https://trello.com/1/cards/"+card.id+"?actions=addAttachmentToCard%2CcreateCard");
+            xhr.open("GET", "https://trello.com/1/cards/"+card.id+"?actions=addAttachmentToCard%2CcreateCard");
             xhr.send(data);
           } else{
             user.user_name = card.members.fullName;
