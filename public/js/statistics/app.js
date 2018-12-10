@@ -67,17 +67,14 @@ angular.module('workingHoursTrello', [
     t.lists('all').then(function (lists) {
       $rootScope.trello.lists = lists;
       // All
-      for(var i=0; i<=lists.length; i++){
+      for(var i=0; i<lists.length; i++){
         var list = lists[i];
         var users = [];
         // Each Day
-        for(var j=0; j<=list.cards.length; j++){
+        for(var j=0; j<list.cards.length; j++){
           var user = {};
           // Each Card
           var card = list.cards[j];
-
-          console.log(list.cards);
-          console.log(card);
 
           // Set Data
           if(card.url) user.card_link = card.url;
@@ -85,7 +82,10 @@ angular.module('workingHoursTrello', [
           if(!card.members[0]){
             var xhr = new XMLHttpRequest();
             xhr.addEventListener("readystatechange", function () {
-              if (this.readyState === this.DONE) { console.log(this.responseText); }
+              if (this.readyState === this.DONE) {
+                console.log(this);
+                console.log(this.responseText);
+              }
             });
             xhr.open("GET", "https://api.trello.com/1/cards/"+card.id+"/actions?key=83fc2b66ce8cb9fa5d195fe9b10b28ce&token=501cd596f1b8d08229629d931c91b5d1b2ae1f2c09c740192e9686f27ece6f33");
             xhr.send(null);
