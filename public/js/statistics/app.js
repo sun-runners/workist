@@ -89,11 +89,11 @@ angular.module('workingHoursTrello', [
     console.log('splits',splits);
     var dt = null;
     if(splits.length==3){
-      var moment_list = moment().year(splits[0]).month(splits[1]).date(splits[2]);
+      var moment_list = moment().year(splits[0]).month(splits[1]-1).date(splits[2]);
       dt = $rootScope.getDtOfMoment(moment_list);
     }
     else if(splits.length==2){
-      var moment_list = moment().year(2018).month(splits[1]).date(splits[2]);
+      var moment_list = moment().year(2018).month(splits[0]-1).date(splits[1]);
       dt = $rootScope.getDtOfMoment(moment_list);
     }
     console.log('dt',dt);
