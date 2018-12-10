@@ -63,38 +63,44 @@ angular.module('workingHoursTrello', [
   var t = window.TrelloPowerUp.iframe();
   var months;
   t.render(function(){
+
     t.lists('all').then(function (lists) {
       $rootScope.trello.lists = lists;
-      console.log('lists', lists);
+      // All
+      for(var i=0; i<=lists.length; i++){
+        var list = lists[i];
+        var users = [];
+        // Each Day
+        for(var j=0; j<=list.cards.length; j++){
+          var user = {};
+          // Each Card
+          var card = list.cards[i];
+
+          // Set Data
+          user.card_link = card.url;
+
+          if(!card.members[0]){
+            var data = null;
+            var xhr = new XMLHttpRequest();
+            xhr.addEventListener("readystatechange", function () {
+              if (this.readyState === this.DONE) { console.log(this.responseText); }
+            });
+            xhr.open("POST", "https://trello.com/1/cards/"+card.id+"?actions=addAttachmentToCard%2CcreateCard");
+            xhr.send(data);
+          } else{
+            user.user_name = card.members.fullName;
+            user.user_profile = card.members.avatar;
+          }
+        }
+      }
+
+      $rootScope.trello.years = [
+      ];
     });
-    t.cards('all').then(function(cards){
-      $rootScope.trello.cards = cards;
-      console.log('cards', cards);
-    });
+
   });
 
-  // // All
-  // for(var i=0; i<=lists.length; i++){
-  //   var list = lists[i];
-  //   var users = [];
-  //   // Each Day
-  //   for(var j=0; j<=list.cards.length; j++){
-  //     var user = {};
-  //     // Each Card
-  //     var card = list.cards[i];
-  //     if(!card.members[0]){
-  //       // codes will be here
-  //     } else{
-  //       user.user_name = card.members.fullName;
-  //       user.user_profile = card.members.avatar;
-  //       user.card_link = card.url;
-  //     }
-  //     // (https://api.trello.com/1/notifications/id/memberCreator)
-  //   }
-  // }
-  //
-  // $rootScope.trello.years = [
-  // ];
+
 
   // Examples
   var years = [
