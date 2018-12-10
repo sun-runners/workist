@@ -75,6 +75,7 @@ angular.module('workingHoursTrello', [
           var user = {};
           // Each Card
           var card = list.cards[j];
+          console.log('card', card);
 
           // Set Data
           if(card.url) user.card_link = card.url;
@@ -88,6 +89,7 @@ angular.module('workingHoursTrello', [
 
           users.push(user);
         }
+        console.log('list', list);
       }
 
       $rootScope.trello.years = [
