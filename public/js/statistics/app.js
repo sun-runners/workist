@@ -42,6 +42,8 @@ angular.module('workingHoursTrello', [
     $rootScope.moment.subtract(1, 'years');
   };
 
+
+
   // Get Function Section
   $rootScope.getDtOfMoment = function(moment){
     var dt = {};
@@ -50,6 +52,51 @@ angular.module('workingHoursTrello', [
     dt.month = moment.month()+1;
     dt.date = moment.date();
     dt.week = Math.ceil(moment.date()/7);
+    return dt;
+  }
+
+
+  // Get Function Section
+  var getNumberOfCard = function(card){
+    var number = eval(card['name']);
+    return Math.abs(number);
+  }
+
+  var getHoursOfCard = function(card){
+    var number = getNumberOfCard(card);
+    return Math.floor(number);
+  }
+
+  var getMinutesOfCard = function(card){
+    var number = getNumberOfCard(card);
+    var hour = getHoursOfNumber(card);
+    var minute = (number-hour)*60;
+    var minute = ("0" + minute).slice(-2);
+    return minute;
+  }
+
+  var getDayOfCard = function(card){
+    var hour = getHoursOfNumber(card);
+    var day_work = 0;
+    if(hour>=8) day_work = 1;
+    else if(hour>=4) color = 'yellow';
+    else color = 'red';
+    return color;
+  }
+
+  var getDtOfList = function(list){
+    var splits = list.name.split('/');
+    console.log('splits',splits);
+    var dt = null;
+    if(splits.length==3){
+      var moment_list = moment().year(splits[0]).month(splits[1]).date(splits[2]);
+      dt = $rootScope.getDtOfMoment(moment_list);
+    }
+    else if(splits.length==2){
+      var moment_list = moment().year(2018).month(splits[1]).date(splits[2]);
+      dt = $rootScope.getDtOfMoment(moment_list);
+    }
+    console.log('dt',dt);
     return dt;
   }
 
@@ -77,9 +124,16 @@ angular.module('workingHoursTrello', [
           var card = list.cards[j];
           console.log('card', card);
 
-          // Set Data
+          // Set time
+          user.time_number = getNumberOfCard(card);
+          user.time_hour = getHoursOfCard(card);
+          user.time_minute = getMinutesOfCard(card);
+          user.time_day = getDayOfCard(card);
+
+          // Set link
           if(card.url) user.card_link = card.url;
 
+          // Set user
           if(!card.members[0]){
             user.user_name = 'Undefined';
           } else{
@@ -90,6 +144,7 @@ angular.module('workingHoursTrello', [
           users.push(user);
         }
         console.log('list', list);
+        getDtOfList(list);
       }
 
       $rootScope.trello.years = [
