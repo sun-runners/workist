@@ -63,27 +63,36 @@ angular.module('workingHoursTrello', [
   var t = window.TrelloPowerUp.iframe();
   var months;
   t.render(function(){
-    t.lists('all')
-    .then(function (lists) {
+    t.lists('all').then(function (lists) {
       $rootScope.trello.lists = lists;
-
-      for(var i=0; i<=lists.length; i++){
-        var list = lists[i];
-        console.log(list);
-        for(var j=0; j<=list.cards.length; j++){
-          var card = list.cards[i];
-          console.log(card);
-          // if(!card.members[0]){
-          //
-          // };
-          // (https://api.trello.com/1/notifications/id/memberCreator)
-        }
-      }
-
-      $rootScope.trello.years = [
-      ];
+      console.log('lists', lists);
+    }).cards('all').then(function(cards){
+      console.log('cards', cards);
     });
   });
+
+  // // All
+  // for(var i=0; i<=lists.length; i++){
+  //   var list = lists[i];
+  //   var users = [];
+  //   // Each Day
+  //   for(var j=0; j<=list.cards.length; j++){
+  //     var user = {};
+  //     // Each Card
+  //     var card = list.cards[i];
+  //     if(!card.members[0]){
+  //       // codes will be here
+  //     } else{
+  //       user.user_name = card.members.fullName;
+  //       user.user_profile = card.members.avatar;
+  //       user.card_link = card.url;
+  //     }
+  //     // (https://api.trello.com/1/notifications/id/memberCreator)
+  //   }
+  // }
+  //
+  // $rootScope.trello.years = [
+  // ];
 
   // Examples
   var years = [
