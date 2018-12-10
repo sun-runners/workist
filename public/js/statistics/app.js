@@ -69,14 +69,14 @@ angular.module('workingHoursTrello', [
 
   var getMinutesOfCard = function(card){
     var number = getNumberOfCard(card);
-    var hour = getHoursOfNumber(card);
+    var hour = getHoursOfCard(card);
     var minute = (number-hour)*60;
     var minute = ("0" + minute).slice(-2);
     return minute;
   }
 
   var getDayOfCard = function(card){
-    var hour = getHoursOfNumber(card);
+    var hour = getHoursOfCard(card);
     var day_work = 0;
     if(hour>=8) day_work = 1;
     else if(hour>=4) color = 'yellow';
