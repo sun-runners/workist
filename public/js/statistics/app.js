@@ -86,7 +86,6 @@ angular.module('workingHoursTrello', [
 
   var getDtOfList = function(list){
     var splits = list.name.split('/');
-    console.log('splits',splits);
     var dt = null;
     if(splits.length==3){
       var moment_list = moment().year(splits[0]).month(splits[1]-1).date(splits[2]);
@@ -96,7 +95,6 @@ angular.module('workingHoursTrello', [
       var moment_list = moment().year(2018).month(splits[0]-1).date(splits[1]);
       dt = $rootScope.getDtOfMoment(moment_list);
     }
-    console.log('dt',dt);
     return dt;
   }
 
@@ -113,9 +111,11 @@ angular.module('workingHoursTrello', [
 
     t.lists('all').then(function (lists) {
       $rootScope.trello.lists = lists;
+      var dates = [];
       // All
       for(var i=0; i<lists.length; i++){
         var list = lists[i];
+        var date = {};
         var users = [];
         // Each Day
         for(var j=0; j<list.cards.length; j++){
@@ -143,12 +143,15 @@ angular.module('workingHoursTrello', [
 
           users.push(user);
         }
-        console.log('list', list);
-        getDtOfList(list);
+        date = getDtOfList(list);
+        if(date){
+          date.users = users;
+          dates.push(date);
+        }
       }
 
-      $rootScope.trello.years = [
-      ];
+      $rootScope.trello.dates = dates;
+      console.log($rootScope.trello.dates);
     });
 
   });
