@@ -79,9 +79,9 @@ angular.module('workingHoursTrello', [
     var hour = getHoursOfCard(card);
     var day_work = 0;
     if(hour>=8) day_work = 1;
-    else if(hour>=4) color = 'yellow';
-    else color = 'red';
-    return color;
+    else if(hour>=4) day_work = 0.5;
+    else day_work = 0;
+    return day_work;
   }
 
   var getDtOfList = function(list){
