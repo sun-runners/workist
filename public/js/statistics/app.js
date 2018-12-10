@@ -75,6 +75,7 @@ angular.module('workingHoursTrello', [
           var user = {};
           // Each Card
           var card = list.cards[j];
+          console.log(card);
 
           // Set Data
           if(card.url) user.card_link = card.url;
