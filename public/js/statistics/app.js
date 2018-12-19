@@ -115,6 +115,7 @@ angular.module('workingHoursTrello', [
       // All
       for(var i=0; i<lists.length; i++){
         var list = lists[i];
+        // console.log('list', list);
         var date = {};
         var users = [];
         // Each Day
@@ -122,7 +123,7 @@ angular.module('workingHoursTrello', [
           var user = {};
           // Each Card
           var card = list.cards[j];
-          console.log('card', card);
+          // console.log('card', card);
 
           // Set time
           user.time_number = getNumberOfCard(card);
