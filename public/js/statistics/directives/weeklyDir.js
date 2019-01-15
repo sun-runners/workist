@@ -35,6 +35,11 @@ angular.module('workingHoursTrello')
 			restrict: "EA",
 			replace: true,
 			scope: {},
-			templateUrl: "../../template/statistics/directives/weeklyDir.html"
+			templateUrl: "../../template/statistics/directives/weeklyDir.html",
+			controller: function($scope, servTrelloApiGet) {
+				servTrelloApiGet.getBoardMembers().then(function(response) {
+					$scope.boardMembers = response.data;
+				});
+			}
 		}
 	});
