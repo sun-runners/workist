@@ -7,7 +7,6 @@ angular.module('workingHoursTrello')
 
 				// Initialize Function Section
 				var initialize = function(){
-          console.log('monthlyDir');
 				};
 				initialize();
 

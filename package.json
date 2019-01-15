@@ -1,7 +1,7 @@
 {
   "name": "working-hours-trello",
   "version": "0.0.1",
-  "description": "It is a power-up that calculates the working time automatically in the trellis.",
+  "description": "It is a power-up that calculates the working time automatically in the trello.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
