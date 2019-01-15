@@ -1,14 +1,14 @@
 <div class="w-100 c-ACACAC">
   <div class="w-100 h-69px">
     <div class="p-a t-0 d-ib h-100 cen-x">
-      <button class="w-45px h-100 mr-30px" ng-click="$root.decreaseWeek();">
-        <
+      <button class="w-45px h-100 mr-30px f-l" ng-click="$root.decreaseWeek();">
+        Back
       </button>
-      <span class="f-24px fw-900 cen-y">
+      <span class="f-24px fw-900 cen-y f-l">
         {{$root.dt.week}} WEEK
       </span>
-      <button class="w-45px h-100 ml-30px" ng-click="$root.increaseWeek();">
-        >
+      <button class="w-45px h-100 ml-30px f-l" ng-click="$root.increaseWeek();">
+        Forward
       </button>
     </div>
     <div class="p-a t-0 d-ib h-100 l-30px">
@@ -34,11 +34,13 @@
         <!-- total -->
         <th>TOTAL</th>
       </tr>
-      <tr class="w-100 h-45px">
+      <tr class="w-100 h-45px" ng-repeat="member in boardMembers">
         <!-- name -->
+        <td>{{member.fullName}}</td>
         <!-- dts -->
         <td ng-repeat="dt in dts">1</td>
         <!-- total -->
+        <td>success</td>
       </tr>
     </table>
   </div>
