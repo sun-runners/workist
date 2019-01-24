@@ -16,9 +16,13 @@ var WHITE_ICON = 'https://cdn.hyperdev.com/us-east-1%3A3d31b21c-01a0-4da2-8827-4
 // Check Function Section
 var checkTimeOfCard = function(card){
   var equation = card['name'];
-  var numbers = equation.split(/\+|\-/);
-  if(numbers.length%2==1) return false;
-  return true;
+  if (equation.match(/[a-z]/i)) {
+      return "not a time";
+  }else{
+    var numbers = equation.split(/\+|\-/);
+    if(numbers.length%2==1) return false;
+    return true;
+  }
 }
 
 // Get Function Section
@@ -59,16 +63,22 @@ var initializeCardBadges = function(t){
         var text = '';
         var color = 'none';
 
-        if(is_time_valid){
+        if(is_time_valid == true){
           var hour = getHoursOfNumber(card);
           var minute = getMinutesOfNumber(card);
           color = getColorOfNumber(card);
           text = hour+':'+minute;
+        }else if (is_time_valid == "not a time") {
+          text = '';
+          color = '';
+          GRAY_ICON = "https://cdn.hyperdev.com/us-east-1%3A3d31b21c-01a0-4da2-8827-4bc6e88b7618%2Ficon-white.svg"
         }
         else{
           text = 'Not valid';
           color = 'blue';
+
         }
+        
         return {
           title: 'Worked',
           text: text,
@@ -79,6 +89,51 @@ var initializeCardBadges = function(t){
     }];
   });
 };
+
+var boardButtonCallback = function(t){
+  return t.popup({
+    title: 'Time calculater',
+    items: [
+      {
+        text: 'Weekly statistics',
+        callback: function(t){
+          return t.boardBar({
+            url: './template/statistics/weekly.html',
+            height: 500
+          })
+          .then(function(){
+            return t.closePopup();
+          });
+        }
+      },
+      {
+        text: 'Monthly statistics',
+        callback: function(t){
+          return t.boardBar({
+            url: './template/statistics/monthly.html',
+            height: 500
+          })
+          .then(function(){
+            return t.closePopup();
+          });
+        }
+      },
+      {
+        text: 'Yearly statistics',
+        callback: function(t){
+          return t.boardBar({
+            url: './template/statistics/yearly.html',
+            height: 500
+          })
+          .then(function(){
+            return t.closePopup();
+          });
+        }
+      }
+    ]
+  });
+};
+
 
 var boardButtonCallback = function(t){
   return t.popup({
