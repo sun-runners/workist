@@ -68,22 +68,24 @@ var initializeCardBadges = function(t){
           var minute = getMinutesOfNumber(card);
           color = getColorOfNumber(card);
           text = hour+':'+minute;
-        }else if (is_time_valid == "not a time") {
-          title = null
-          text = null
-          color = null
-          GRAY_ICON = null
-        }
-        else{
-          text = 'Not valid';
-          color = 'blue';
-        }
-        return {
+           return {
           title: 'Worked',
           text: text,
           icon: GRAY_ICON,
           color: color
         };
+        }else if (is_time_valid == "not a time") {
+            text = null;
+            title = null;
+        }
+        else{
+          return {
+          title: 'Worked',
+          text: 'Not valid',
+          icon: GRAY_ICON,
+          color: 'blue',
+          };
+        }
       }
     }];
   });
