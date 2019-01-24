@@ -25,7 +25,7 @@
         <!-- dts -->
         <th ng-repeat="dt in dts">
           <span class="f-18px fw-900">
-            {{("0" + (dt.getMonth() + 1)).slice(-2)}}/{{dt.date}}
+            {{dt.month}}/{{dt.date}}
           </span><br>
           <div class="f-12px fw-900">
             {{dt.Date|date:'EEE'}}
