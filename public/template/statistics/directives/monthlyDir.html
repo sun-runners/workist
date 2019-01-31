@@ -18,7 +18,24 @@
     </div>
   </div>
   <div class="w-100 h-60px">
-    header
+  <table class="w-100 t-c">
+    <tr class="w-100 h-60px">
+      <!-- name -->
+      <th>NAME</th>
+      <!-- dts -->
+      <th ng-repeat="dtr in monthlyWeeks">
+        <!-- month/Days -->
+        <div class="f-12px fw-900">
+          week {{dtr.week}}
+          <br>{{dtr.start}}-{{dtr.end}}
+        </div>
+      </th>
+      <!-- total -->
+      <th>TOTAL</th>
+    </tr>
+    <!-- repeating output base on Username -->
+  </table>
+
   </div>
   <div class="w-100 h-45px">
     content
