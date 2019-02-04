@@ -25,19 +25,23 @@
       <!-- dts -->
       <th ng-repeat="dtr in monthlyWeeks">
         <!-- month/Days -->
-        <div class="f-12px fw-900">
+        <h2 class="f-12px fw-900">
           week {{dtr.week}}
           <br>{{dtr.start}}-{{dtr.end}}
-        </div>
+        </h2>
       </th>
       <!-- total -->
       <th>TOTAL</th>
     </tr>
     <!-- repeating output base on Username -->
-  </table>
+    <tr class="w-100 h-45px" ng-repeat="member in boardMembers">
+      <td>{{member.fullName}}</td>
 
+      <td ng-repeat="dtr in monthlyWeeks">{{getCardsMembers(dtr, member.id)}}</td>
+      <td>Not Yet Develop</td>
+    </tr>
+  </table>
   </div>
   <div class="w-100 h-45px">
-    content
   </div>
 </div>
