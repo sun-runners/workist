@@ -16,7 +16,7 @@ var WHITE_ICON = 'https://cdn.hyperdev.com/us-east-1%3A3d31b21c-01a0-4da2-8827-4
 // Check Function Section
 var checkTimeOfCard = function(card){
   var equation = card['name'];
-  if (equation.match(/[a-z]/i)) {
+  if (equation.match(/[a-z]/i) || /\/.*\//.test( equation )) {
       return "not a time";
   }else{
     var numbers = equation.split(/\+|\-/);
