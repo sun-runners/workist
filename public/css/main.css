@@ -21,3 +21,7 @@ div, img, i, span, button, a, select, input, textarea {
 button {
   cursor: pointer;
 }
+
+table {
+  border-spacing: 0px;
+}
