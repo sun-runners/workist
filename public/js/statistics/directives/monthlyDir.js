@@ -271,9 +271,12 @@ angular.module('workingHoursTrello')
 						return 0
 					}
 				};
-
-
-
+  				scope.getMonthTotalWorkDays = () => {
+					let monthDatesTotal = scope.getMonthDays(scope.thisDate.year(), scope.thisDate.month()+1);
+					// Get the Total working Days (no saturday and sunday)
+					let theWorkingDays = scope.datesToNewDatesFormat(monthDatesTotal);
+					return theWorkingDays.length;
+				};
 			},
 			restrict: "EA",
 			replace: true,
