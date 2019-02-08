@@ -136,50 +136,6 @@ var boardButtonCallback = function(t){
 };
 
 
-var boardButtonCallback = function(t){
-  return t.popup({
-    title: 'Time calculater',
-    items: [
-      {
-        text: 'Weekly statistics',
-        callback: function(t){
-          return t.boardBar({
-            url: './template/statistics/weekly.html',
-            height: 500
-          })
-          .then(function(){
-            return t.closePopup();
-          });
-        }
-      },
-      {
-        text: 'Monthly statistics',
-        callback: function(t){
-          return t.boardBar({
-            url: './template/statistics/monthly.html',
-            height: 500
-          })
-          .then(function(){
-            return t.closePopup();
-          });
-        }
-      },
-      {
-        text: 'Yearly statistics',
-        callback: function(t){
-          return t.boardBar({
-            url: './template/statistics/yearly.html',
-            height: 500
-          })
-          .then(function(){
-            return t.closePopup();
-          });
-        }
-      }
-    ]
-  });
-};
-
 TrelloPowerUp.initialize({
   'board-buttons': function(t, options){
     return [{
