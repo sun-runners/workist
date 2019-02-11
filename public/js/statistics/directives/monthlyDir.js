@@ -132,8 +132,13 @@ angular.module('workingHoursTrello')
 			  			// alphabet letters found
 			  			if (cardsFromArray.match(/[a-z]/i)) {
 								cardsCalculated.push(0);
-							}else {
-			  					cardsCalculated.push(Math.abs(eval(cardsFromArray)));
+							}
+							else {
+			  					try {
+									cardsCalculated.push(Math.abs(eval(cardsFromArray)));
+								  } catch (error) {
+									cardsCalculated.push(0);
+								  }
 							}
 			  			
 			  		}
@@ -271,12 +276,14 @@ angular.module('workingHoursTrello')
 						return 0
 					}
 				};
-  				scope.getMonthTotalWorkDays = () => {
+
+				scope.getMonthTotalWorkDays = () => {
 					let monthDatesTotal = scope.getMonthDays(scope.thisDate.year(), scope.thisDate.month()+1);
 					// Get the Total working Days (no saturday and sunday)
 					let theWorkingDays = scope.datesToNewDatesFormat(monthDatesTotal);
 					return theWorkingDays.length;
 				};
+
 			},
 			restrict: "EA",
 			replace: true,
