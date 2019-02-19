@@ -11,6 +11,7 @@ t.member('id', 'fullName', 'username')
 
 var GLITCH_ICON = 'https://cdn.glitch.com/2442c68d-7b6d-4b69-9d13-feab530aa88e%2Fglitch-icon.svg?1489773457908';
 var GRAY_ICON = 'https://cdn.hyperdev.com/us-east-1%3A3d31b21c-01a0-4da2-8827-4bc6e88b7618%2Ficon-gray.svg';
+var CLOCK_ICON = 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Feedbin-Icon-clock.svg';
 var WHITE_ICON = 'https://cdn.hyperdev.com/us-east-1%3A3d31b21c-01a0-4da2-8827-4bc6e88b7618%2Ficon-white.svg';
 
 // Check Function Section
@@ -71,7 +72,7 @@ var initializeCardBadges = function(t){
            return {
           title: 'Worked',
           text: text,
-          icon: GRAY_ICON,
+          icon: CLOCK_ICON,
           color: color
         };
         }else if (is_time_valid == "not a time") {
@@ -82,7 +83,7 @@ var initializeCardBadges = function(t){
           return {
           title: 'Worked',
           text: 'Not valid',
-          icon: GRAY_ICON,
+          icon: CLOCK_ICON,
           color: 'blue',
           };
         }
