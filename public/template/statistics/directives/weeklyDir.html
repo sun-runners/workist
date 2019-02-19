@@ -43,14 +43,25 @@
         <!-- dts -->
         <!-- lists and card -->
         <td ng-repeat="dt in dts">
-              {{getCard(dt.Date, member.id)}}
+          {{getDailyCard(dt.Date, member.id)}}
         </td>
         <!-- total -->
-        <td>{{getMembersWeeklyTotal(dts, member.id)}}/{{getWeeklyTotalWork(dts)}}</td>
+        <td>{{getWeeklyCard(dts, member.id)}}/{{getWeeklyNeedWork(dts)}}</td>
+      </tr>
+      <tr class="w-100 h-45px" ng-class="[boardMembers.length % 2 === 1 ? 'b-gy' : 'b-we']">
+<!--         <tr class="w-100 h-45px"> -->
+        <!-- name -->
+        <td >Anonymous</td>
+        <!-- dts -->
+        <!-- lists and card -->
+        <td ng-repeat="dt in dts">
+          {{getAnonymousCardDay(dt.Date)}}
+        </td>
+        <!-- total -->
+        <td>{{$root.death}}</td>
       </tr>
     </table>
   </div>
   <div class="w-100 h-45px">
-
   </div>
 </div>

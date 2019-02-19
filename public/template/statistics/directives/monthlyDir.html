@@ -34,15 +34,15 @@
       <th>TOTAL</th>
     </tr>
     <!-- repeating output base on Username -->
-    <tr class="w-100 h-45px" ng-repeat="member in boardMembers" ng-class="[$index % 2 === 1 ? 'b-gy' : 'b-we']">
+    <tr class="w-100 h-45px" ng-repeat="member in boardMembers"
+    ng-class="[$index % 2 === 1 ? 'b-gy' : 'b-we']">
       <td>{{member.fullName}}</td>
 
       <td ng-repeat="dtr in monthlyWeeks">
-        {{getWeeklyCardsTotal(dtr, member.id)}}/{{getWeeklyTotalWork(dtr)}}
+        {{getWeeklyCard(dtr, member.id)}}/{{getWeeklyNeedWork(dtr)}}
       </td>
       <td>
-        {{getMonthTotalDates(member.id)}}/{{getMonthTotalWorkDays()}}
-        <!-- {{monthlyWeeks}} -->
+        {{getMonthlyCard(member.id)}}/{{getMonthlyNeedWork()}}
       </td>
     </tr>
   </table>
