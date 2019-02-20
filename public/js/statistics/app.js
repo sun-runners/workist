@@ -42,8 +42,6 @@ angular.module('workingHoursTrello', [
     $rootScope.moment.subtract(1, 'years');
   };
 
-
-
   // Get Function Section
   $rootScope.getDtOfMoment = function(moment){
     var dt = {};
@@ -54,7 +52,6 @@ angular.module('workingHoursTrello', [
     dt.week = Math.ceil(moment.date()/7);
     return dt;
   }
-
 
   // Get Function Section
   var getNumberOfCard = function(card){
@@ -157,8 +154,6 @@ angular.module('workingHoursTrello', [
 
   });
 
-
-
   // Examples
   var years = [
     {
@@ -194,5 +189,4 @@ angular.module('workingHoursTrello', [
       ]
     }
   ];
-
 });

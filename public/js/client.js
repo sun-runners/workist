@@ -131,6 +131,30 @@ var boardButtonCallback = function(t){
             return t.closePopup();
           });
         }
+      },
+      {
+        text: 'Time statistics',
+        callback: function(t){
+          return t.boardBar({
+            url: './template/rewards/time.html',
+            height: 500
+          })
+          .then(function(){
+            return t.closePopup();
+          });
+        }
+      },
+      {
+        text: 'Task statistics',
+        callback: function(t){
+          return t.boardBar({
+            url: './template/rewards/task.html',
+            height: 500
+          })
+          .then(function(){
+            return t.closePopup();
+          });
+        }
       }
     ]
   });
