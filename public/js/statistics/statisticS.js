@@ -6,7 +6,7 @@
     this.getYmd = (theDate) => {
       return getDate = theDate.getFullYear() + '/' + ('0' + (theDate.getMonth() + 1)).slice(-2) + '/' + theDate.getDate();
     }  
-    this.findBoardList = (boardLists, dateOfList) => {
+    this.findBoardList = (boardLists, dateOfList) => { /** Find Board's List base on Date'YYYY/MM/DD' */
         for (let i = 0; i < boardLists.length; i++) {
           let list = boardLists[i];
           let listName = list.name.substr(0,list.name.indexOf(' '))
@@ -15,8 +15,8 @@
             }
         }
     }
-    this.findListMemberCard = (cardsArray, ownerId, list) => {
-      for (let i = 0; i < cardsArray.length; i++) {
+    this.findListMemberCard = (cardsArray, ownerId, list) => { /** Get Members Cards */
+      for (let i = 0; i < cardsArray.length; i++) { 
         const cards = cardsArray[i];
         if (cards.idMembers == ownerId && cards.idList == list.id) {
           return cards;
@@ -24,7 +24,7 @@
       }	
     }
     this.calculateCardNameToHours = (card) => {
-      if (card.name.match(/[a-z]/i)) {
+      if (card.name.match(/[a-z]/i)) { /** Card name: 12-13+14-18  to hours = 5*/
         return 0;
       }else{
         try {
@@ -110,11 +110,11 @@
       }
       return cardWeeklyCont;
     };
-    this.calculateCardsTotalNameToHours = (cardsArrayName) => {
+    this.calculateCardsTotalNameToHours = (cardsArrayName) => { /** an array of Card's Name */
       let cardsCalculated = [];
       for (var i = 0; i < cardsArrayName.length; i++) {
         let cardsFromArray = cardsArrayName[i];
-        try {
+        try { /** 8-12+14-16 = 6*/
         cardsCalculated.push(Math.abs(eval(cardsFromArray)));
         } catch (error) {
           cardsCalculated.push(0)  
@@ -122,18 +122,16 @@
       }
       return cardsCalculated;
     };
-    this.calculateCardsHoursToDay = (CardsHourArray) => {			  		
+    this.calculateCardsHoursToDay = (CardsHourArray) => {	/** array of hours */		  		
       let cardsWeeklyTotalDay = [];
-  
       for (var i = 0; i < CardsHourArray.length; i++) {
         let cardHour = CardsHourArray[i];
-      
         let cardDay = dayS.calculateTheCardsHourToDay(cardHour)
-        cardsWeeklyTotalDay.push(cardDay)
+        cardsWeeklyTotalDay.push(cardDay) /** array of day */
       }
       return cardsWeeklyTotalDay;
     };
-    this.calculateArrayTotalDay = (cardsTotalWeeklyDays) => {
+    this.calculateDaysTotalDay = (cardsTotalWeeklyDays) => {
       let cardsCount = 0;
   
       for (var i = 0; i < cardsTotalWeeklyDays.length; i++) {
@@ -146,14 +144,14 @@
     this.getDaysTotalOutput = (DatesByDay, memberId, boardLists, boardCards) => {
       try {
         let weeklyListsId = this.arrayListsID(DatesByDay, boardLists); 
-        // Get an array of Cards from the Desired Weeks
+        /** Get an array of Cards Name from the Desired Weeks */
         let cardsWeekly = this.getCardsOfMemberList(weeklyListsId, memberId, boardCards);
-        // Calculate Cards array to Hours
+        /** Calculate Cards name's array to Hours */
         let cardsWeeklyHours = this.calculateCardsTotalNameToHours(cardsWeekly);
-        // Calculate cards from hours to days
+        /** Calculate cards from hours to days */
         let cardsWeeklyDays = this.calculateCardsHoursToDay(cardsWeeklyHours);
-        // Calculate Cards array to TotalDay 
-        let cardsWeeklyTotalDays = this.calculateArrayTotalDay(cardsWeeklyDays);
+        /** Calculate cards Array of days to Total */ 
+        let cardsWeeklyTotalDays = this.calculateDaysTotalDay(cardsWeeklyDays);
   
         return cardsWeeklyTotalDays;
       } catch(e) {

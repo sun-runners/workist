@@ -38,10 +38,10 @@
         <td>{{member.fullName}}</td>
   
         <td ng-repeat="dts in months">
-          {{getMonthlyTime(dts.value, member.id)}}
+          {{getMonthlyTask(dts.value, member.id)}}
         </td>
         <td>
-          Developing...
+          {{getYearlyTask(member.id)}}
         </td>
       </tr>
     </table>
