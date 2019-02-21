@@ -272,7 +272,7 @@
       let allYearDates = [];
       for(var i = 0; i < months.length; i++) {
         let month = months[i]
-        let dates = monthS.monthDaysDate(year, month.value);
+        let dates = monthS.monthDaysDate(year, month.value); /** months = [month:'jan', value:1] */
         allYearDates = allYearDates.concat(dates)
       }
       return allYearDates;
