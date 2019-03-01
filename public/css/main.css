@@ -25,3 +25,7 @@ button {
 table {
   border-spacing: 0px;
 }
+.bg-info {
+  color: red;
+  /* background-color: blueviolet; */
+}
