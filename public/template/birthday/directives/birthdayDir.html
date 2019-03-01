@@ -1,33 +1,34 @@
-<div class="d-fx bo-1px w-100vw">
-    <div class="bo-1px w-40">
-        <div class="">
-                <h3 class="" id="monthAndYear"  ng-model="monthAndYear"></h3>
-            <table class="" id="calendar" ng-model="calendar">
-                <thead>
-                <tr>
-                    <th>Sun</th>
-                    <th>Mon</th>
-                    <th>Tue</th>
-                    <th>Wed</th>
-                    <th>Thu</th>
-                    <th>Fri</th>
-                    <th>Sat</th>
-                </tr>
-                </thead>
-    
-                <tbody id="calendar-body" ng-model="calendarBody">
-              
-                </tbody>
-            </table>
+<div class="d-fx jc-c bo-1px w-100vw">
+    <div class="bo-1px w-38">
+        <div class="w-100 b-gy d-fx jc-c">
             <div class="">
                 <button class="" id="previous" ng-click="previous()">Previous</button>
                 <button class="" id="next" ng-click="next()">Next</button>
             </div>
+
+            <table class="w-100 t-c" id="calendar" ng-model="calendar">
+                <thead>
+                <tr class="w-100 h-60px bo-1px">
+                    <th class="c-bk p-25px h-86px" >Sun</th>
+                    <th class="c-bk p-15px">Mon</th>
+                    <th class="c-bk p-15px">Tue</th>
+                    <th class="c-bk p-15px">Wed</th>
+                    <th class="c-bk p-15px">Thu</th>
+                    <th class="c-bk p-15px">Fri</th>
+                    <th class="c-bk p-15px">Sat</th>
+                </tr>
+                </thead>
+    
+                <tbody id="calendar-body" ng-model="calendarBody" >
+              
+                </tbody>
+            </table>
+           
             <br/>
         </div>
     </div>
     <!-- Ledgers Name Here -->
-    <div class="bo-1px w-60">
+    <div class="bo-1px w-62">
         <h4>asdsadasd</h4>
     </div>
 </div>
