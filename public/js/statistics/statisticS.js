@@ -6,11 +6,15 @@
     this.getYmd = (theDate) => {
       return getDate = theDate.getFullYear() + '/' + ('0' + (theDate.getMonth() + 1)).slice(-2) + '/' + theDate.getDate();
     }  
-    this.findBoardList = (boardLists, dateOfList) => { /** Find Board's List base on Date'YYYY/MM/DD' */
+    this.findBoardList = (boardLists, dateAsked) => { /** Find Board's List base on Date'YYYY/MM/DD' */
         for (let i = 0; i < boardLists.length; i++) {
           let list = boardLists[i];
           let listName = list.name.substr(0,list.name.indexOf(' '))
-          if (listName == dateOfList) {
+
+          let dateList = moment(new Date(listName), "YYYY/MM/DD").format(); /** We Format the List Name and List Asked to compare them */
+          let dateRef = moment(new Date(dateAsked), "YYYY/MM/DD").format();          
+
+          if (dateRef == dateList) {
               return list
             }
         }
@@ -85,12 +89,16 @@
       let foundListWeek = [];
       // We loop through the Array
       for (var i = 0; i < nameArrays.length; i++) {
-        let nameToFind = nameArrays[i];
+        let nameToFind = new Date(nameArrays[i]);
+        let dateRef = `${nameToFind.getFullYear()}/${nameToFind.getMonth()}/${nameToFind.getDate()}`;
+
           // We loop through the boardsLists
           for (var x = 0; x < boardsLists.length; x++) {
             let boardsListArray = boardsLists[x];
-            let boardListNameParsed = boardsListArray.name.substr(0,boardsListArray.name.indexOf(' '));
-            if (nameToFind == boardListNameParsed) { /** we compare the Array weekly Date to our Array of Board's Lists */
+            let boardListNameParsed = new Date(boardsListArray.name.substr(0,boardsListArray.name.indexOf(' ')));
+            let dateList = `${boardListNameParsed.getFullYear()}/${boardListNameParsed.getMonth()}/${boardListNameParsed.getDate()}`;
+            
+            if (dateList == dateRef) { /** we compare the Array weekly Date to our Array of Board's Lists */
             foundListWeek.push(boardsListArray.id); /** If True we push it to the FoundListWeek */
             }
           }
@@ -279,7 +287,6 @@
       try {
         let yearsDatesByDay = this.getAllDates(year, month);
         let totalhaveWorks = weekS.getDaysTotalOutput(yearsDatesByDay, memberId, boardLists, boardCards);
-        // return totalhaveWork;
         return totalhaveWorks;
       } catch (error) {
         return 0;
