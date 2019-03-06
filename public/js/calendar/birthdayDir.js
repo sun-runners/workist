@@ -58,6 +58,6 @@ angular.module('workingHoursTrello')
 			restrict: "EA",
 			replace: true,
 			scope: {},
-			templateUrl: "../../template/birthday/directives/birthdayDir.html",
+			templateUrl: "../../template/calendar/directives/birthdayDir.html",
 	  	}
 	});
