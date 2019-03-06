@@ -8,7 +8,9 @@
 ::placeholder {
   color: #bdbdbd;
 }
-
+body{
+  font-family: SF Pro Display;
+}
 div, img, i, span, button, a, select, input, textarea {
   position: relative;
   display: block;
@@ -17,15 +19,24 @@ div, img, i, span, button, a, select, input, textarea {
   color: inherit;
   text-align: inherit;
 }
-
 button {
   cursor: pointer;
 }
-
 table {
   border-spacing: 0px;
 }
-.bg-info {
-  color: red;
-  /* background-color: blueviolet; */
+.bg-today {
+  color: green;
+  border-radius:50%;
+  height: 40px;
+  width: 40px;
+  font-weight: 900;
+}
+.bg-bday {
+  color: #fff;
+  background: rgba(255, 150, 150, 0.5);;
+  border-radius:50%;
+  height: 40px;
+  width: 40px;
+  font-weight: 900;
 }

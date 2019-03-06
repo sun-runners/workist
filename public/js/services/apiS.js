@@ -14,4 +14,16 @@ angular.module('workingHoursTrello').service('apiS', function($http){
     this.getBoardCards = function() {
       return $http.get('https://api.trello.com/1/boards/5ba38efef50b8979566922d0/cards?key=86b2621fa79c88d61ff3a95b82ec2bd7&token=7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118');
     }
+    // get Calendar Data Board's Members
+    this.calendarBoardMembers = function() {
+      return $http.get('https://api.trello.com/1/boards/5ba38efef50b8979566922d0/members?key=86b2621fa79c88d61ff3a95b82ec2bd7&token=7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118');
+    }
+    // get Calendar Data Board's Lists
+    this.calendarBoardLists = function() {
+      return $http.get('https://api.trello.com//1/boards/5c6cb6171cf49a5579a42e7d/lists?key=86b2621fa79c88d61ff3a95b82ec2bd7&token=7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118');
+    }
+    // get Calendar Data Board's Lists
+    this.calendarBoardCards = function() {
+      return $http.get('https://api.trello.com//1/boards/5c6cb6171cf49a5579a42e7d/cards?key=86b2621fa79c88d61ff3a95b82ec2bd7&token=7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118');
+    }
   });

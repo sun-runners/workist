@@ -1,34 +1,56 @@
-<div class="d-fx jc-c bo-1px w-100vw">
-    <div class="bo-1px w-38">
-        <div class="w-100 b-gy d-fx jc-c">
-            <div class="">
-                <button class="" id="previous" ng-click="previous()">Previous</button>
-                <button class="" id="next" ng-click="next()">Next</button>
+<div class="h-400px">
+    <div class="w-30 bo-1px bo-gy">
+        <div class="w-100 h-400px d-fx fxd-c jc-c">
+            <div class="w-100  d-fx jc-sb p-10px fw-900">
+                <button class="" id="previous" ng-click="previous()">{{'<'}}</button>
+                <p>{{currentMonthName}} {{currentYear}}</p>
+                <button class="" id="next" ng-click="next()">{{'>'}}</button>
             </div>
-
-            <table class="w-100 t-c" id="calendar" ng-model="calendar">
-                <thead>
-                <tr class="w-100 h-60px bo-1px">
-                    <th class="c-bk p-25px h-86px" >Sun</th>
-                    <th class="c-bk p-15px">Mon</th>
-                    <th class="c-bk p-15px">Tue</th>
-                    <th class="c-bk p-15px">Wed</th>
-                    <th class="c-bk p-15px">Thu</th>
-                    <th class="c-bk p-15px">Fri</th>
-                    <th class="c-bk p-15px">Sat</th>
-                </tr>
-                </thead>
-    
-                <tbody id="calendar-body" ng-model="calendarBody" >
-              
-                </tbody>
-            </table>
-           
+            <br>
+            <div class="w-100 h-100 d-fx jc-c">
+                <table class="w-100 h-100" id="calendar" ng-model="calendar" ng-init="fff()">
+                    <thead class="">
+                        <tr class="">
+                            <th class="">Sun</th>
+                            <th class="">Mon</th>
+                            <th class="">Tue</th>
+                            <th class="">Wed</th>
+                            <th class="">Thu</th>
+                            <th class="">Fri</th>
+                            <th class="">Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendar-body" class="t-c" ng-model="calendarBody" >
+                        {{initiateCalendar()}}
+                    </tbody>
+                </table>
+            </div>
             <br/>
         </div>
     </div>
     <!-- Ledgers Name Here -->
-    <div class="bo-1px w-62">
-        <h4>asdsadasd</h4>
+    <div class="w-70 h-400px bo-1px bo-gy">
+        <table class ="w-100 h-100"> 
+            <tr class ="h-46px">
+                <th class="fw-b">Name</th>
+                <th class="fw-b">Birthday</th>
+                <th class="fw-b">Year</th>
+                <th class="fw-b">Age</th>
+            </tr>
+            <span class="bo-px1 w-100"></span>
+            <tr class="w-100 h-36px t-c " ng-repeat="member in boardMembers" ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']" 
+            ng-click="getToBirthday(getMemberBirthMonth(member.id), getMemberBirthYear(member.id))">
+                <td>{{member.fullName}}</td>
+                <td>{{getMemberBirthDate(member.id)}}</td>
+                <td>{{getMemberBirthYear(member.id)}}</td>
+                <td>{{getMemberAge(member.id)}}</td>
+            </tr>
+            <tr>
+       
+            </tr>
+            <tr>
+
+            </tr>
+        </table>
     </div>
 </div>
