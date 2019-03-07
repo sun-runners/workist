@@ -1,14 +1,14 @@
 <div class="w-100 c-ACACAC">
   <div class="w-100 h-69px">
-    <div class="p-a t-0 d-ib h-100 cen-x">
+    <div class="p-a t-0 d-ib h-100 cen-x c-FF9696 fw-900">
       <button class="w-45px h-100 mr-30px f-l" ng-click="$root.decreaseWeek();">
-        Back
+        {{"<"}}
       </button>
-      <span class="f-24px fw-900 cen-y f-l">
+      <span class="f-24px fw-900 cen-y f-l c-FF9696">
         {{$root.dt.week}} WEEK
       </span>
-      <button class="w-45px h-100 ml-30px f-l" ng-click="$root.increaseWeek();">
-        Forward
+      <button class="w-45px h-100 ml-30px f-l c-FF9696 fw-900" ng-click="$root.increaseWeek();">
+        {{">"}}
       </button>
     </div>
     <div class="p-a t-0 d-ib h-100 l-30px">
@@ -21,37 +21,35 @@
     <table class="w-100 t-c">
       <tr class="w-100 h-60px">
         <!-- name -->
-        <th>NAME</th>
+        <th><span class="f-12px c-BDBDBD lh-17 h-18px">NAME</span></th>
         <!-- dts -->
         <th ng-repeat="dt in dts">
-          <span class="f-18px fw-900">
+          <span class="f-12px c-BDBDBD lh-17 h-18px">
             {{dt.month}}/{{dt.date}}
           </span><br>
-          <div class="f-12px fw-900">
+          <div class="f-9px lh-13 c-BDBDBD tt-u">
             {{dt.Date|date:'EEE'}}
           </div>
         </th>
         <!-- total -->
-        <th>TOTAL</th>
+        <th><span class="f-12px c-BDBDBD lh-17 h-18px">TOTAL</span></th>
       </tr>
       <!-- repeating output base on Username -->
       <tr class="w-100 h-45px" ng-repeat="member in boardMembers"
       ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']">
-<!--         <tr class="w-100 h-45px"> -->
         <!-- name -->
-        <td >{{member.fullName}}</td>
+        <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
         <!-- dts -->
         <!-- lists and card -->
-        <td ng-repeat="dt in dts">
-          {{getDailyCard(dt.Date, member.id)}}
+        <td ng-repeat="dt in dts" class="t-26 b-64">
+          <span class="f-12px lh-17px h-18">{{getDailyCard(dt.Date, member.id)}}</span>
         </td>
         <!-- total -->
-        <td>{{getWeeklyCard(dts, member.id)}}/{{getWeeklyNeedWork(dts)}}</td>
+        <td><span class="f-12px lh-17px h-18">{{getWeeklyCard(dts, member.id)}}/{{getWeeklyNeedWork(dts)}}</span></td>
       </tr>
       <tr class="w-100 h-45px" ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']">
-<!--         <tr class="w-100 h-45px"> -->
         <!-- name -->
-        <td >Anonymous</td>
+        <td><span class="f-12px lh-17px h-18">Anonymous</span></td>
         <!-- dts -->
         <!-- lists and card -->
         <td ng-repeat="dt in dts">

@@ -33,7 +33,7 @@ angular.module('workingHoursTrello').service('calendarS', function() {
         } catch (error) {
             } 
     }
-    this.showCalendar = function(month, year, boardLists, boardCards, strName) {
+    this.showCalendar = function(month, year, boardLists = 0, boardCards = 0, strName = 0) {
         try {
             let daytarget = this.getCardsFromLists(boardLists, boardCards, strName)
             let today = new Date();
@@ -47,6 +47,7 @@ angular.module('workingHoursTrello').service('calendarS', function() {
             for (let i = 0; i < 6; i++) {
                 // creates a table row
                 let row = document.createElement("tr");
+                row.class = "bg-rd"
                 //creating individual cells, filing them up with data.
                 for (let j = 0; j < 7; j++) {
                     if (i === 0 && j < firstDay) {
@@ -64,12 +65,13 @@ angular.module('workingHoursTrello').service('calendarS', function() {
                         if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
                             cell.classList.add("bg-today");
                         } // color today's date
-                    
-                        for (let x = 0; x < daytarget.length; x++) {
-                            const dateNoWork = daytarget[x];
-                            if (date == dateNoWork.getDate() && month == dateNoWork.getMonth()) {
-                                cell.classList.add("bg-bday");
-                            } // color today's date
+                        if (daytarget != 0) {
+                            for (let x = 0; x < daytarget.length; x++) {
+                                const dateNoWork = daytarget[x];
+                                if (date == dateNoWork.getDate() && month == dateNoWork.getMonth()) {
+                                    cell.classList.add("bg-bday");
+                                } // color today's date
+                            }
                         }
                         cell.appendChild(cellText);
                         row.appendChild(cell);
@@ -84,7 +86,7 @@ angular.module('workingHoursTrello').service('calendarS', function() {
     }
 });
 
-  
+
 //  ---------------------------------- Services for Birthday ------------------------------------------------- //
   
 

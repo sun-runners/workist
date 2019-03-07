@@ -1,14 +1,14 @@
 <div class="w-100 c-ACACAC">
   <div class="w-100 h-69px">
     <div class="p-a t-0 d-ib h-100 cen-x">
-      <button class="w-45px h-100 mr-30px f-l" ng-click="$root.decreaseMonth();">
-        Back
+      <button class="w-45px h-100 mr-30px f-l c-FF9696 fw-900" ng-click="$root.decreaseMonth();">
+        {{"<"}}
       </button>
-      <span class="f-24px fw-900 cen-y f-l">
+      <span class="f-24px fw-900 cen-y f-l c-FF9696">
         {{$root.dt.Date|date: 'MMMM'}}
       </span>
-      <button class="w-45px h-100 ml-30px f-l" ng-click="$root.increaseMonth();">
-        Forward
+      <button class="w-45px h-100 ml-30px f-l c-FF9696 fw-900" ng-click="$root.increaseMonth();">
+        {{">"}}
       </button>
     </div>
     <div class="p-a t-0 d-ib h-100 l-30px">
@@ -21,28 +21,30 @@
   <table class="w-100 t-c">
     <tr class="w-100 h-60px">
       <!-- name -->
-      <th>NAME</th>
+      <th><span class="f-12px c-BDBDBD lh-17 h-18px">NAME</span></th>
       <!-- dts -->
-      <th ng-repeat="dtr in monthlyWeeks">
+      <td ng-repeat="dtr in monthlyWeeks">
         <!-- month/Days -->
-        <h2 class="f-12px fw-900">
-          week {{dtr.week}}
-          <br>{{dtr.start}}-{{dtr.end}}
-        </h2>
-      </th>
+        <p class="f-12px c-BDBDBD lh-17 h-18px">
+          week {{dtr.week}}</p><br>
+          <span class="f-9px lh-13 c-BDBDBD">{{dtr.start}}-{{dtr.end}}</span>
+      </td>
       <!-- total -->
-      <th>TOTAL</th>
+      <th><span class="f-12px c-BDBDBD lh-17 h-18px">TOTAL</span></th>
     </tr>
     <!-- repeating output base on Username -->
     <tr class="w-100 h-45px" ng-repeat="member in boardMembers"
     ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']">
-      <td>{{member.fullName}}</td>
-
-      <td ng-repeat="dtr in monthlyWeeks">
-        {{getWeeklyCard(dtr, member.id)}}/{{getWeeklyNeedWork(dtr)}}
-      </td>
       <td>
-        {{getMonthlyCard(member.id)}}/{{getMonthlyNeedWork()}}
+        <span class="f-12px lh-17px h-18">{{member.fullName}}</span>
+      </td>
+      <td ng-repeat="dtr in monthlyWeeks" class="t-26 b-64">
+        <span class="f-12px lh-17px h-18">
+            {{getWeeklyCard(dtr, member.id)}}/{{getWeeklyNeedWork(dtr)}}
+        </span>
+      </td>
+      <td class="f-12px lh-15px">
+        <span class="f-12px lh-17px h-18">{{getMonthlyCard(member.id)}}/{{getMonthlyNeedWork()}}</span>
       </td>
     </tr>
   </table>

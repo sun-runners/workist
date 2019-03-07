@@ -20,8 +20,8 @@
                             <th class="">Sat</th>
                         </tr>
                     </thead>
-                    <tbody id="calendar-body" class="t-c" ng-model="calendarBody" >
-                        {{initiateCalendar()}}
+                    <tbody id="calendar-body" class="t-c p-30px" ng-model="calendarBody">
+             
                     </tbody>
                 </table>
             </div>
@@ -29,27 +29,21 @@
         </div>
     </div>
     <!-- Ledgers Name Here -->
-    <div class="w-70 h-400px bo-1px bo-gy">
+    <div class="w-70 h-400px bo-1px bo-gy bo_b-0px">
         <table class ="w-100 h-100"> 
-            <tr class ="h-46px">
-                <th class="fw-b">Name</th>
-                <th class="fw-b">Birthday</th>
-                <th class="fw-b">Year</th>
-                <th class="fw-b">Age</th>
+            <tr class ="h-46px t-91px">
+                <th class="f-12px h-18 c-BDBDBD lh-17 tt-u">Name</th>
+                <th class="f-12px h-18 c-BDBDBD lh-17 tt-u">Birthday</th>
+                <th class="f-12px h-18 c-BDBDBD lh-17 tt-u">Year</th>
+                <th class="f-12px h-18 c-BDBDBD lh-17 tt-u">Age</th>
             </tr>
             <span class="bo-px1 w-100"></span>
-            <tr class="w-100 h-36px t-c " ng-repeat="member in boardMembers" ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']" 
-            ng-click="getToBirthday(getMemberBirthMonth(member.id), getMemberBirthYear(member.id))">
-                <td>{{member.fullName}}</td>
-                <td>{{getMemberBirthDate(member.id)}}</td>
-                <td>{{getMemberBirthYear(member.id)}}</td>
-                <td>{{getMemberAge(member.id)}}</td>
-            </tr>
-            <tr>
-       
-            </tr>
-            <tr>
-
+            <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer" ng-repeat="member in boardMembers" ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']" 
+            ng-click="getToBirthday(getMemberBirthMonth(member.id), currentYear)">
+                <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
+                <td><span class="f-12px lh-17px h-18">{{getMemberBirthDate(member.id)}}</span></td>
+                <td><span class="f-12px lh-17px h-18">{{getMemberBirthYear(member.id)}}</span></td>
+                <td><span class="f-12px lh-17px h-18">{{getMemberAge(member.id)}}</span></td>
             </tr>
         </table>
     </div>

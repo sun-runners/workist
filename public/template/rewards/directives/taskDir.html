@@ -1,14 +1,14 @@
 <div class="w-100 c-ACACAC">
   <div class="w-100 h-69px">
     <div class="p-a t-0 d-ib h-100 cen-x">
-      <button class="w-45px h-100 mr-30px f-l" ng-click="$root.decreaseYear();">
-        Back
+      <button class="w-45px h-100 mr-30px f-l c-FF9696 fw-900" ng-click="$root.decreaseYear();">
+        {{"<"}}
       </button>
-      <span class="f-24px fw-900 cen-y f-l">
+      <span class="f-24px fw-900 cen-y f-l c-FF9696">
         {{$root.dt.Date|date: 'yyyy'}}
       </span>
-      <button class="w-45px h-100 ml-30px f-l" ng-click="$root.increaseYear();">
-        Forward
+      <button class="w-45px h-100 ml-30px f-l c-FF9696 fw-900" ng-click="$root.increaseYear();">
+        {{">"}}
       </button>
     </div>
     <div class="p-a t-0 d-ib h-100 l-30px">
@@ -21,27 +21,26 @@
     <table class="w-100 t-c">
       <tr class="w-100 h-60px">
         <!-- name -->
-        <th>NAME</th>
+        <td><span class="f-12px h-18 c-BDBDBD lh-17 tt-u">NAME</span></td>
         <!-- dts -->
-        <th ng-repeat="dts in months">
+        <td ng-repeat="dts in months">
           <!-- month/Days -->
-          <h2 class="f-12px fw-900">
+          <p class="f-12px h-18 c-BDBDBD lh-17 tt-u">
             {{dts.month}}
-          </h2>
-        </th>
+          </p>
+        </td>
         <!-- total -->
-        <th>TOTAL</th>
+        <td><span class="f-12px h-18 c-BDBDBD lh-17 tt-u">TOTAL</span></td>
       </tr>
       <!-- repeating output base on Username -->
-      <tr class="w-100 h-45px" ng-repeat="member in boardMembers"
+      <tr class="t-26 b-64 h-50px" ng-repeat="member in boardMembers"
       ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']">
-        <td>{{member.fullName}}</td>
-  
-        <td ng-repeat="dts in months">
-          {{getMonthlyTask(dts.value, member.id)}}
+        <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
+        <td ng-repeat="dts in months" class="t-26 b-64">
+          <span class="f-12px lh-17px h-18">{{getMonthlyTask(dts.value, member.id)}}</span>
         </td>
-        <td>
-          {{getYearlyTask(member.id)}}
+        <td class="t-26 b-64">
+          <span class="f-12px lh-17px h-18">{{getYearlyTask(member.id)}}</span>
         </td>
       </tr>
     </table>

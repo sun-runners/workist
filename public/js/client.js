@@ -155,6 +155,18 @@ var boardButtonCallback = function(t){
             return t.closePopup();
           });
         }
+      },
+      {
+        text: 'Birthday Members',
+        callback: function(t){
+          return t.boardBar({
+            url: './template/calendar/birthday.html',
+            height: 500
+          })
+          .then(function(){
+            return t.closePopup();
+          });
+        }
       }
     ]
   });

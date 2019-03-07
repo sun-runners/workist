@@ -330,12 +330,11 @@
   }
 
   /** Black Italic*/
-  @font-face {
+  /* @font-face {
     font-family: "SF Pro Display";
     font-weight: 900;
-    /*src: url("https://sf.abarba.me/SFMono-Bold.otf");*/
     src: url("../asset/fonts/SF-Pro-Display-BlackItalic.otf");
-  }
+  } */
 
   /** Bold */
   @font-face {
@@ -346,12 +345,11 @@
   }
 
   /** Bold Italic*/
-  @font-face {
+  /* @font-face {
     font-family: "SF Pro Display";
     font-weight: 700;
-    /*src: url("https://sf.abarba.me/SFMono-Bold.otf");*/
     src: url("../asset/fonts/SF-Pro-Display-BoldItalic.otf");
-  }
+  } */
 
   /** Heavy */
   @font-face {
@@ -394,12 +392,11 @@
   }
 
   /** Medium Italic*/
-  @font-face {
+  /* @font-face {
     font-family: "SF Pro Display";
     font-weight: 500;
-    /*src: url("https://sf.abarba.me/SFMono-Bold.otf");*/
     src: url("../asset/fonts/SF-Pro-Display-MediumItalic.otf");
-  }
+  } */
 
   /** Regular */
   @font-face {
@@ -410,12 +407,11 @@
   }
 
   /** Regular Italic*/
-  @font-face {
+  /* @font-face {
     font-family: "SF Pro Display";
     font-weight: 400;
-    /*src: url("https://sf.abarba.me/SFMono-Bold.otf");*/
     src: url("../asset/fonts/SF-Pro-Display-RegularItalic.otf");
-  }
+  } */
 
   /** SemiBold */
   @font-face {
@@ -426,12 +422,11 @@
   }
 
   /** SemiBold Italic*/
-  @font-face {
+  /* @font-face {
     font-family: "SF Pro Display";
     font-weight: 600;
-    /*src: url("https://sf.abarba.me/SFMono-Bold.otf");*/
     src: url("../asset/fonts/SF-Pro-Display-SemiboldItalic.otf");
-  }
+  } */
 
   /** Thin */
   @font-face {
