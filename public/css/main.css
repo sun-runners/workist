@@ -27,22 +27,19 @@ table {
 }
 .bg-today {
   color: #FF9696;
-  border-radius:50%;
-  height: 40px;
-  width: 40px;
-  font-weight: 900;
+  /* border-radius:50%; */
+  /* font-weight: 600; */
 }
-.bg-bday {
+
+.bg-bday{
   color: #fff;
   background: rgba(255, 150, 150, 0.5);;
-  border-radius:50%;
-  font-weight: 900;
-  width: 15%;
+
+
 }
-.bg-bday-today{
+.bg-bday-today {
   color: #fff;
   background: #FF9696;
-  border-radius:50%;
-  font-weight: 900;
-  width: 15%;
+  /* border-radius:50%; */
+  /* font-weight: 600; */
 }

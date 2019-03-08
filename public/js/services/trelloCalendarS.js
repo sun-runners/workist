@@ -31,6 +31,7 @@ angular.module('workingHoursTrello').service('calendarS', function() {
             }
             return Cards;
         } catch (error) {
+
             } 
     }
     this.showCalendar = function(month, year, boardLists = 0, boardCards = 0, strName = 0, targetDay = 0) {
@@ -60,25 +61,37 @@ angular.module('workingHoursTrello').service('calendarS', function() {
                         break;
                     }
                     else {
-                        let cell = document.createElement("td");
+                        let cell = document.createElement("td"); 
+                        let span = document.createElement("span");
                         let cellText = document.createTextNode(date);
                         if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-                            cell.classList.add("bg-today");
+                            span.classList.add("bg-today");
+            
                         } // color today's date
                         if (daytarget != 0) {
                             for (let x = 0; x < daytarget.length; x++) {
                                 const dateNoWork = daytarget[x];
                                 if (date == dateNoWork.getDate() && month == dateNoWork.getMonth()) {
-                                    cell.classList.add("bg-bday");
+                                    span.classList.add("bg-bday");
+
                                 } // color today's date
                                 if (targetDay != 0) {
                                     if (date == targetDay && month == dateNoWork.getMonth()) {
-                                        cell.classList.add("bg-bday-today");
+                                        span.classList.add("bg-bday-today");
                                     }
                                 }
                             }
                         }
-                        cell.appendChild(cellText);
+                        span.appendChild(cellText);
+                        span.classList.add("w-40px")
+                        span.classList.add("h-40px")
+                        span.classList.add("bor-50");
+                        span.classList.add("lh-40px");
+                        cell.appendChild(span);
+                        cell.classList.add("w-50px");
+                        cell.classList.add("h-50px");
+                        cell.classList.add("pl-10px")
+                        cell.classList.add("pr-10px")
                         row.appendChild(cell);
                         date++;
                     }
