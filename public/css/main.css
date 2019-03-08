@@ -39,3 +39,10 @@ table {
   font-weight: 900;
   width: 15%;
 }
+.bg-bday-today{
+  color: #fff;
+  background: #FF9696;
+  border-radius:50%;
+  font-weight: 900;
+  width: 15%;
+}

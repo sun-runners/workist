@@ -24,7 +24,7 @@ angular.module('workingHoursTrello')
 				    	monthMonthly = "0"+ monthMonthly
 				    }
 				    while(start<=numDays){
-				        weeks.push({year: year, month: monthMonthly, week:weekNumber, start:start,end:end, startFull: year + "/" + monthMonthly + "/" + start, endFull: year + "/" + monthMonthly + "/" + end,});
+				        weeks.push({year: year, month: monthMonthly, week:weekNumber, start:start, end:end, startFull: year + "/" + monthMonthly + "/" + start, endFull: year + "/" + monthMonthly + "/" + end,});
 				        weekNumber = weekNumber + 1;
 				        start = end + 1;
 				        end = end + 7;

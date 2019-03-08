@@ -39,7 +39,7 @@
             </tr>
             <span class="bo-px1 w-100"></span>
             <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer" ng-repeat="member in boardMembers" ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']" 
-            ng-click="getToBirthday(getMemberBirthMonth(member.id), currentYear)">
+            ng-click="getToBirthday(getMemberBirthMonth(member.id), currentYear, getMemberBirthDay(member.id))">
                 <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
                 <td><span class="f-12px lh-17px h-18">{{getMemberBirthDate(member.id)}}</span></td>
                 <td><span class="f-12px lh-17px h-18">{{getMemberBirthYear(member.id)}}</span></td>

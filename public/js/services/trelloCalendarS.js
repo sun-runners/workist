@@ -33,7 +33,7 @@ angular.module('workingHoursTrello').service('calendarS', function() {
         } catch (error) {
             } 
     }
-    this.showCalendar = function(month, year, boardLists = 0, boardCards = 0, strName = 0) {
+    this.showCalendar = function(month, year, boardLists = 0, boardCards = 0, strName = 0, targetDay = 0) {
         try {
             let daytarget = this.getCardsFromLists(boardLists, boardCards, strName)
             let today = new Date();
@@ -71,6 +71,11 @@ angular.module('workingHoursTrello').service('calendarS', function() {
                                 if (date == dateNoWork.getDate() && month == dateNoWork.getMonth()) {
                                     cell.classList.add("bg-bday");
                                 } // color today's date
+                                if (targetDay != 0) {
+                                    if (date == targetDay && month == dateNoWork.getMonth()) {
+                                        cell.classList.add("bg-bday-today");
+                                    }
+                                }
                             }
                         }
                         cell.appendChild(cellText);
@@ -105,35 +110,32 @@ angular.module('workingHoursTrello').service('birthdayS', function() {
             }
         }
     }
-    this.getBirthdate = (memberId, boardLists, boardCards, strName) => {
+    this.getFullBirthDate = (memberId, boardLists, boardCards, strName) => {
         try {
             let list = this.findBoardList(boardLists, strName);
             let cardName = this.findListCard(memberId, list.id, boardCards);
-            let date = moment(new Date(cardName)).format('DD MMMM');
+            let date = new Date(cardName);
             return date;
         } catch (error) {
             return "-";
         }
     }
+    this.getBirthdate = (memberId, boardLists, boardCards, strName) => {
+        let fullDate = this.getFullBirthDate(memberId, boardLists, boardCards, strName)
+        let date = moment(fullDate, "YYYY-MM-DD").format('DD MMMM');
+        return date;
+    }
+    this.getBirthday = (memberId, boardLists, boardCards, strName) => {
+        let date = this.getFullBirthDate(memberId, boardLists, boardCards, strName);
+        return date.getDate();
+    }
     this.getBirthMonth = (memberId, boardLists, boardCards, strName) => {
-        try {
-            let list = this.findBoardList(boardLists, strName);
-            let cardName = this.findListCard(memberId, list.id, boardCards);
-            let date = new Date(cardName);
-            return date.getMonth();
-       } catch (error) {
-           return "-";
-       }
+        let date = this.getFullBirthDate(memberId, boardLists, boardCards, strName);
+        return date.getMonth();
     }
     this.getBirthYear = (memberId, boardLists, boardCards, strName) => {
-       try {
-            let list = this.findBoardList(boardLists, strName);
-            let cardName = this.findListCard(memberId, list.id, boardCards);
-            let date = new Date(cardName);
-            return date.getFullYear();
-       } catch (error) {
-           return "-";
-       }
+        let date = this.getFullBirthDate(memberId, boardLists, boardCards, strName);
+        return 1996;
     }
     this.getAge = (memberId, boardLists, boardCards, strName) => {
         try {
