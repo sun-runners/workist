@@ -2,9 +2,9 @@
     <div class="w-30 bo-1px bo-gy">
         <div class="w-100 h-400px d-fx fxd-c jc-c">
             <div class="w-100  d-fx jc-sb p-10px fw-900">
-                <button class="" id="previous" ng-click="previous()">{{'<'}}</button>
-                <p>{{currentMonthName}} {{currentYear}}</p>
-                <button class="" id="next" ng-click="next()">{{'>'}}</button>
+                <button class=" c-FF9696 " id="previous" ng-click="previous()">{{'<'}}</button>
+                <p class="c-FF9696">{{currentMonthName}} {{currentYear}}</p>
+                <button class="c-FF9696" id="next" ng-click="next()">{{'>'}}</button>
             </div>
             <br>
             <div class="w-100 h-100 d-fx jc-c">
@@ -37,9 +37,10 @@
                 <th class="f-12px h-18 c-BDBDBD lh-17 tt-u">Year</th>
                 <th class="f-12px h-18 c-BDBDBD lh-17 tt-u">Age</th>
             </tr>
+            <!-- ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']" -->
             <span class="bo-px1 w-100"></span>
-            <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer" ng-repeat="member in boardMembers" ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']" 
-            ng-click="getToBirthday(getMemberBirthMonth(member.id), currentYear, getMemberBirthDay(member.id))">
+            <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer calendar-row" ng-repeat="member in boardMembers" ng-class="{selected:  member.id == selectedMember}" 
+            ng-click="getToBirthday(member.id, getMemberBirthMonth(member.id), currentYear, getMemberBirthDay(member.id))">
                 <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
                 <td><span class="f-12px lh-17px h-18">{{getMemberBirthDate(member.id)}}</span></td>
                 <td><span class="f-12px lh-17px h-18">{{getMemberBirthYear(member.id)}}</span></td>

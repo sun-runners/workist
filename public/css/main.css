@@ -43,3 +43,9 @@ table {
   /* border-radius:50%; */
   /* font-weight: 600; */
 }
+.selected{
+  background-color: #FF9696 !important;
+}
+tbody tr:nth-child(even) {
+  background-color: #FAFAFA;
+}
