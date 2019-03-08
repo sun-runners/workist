@@ -27,7 +27,7 @@ angular.module('workingHoursTrello')
 					
 				}
 				scope.getToBirthday = function(month, year){ /** change Calendar base on the given month and year */
-					scope.currentMonthName = moment(scope.currentMonth, 'MM').format('MMMM');
+					scope.currentMonthName = moment(month + 1, 'MM').format('MMMM');
 					scope.currentYear = scope.today.getFullYear();
 					calendarS.showCalendar(month, year, scope.boardLists, scope.boardCards, "BIRTHDAY");
 				}			
