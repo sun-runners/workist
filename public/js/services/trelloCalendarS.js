@@ -147,8 +147,12 @@ angular.module('workingHoursTrello').service('birthdayS', function() {
         return date.getMonth();
     }
     this.getBirthYear = (memberId, boardLists, boardCards, strName) => {
-        let date = this.getFullBirthDate(memberId, boardLists, boardCards, strName);
-        return 1996;
+        try {
+            let date = this.getFullBirthDate(memberId, boardLists, boardCards, strName);
+            return date.getFullYear();
+        } catch (error) {
+            
+        }
     }
     this.getAge = (memberId, boardLists, boardCards, strName) => {
         try {
