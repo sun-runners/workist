@@ -111,12 +111,12 @@ angular.module('workingHoursTrello').service('calendarS', function() {
 angular.module('workingHoursTrello').service('birthdayS', function() {
 
     this.findBoardList = (boardLists, stringName) => {
-        return boardLists.find(item => {
+        return boardLists.find(item => { /** Find List base on the given name*/
            return item.name == stringName;
         });
     }
     this.findListCard = (memberId, listId, boardCards) => {
-        for (let i = 0; i < boardCards.length; i++) {
+        for (let i = 0; i < boardCards.length; i++) { /** Find Card base on memberId and ListId */
             const card = boardCards[i];
             if (card.idMembers == memberId && card.idList == listId) {
                 return card.name
@@ -124,7 +124,7 @@ angular.module('workingHoursTrello').service('birthdayS', function() {
         }
     }
     this.getFullBirthDate = (memberId, boardLists, boardCards, strName) => {
-        try {
+        try { /** Get Full BirthDate */
             let list = this.findBoardList(boardLists, strName);
             let cardName = this.findListCard(memberId, list.id, boardCards);
             let date = new Date(cardName);
@@ -164,4 +164,49 @@ angular.module('workingHoursTrello').service('birthdayS', function() {
             return "-";
         }
     }
+});
+
+//  ---------------------------------- Services for holidayS ------------------------------------------------- //
+
+angular.module('workingHoursTrello').service('holidayS', function() {
+    this.getListId = (boardLists, strName) => {
+        try {
+            for (let i = 0; i < boardLists.length; i++) {
+                const list = boardLists[i];
+                if (list.name == strName) {
+                    return list.id;
+                }
+            }
+        } catch (error) {
+            
+        }
+    }
+    this.getCards = (boardCards, listId, year) => {
+       try {
+            let cards = [];
+            let number = 0;
+            for (let i = 0; i < boardCards.length; i++) {
+                const card = boardCards[i];
+                if (card.idList == listId) {
+                    number = number + 1
+                    let monthDay = card.name.substr(0, card.name.indexOf(' '));
+                    let fullDate = `${year}/${monthDay}`
+                    let name = card.name.substr(card.name.indexOf(' ')+1);
+                    let cardDate = {name:name, date:fullDate, number:number}
+                    
+                    cards.push(cardDate);
+                }
+            }
+        return cards;
+       } catch (error) {
+           
+       }
+    }
+    this.getHolidays = (boardLists, boardCards, strName, year) => {
+        let listId = this.getListId(boardLists, strName);
+        let cards = this.getCards(boardCards, listId, year);
+
+        return cards;
+    }
+
 });

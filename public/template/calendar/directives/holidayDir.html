@@ -1,0 +1,50 @@
+<div class="h-400px">
+    <div class="w-30 bo-1px bo-gy">
+        <div class="w-100 h-400px d-fx fxd-c jc-c">
+            <div class="w-100  d-fx jc-sb p-10px fw-900">
+                <button class=" c-FF9696 " id="previous" ng-click="previous()">{{'<'}}</button>
+                <p class="c-FF9696">{{currentMonthName}} {{currentYear}}</p>
+                <button class="c-FF9696" id="next" ng-click="next()">{{'>'}}</button>
+            </div>
+            <br>
+            <div class="w-100 h-100 d-fx jc-c">
+                <table class="w-100 h-100" id="calendar" ng-model="calendar" ng-init="fff()">
+                    <thead class="">
+                        <tr class="mb-10px">
+                            <th class="">Sun</th>
+                            <th class="">Mon</th>
+                            <th class="">Tue</th>
+                            <th class="">Wed</th>
+                            <th class="">Thu</th>
+                            <th class="">Fri</th>
+                            <th class="">Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendar-body" class="t-c p-30px" ng-model="calendarBody">
+             
+                    </tbody>
+                </table>
+            </div>
+            <br/>
+        </div>
+    </div>
+    <!-- Ledgers Name Here -->
+    <div class="w-70 h-400px bo-1px bo-gy bo_b-0px">
+        <table class ="w-100 h-45px t-91px l-365px"> 
+            <tr class ="h-46px t-91px">
+                <th class="f-12px h-18px c-BDBDBD lh-17 t-105px tt-u">Number</th>
+                <th class="f-12px h-18px c-BDBDBD lh-17 tt-u">Holiday</th>
+                <th class="f-12px h-18px c-BDBDBD lh-17 tt-u">Date</th>
+                <th class="f-12px h-18px c-BDBDBD lh-17 tt-u">Day of Week</th>
+            </tr>
+            <!-- ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']" -->
+            <span class="bo-px1 w-100"></span>
+            <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer calendar-row" ng-repeat = "holiday in holidayDate()">
+                <td class="f-12px lh-17px h-18">{{holiday.number}}</td>
+                <td class="f-12px lh-17px h-18">{{holiday.name}}</td>
+                <td class="f-12px lh-17px h-18">{{holiday.date}}</td>
+                <td class="f-12px lh-17px h-18">monday</td>
+            </tr>
+        </table>
+    </div>
+</div>
