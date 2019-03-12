@@ -39,8 +39,7 @@ angular.module('workingHoursTrello')
 					scope.targetDay = day
 					calendarS.showCalendar(month, year);
 			
-					scope.selectedMember = id; 
-					console.log("wtf")
+					scope.selectedMember = id; 				
 				}			
 				/** to get Member Day of Birth and Name of Month */
 				scope.getMemberBirthDate = (memberId) => birthdayS.getBirthdate(memberId, scope.boardLists, scope.boardCards, "BIRTHDAY");
