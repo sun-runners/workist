@@ -49,3 +49,7 @@ table {
 tbody tr:nth-child(even) {
   background-color: #FAFAFA;
 }
+.dates-cont{
+  overflow:scroll;
+  overflow-x:hidden;
+}

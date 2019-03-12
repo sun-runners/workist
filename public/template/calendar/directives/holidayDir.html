@@ -29,7 +29,7 @@
         </div>
     </div>
     <!-- Ledgers Name Here -->
-    <div class="w-70 h-400px bo-1px bo-gy bo_b-0px">
+    <div class="w-70 h-400px bo-1px bo-gy bo_b-0px dates-cont">
         <table class ="w-100 h-45px t-91px l-365px"> 
             <tr class ="h-46px t-91px">
                 <th class="f-12px h-18px c-BDBDBD lh-17 t-105px tt-u">Number</th>
@@ -40,10 +40,10 @@
             <!-- ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']" -->
             <span class="bo-px1 w-100"></span>
             <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer calendar-row" ng-repeat = "holiday in holidayDate()">
-                <td class="f-12px lh-17px h-18">{{holiday.number}}</td>
-                <td class="f-12px lh-17px h-18">{{holiday.name}}</td>
-                <td class="f-12px lh-17px h-18">{{holiday.date}}</td>
-                <td class="f-12px lh-17px h-18">monday</td>
+                <td><span class="f-12px lh-17px h-18">{{holiday.number}}</span></td>
+                <td><span class="f-12px lh-17px h-18">{{holiday.name}}</span></td>
+                <td><span class="f-12px lh-17px h-18">{{holiday.date}}</span></td>
+                <td><span class="f-12px lh-17px h-18">monday</span></td>
             </tr>
         </table>
     </div>
