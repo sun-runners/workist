@@ -32,7 +32,7 @@ angular.module('workingHoursTrello')
 				calendarS.showCalendar(scope.currentMonth, scope.currentYear);
                 
                 scope.holidayDate = () => 
-                    holidayS.getHolidays(scope.boardLists, scope.boardCards, "2019 HOLIDAY PHILIPPINES", scope.currentYear);
+                    holidayS.getHolidays(scope.boardLists, scope.boardCards, `${scope.currentYear} HOLIDAY PHILIPPINES`, scope.currentYear);
                 
           
 			},

@@ -48,7 +48,6 @@ angular.module('workingHoursTrello').service('calendarS', function() {
             for (let i = 0; i < 6; i++) {
                 // creates a table row
                 let row = document.createElement("tr");
-                row.class = "bg-rd"
                 //creating individual cells, filing them up with data.
                 for (let j = 0; j < 7; j++) {
                     if (i === 0 && j < firstDay) {
@@ -178,7 +177,6 @@ angular.module('workingHoursTrello').service('holidayS', function() {
                 }
             }
         } catch (error) {
-            
         }
     }
     this.getCards = (boardCards, listId, year) => {
@@ -187,19 +185,22 @@ angular.module('workingHoursTrello').service('holidayS', function() {
             let number = 0;
             for (let i = 0; i < boardCards.length; i++) {
                 const card = boardCards[i];
-                if (card.idList == listId) {
+                if (card.idList == listId) { /** convert each card name to date */
                     number = number + 1
                     let monthDay = card.name.substr(0, card.name.indexOf(' '));
-                    let fullDate = `${year}/${monthDay}`
+                    let dateHoliday = new Date(year + '/' + monthDay);
+                    let day = dateHoliday.getDate()
+                    let dateMonth = moment(dateHoliday.getMonth() + 1, 'MM').format('MMMM');
+                    let dateDay = dateHoliday.toLocaleDateString(locale, { weekday: 'long' }); 
+                    let dateFull = `${dateMonth} ${dateHoliday.getDate()}, ${dateHoliday.getFullYear()}`; 
                     let name = card.name.substr(card.name.indexOf(' ')+1);
-                    let cardDate = {name:name, date:fullDate, number:number}
+                    let cardDate = {name:name, date:dateHoliday, month:dateMonth, day:dateDay, fullDate:dateFull, number:number}
                     
                     cards.push(cardDate);
                 }
             }
         return cards;
        } catch (error) {
-           
        }
     }
     this.getHolidays = (boardLists, boardCards, strName, year) => {

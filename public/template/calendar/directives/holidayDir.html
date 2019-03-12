@@ -1,5 +1,5 @@
 <div class="h-400px">
-    <div class="w-30 bo-1px bo-gy">
+    <div class="w-30 bo-1px bo-gy bo_b-0px bo_r-0px">
         <div class="w-100 h-400px d-fx fxd-c jc-c">
             <div class="w-100  d-fx jc-sb p-10px fw-900">
                 <button class=" c-FF9696 " id="previous" ng-click="previous()">{{'<'}}</button>
@@ -30,6 +30,18 @@
     </div>
     <!-- Ledgers Name Here -->
     <div class="w-70 h-400px bo-1px bo-gy bo_b-0px dates-cont">
+        <div class="">
+            <div class="">
+                <span class="">
+                    <button class="">Philippines</button>
+                </span>
+            </div>
+            <div class="">
+                <span class="">
+                    <button class="">Korean</button>
+                </span>
+            </div>
+        </div>
         <table class ="w-100 h-45px t-91px l-365px"> 
             <tr class ="h-46px t-91px">
                 <th class="f-12px h-18px c-BDBDBD lh-17 t-105px tt-u">Number</th>
@@ -42,8 +54,8 @@
             <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer calendar-row" ng-repeat = "holiday in holidayDate()">
                 <td><span class="f-12px lh-17px h-18">{{holiday.number}}</span></td>
                 <td><span class="f-12px lh-17px h-18">{{holiday.name}}</span></td>
-                <td><span class="f-12px lh-17px h-18">{{holiday.date}}</span></td>
-                <td><span class="f-12px lh-17px h-18">monday</span></td>
+                <td><span class="f-12px lh-17px h-18">{{holiday.fullDate}}</span></td>
+                <td><span class="f-12px lh-17px h-18">{{holiday.day}}</span></td>
             </tr>
         </table>
     </div>

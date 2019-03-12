@@ -20,8 +20,8 @@
                             <th class="">Sat</th>
                         </tr>
                     </thead>
-                    <tbody id="calendar-body" class="t-c p-30px" ng-model="calendarBody">
-             
+                    <tbody id="calendar-body" class="t-c p-30px" ng-model="calendarBody" data-ng-init="initiateCalendar()">
+                        {{initiateCalendar(23)}}
                     </tbody>
                 </table>
             </div>
