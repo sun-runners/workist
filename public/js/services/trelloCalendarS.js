@@ -168,46 +168,23 @@ angular.module('workingHoursTrello').service('birthdayS', function() {
 //  ---------------------------------- Services for holidayS ------------------------------------------------- //
 
 angular.module('workingHoursTrello').service('holidayS', function() {
-    this.getListId = (boardLists, strName) => {
-        try {
-            for (let i = 0; i < boardLists.length; i++) {
-                const list = boardLists[i];
-                if (list.name == strName) {
-                    return list.id;
-                }
-            }
-        } catch (error) {
-        }
+   
+    this.getHolidayName = (cardName) => {
+        return name = cardName.substr(cardName.indexOf(' ')+1);
     }
-    this.getCards = (boardCards, listId, year) => {
-       try {
-            let cards = [];
-            let number = 0;
-            for (let i = 0; i < boardCards.length; i++) {
-                const card = boardCards[i];
-                if (card.idList == listId) { /** convert each card name to date */
-                    number = number + 1
-                    let monthDay = card.name.substr(0, card.name.indexOf(' '));
-                    let dateHoliday = new Date(year + '/' + monthDay);
-                    let day = dateHoliday.getDate()
-                    let dateMonth = moment(dateHoliday.getMonth() + 1, 'MM').format('MMMM');
-                    let dateDay = dateHoliday.toLocaleDateString(locale, { weekday: 'long' }); 
-                    let dateFull = `${dateMonth} ${dateHoliday.getDate()}, ${dateHoliday.getFullYear()}`; 
-                    let name = card.name.substr(card.name.indexOf(' ')+1);
-                    let cardDate = {name:name, date:dateHoliday, month:dateMonth, day:dateDay, fullDate:dateFull, number:number}
-                    
-                    cards.push(cardDate);
-                }
-            }
-        return cards;
-       } catch (error) {
-       }
+    this.getHolidayDate = (year, cardName) => {
+        let rawDate = cardName.substr(0, cardName.indexOf(" "));
+        let holiDate = new Date(year + "/" + rawDate);
+        let monthDate = moment(holiDate.getMonth() + 1, 'MM').format('MMMM');
+        let dayDate = holiDate.getDate();
+        let yearDate = holiDate.getFullYear();
+        let fullDate = monthDate + " " +dayDate + ", "+ yearDate;
+        return fullDate;
     }
-    this.getHolidays = (boardLists, boardCards, strName, year) => {
-        let listId = this.getListId(boardLists, strName);
-        let cards = this.getCards(boardCards, listId, year);
-
-        return cards;
+    this.geyDayOfWeek = (year, cardName) => {
+        let rawDate = cardName.substr(0, cardName.indexOf(" "));
+        let holiDate = new Date(rawDate);
+        let weekDay = holiDate.toLocaleDateString(locale, { weekday: 'long' }); 
+        return weekDay;
     }
-
 });
