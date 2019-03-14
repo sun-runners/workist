@@ -133,7 +133,7 @@ var boardButtonCallback = function(t){
         }
       },
       {
-        text: 'Time',
+        text: 'Time Worked',
         callback: function(t){
           return t.boardBar({
             url: './template/rewards/time.html',
@@ -145,7 +145,7 @@ var boardButtonCallback = function(t){
         }
       },
       {
-        text: 'Tasks',
+        text: 'Tasks Checked',
         callback: function(t){
           return t.boardBar({
             url: './template/rewards/task.html',
@@ -157,7 +157,7 @@ var boardButtonCallback = function(t){
         }
       },
       {
-        text: 'Birthdays',
+        text: 'Members Birthday',
         callback: function(t){
           return t.boardBar({
             url: './template/calendar/birthday.html',
@@ -169,7 +169,7 @@ var boardButtonCallback = function(t){
         }
       },
       {
-        text: 'Holidays',
+        text: 'National Holidays',
         callback: function(t){
           return t.boardBar({
             url: './template/calendar/holiday.html',
