@@ -133,7 +133,7 @@ var boardButtonCallback = function(t){
         }
       },
       {
-        text: 'Time statistics',
+        text: 'Time',
         callback: function(t){
           return t.boardBar({
             url: './template/rewards/time.html',
@@ -145,7 +145,7 @@ var boardButtonCallback = function(t){
         }
       },
       {
-        text: 'Task statistics',
+        text: 'Tasks',
         callback: function(t){
           return t.boardBar({
             url: './template/rewards/task.html',
@@ -157,10 +157,22 @@ var boardButtonCallback = function(t){
         }
       },
       {
-        text: 'Birthday Members',
+        text: 'Birthdays',
         callback: function(t){
           return t.boardBar({
             url: './template/calendar/birthday.html',
+            height: 500
+          })
+          .then(function(){
+            return t.closePopup();
+          });
+        }
+      },
+      {
+        text: 'Holidays',
+        callback: function(t){
+          return t.boardBar({
+            url: './template/calendar/holiday.html',
             height: 500
           })
           .then(function(){
