@@ -1,7 +1,7 @@
   
 //  ---------------------------------- Services for calendarS ------------------------------------------------- //
   
-angular.module('workingHoursTrello').service('calendarS', function() {
+angular.module('workingHoursTrello').service('calendarS', function(holidayS, birthdayS) {
 
     let today = new Date();
     let currentMonth = today.getMonth();
@@ -14,29 +14,44 @@ angular.module('workingHoursTrello').service('calendarS', function() {
         currentMonth = parseInt(selectMonth.value);
         this.showCalendar(currentMonth, currentYear);
     }
-    this.getCardsFromLists = (boardLists, boardCards, strName) => {
+    this.getNonWorkingDays = (boardLists, boardCards, strName, year, nation) => {
         try {
-            let Cards = []; /** Will Contain Cards from the List base on the Given strName */
+           if (strName == "BIRTHDAY") {
+            let cards = []; /** Will Contain Cards from the List base on the Given strName */
             for (let i = 0; i < boardLists.length; i++) {        
-                const list = boardLists[i];
+                let list = boardLists[i];
                 if (list.name == strName) {
                     for (let x = 0; x < boardCards.length; x++) {
-                        const card = boardCards[x];
+                        let card = boardCards[x];
                         if (card.idList == list.id) {
                             let date = new Date(card.name);
-                            Cards.push(date);
+                            cards.push(date);
                         }
                     }
                 }
             }
-            return Cards;
+            return cards;
+           }else if(strName == "HOLIDAY") {
+                let cards = []; /** Will Contain Cards from the List base on the Given strName */
+                let strToFind = `${year} HOLIDAY ${nation}`; 
+                let listId = holidayS.getListByName(strToFind, boardLists);
+                for (let i = 0; i < boardCards.length; i++) {
+                    let card = boardCards[i];
+                    if (card.idList == listId) {
+                        let cardRawName = card.name.substr(0, card.name.indexOf(" "));
+                        let cardDate = new Date(`${year}/${cardRawName}`);
+                        cards.push(cardDate);
+                    }
+                }
+                console.log(strToFind)
+                return cards
+           }
         } catch (error) {
-
             } 
     }
-    this.showCalendar = function(month, year, boardLists = 0, boardCards = 0, strName = 0, targetDay = 0) {
+    this.showCalendar = function(month, year, boardLists = 0, boardCards = 0, strName = 0, targetDay = 0, nation = 0) {
         try {
-            let daytarget = this.getCardsFromLists(boardLists, boardCards, strName)
+            let nonWorkingDays = this.getNonWorkingDays(boardLists, boardCards, strName, year, nation)
             let today = new Date();
             let firstDay = (new Date(year, month)).getDay();
             let daysInMonth = 32 - new Date(year, month, 32).getDate();
@@ -67,12 +82,11 @@ angular.module('workingHoursTrello').service('calendarS', function() {
                             span.classList.add("bg-today");
             
                         } // color today's date
-                        if (daytarget != 0) {
-                            for (let x = 0; x < daytarget.length; x++) {
-                                const dateNoWork = daytarget[x];
+                        if (nonWorkingDays != 0) {
+                            for (let x = 0; x < nonWorkingDays.length; x++) {
+                                let dateNoWork = nonWorkingDays[x];
                                 if (date == dateNoWork.getDate() && month == dateNoWork.getMonth()) {
                                     span.classList.add("bg-bday");
-
                                 } // color today's date
                                 if (targetDay != 0) {
                                     if (date == targetDay && month == dateNoWork.getMonth()) {
@@ -91,6 +105,7 @@ angular.module('workingHoursTrello').service('calendarS', function() {
                         cell.classList.add("h-50px");
                         cell.classList.add("pl-10px")
                         cell.classList.add("pr-10px")
+                       
                         row.appendChild(cell);
                         date++;
                     }
@@ -116,7 +131,7 @@ angular.module('workingHoursTrello').service('birthdayS', function() {
     }
     this.findListCard = (memberId, listId, boardCards) => {
         for (let i = 0; i < boardCards.length; i++) { /** Find Card base on memberId and ListId */
-            const card = boardCards[i];
+            let card = boardCards[i];
             if (card.idMembers == memberId && card.idList == listId) {
                 return card.name
             }
@@ -172,7 +187,7 @@ angular.module('workingHoursTrello').service('holidayS', function() {
     this.getHolidayName = (cardName) => {
         return name = cardName.substr(cardName.indexOf(' ')+1);
     }
-    this.getHolidayDate = (year, cardName) => {
+    this.getHolidayFullDate = (year, cardName) => {
         let rawDate = cardName.substr(0, cardName.indexOf(" "));
         let holiDate = new Date(year + "/" + rawDate);
         let monthDate = moment(holiDate.getMonth() + 1, 'MM').format('MMMM');
@@ -181,10 +196,41 @@ angular.module('workingHoursTrello').service('holidayS', function() {
         let fullDate = monthDate + " " +dayDate + ", "+ yearDate;
         return fullDate;
     }
-    this.geyDayOfWeek = (year, cardName) => {
+    this.getHolidayMonth = (year, cardName) => {
         let rawDate = cardName.substr(0, cardName.indexOf(" "));
-        let holiDate = new Date(rawDate);
+        let holiDate = new Date(year+ '/' +rawDate);
+        let holiMonth = holiDate.getMonth();
+        return holiMonth;
+    }
+    this.getHolidayDate = (year, cardName) => {
+        let rawDate = cardName.substr(0, cardName.indexOf(" "));
+        let holiDate = new Date(year+ '/' +rawDate);
+        let holiDay = holiDate.getDate();
+        return holiDay;
+    }
+    this.getDayOfWeek = (year, cardName) => {
+        let rawDate = cardName.substr(0, cardName.indexOf(" "));
+        let holiDate = new Date(year+ '/' +rawDate);
         let weekDay = holiDate.toLocaleDateString(locale, { weekday: 'long' }); 
+        // let weekDay = holiDate.getDay();
         return weekDay;
+    }
+    this.getHolidayCards = (listId, boardCards) => {
+        let cards = [];
+        for (let x = 0; x < boardCards.length; x++) {
+            let card = boardCards[x];
+            if (card.idList == listId) {
+                cards.push(card.name);
+            }
+        }
+        return cards;
+    }
+    this.getListByName = (strToFind, boardLists) => {
+        for (let x = 0; x < boardLists.length; x++) {
+            let list = boardLists[x];
+            if (list.name == strToFind) {
+                return list.id;
+            }
+        }
     }
 });

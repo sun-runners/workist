@@ -2,9 +2,9 @@
     <div class="w-30 bo-1px bo-gy bo_b-0px bo_r-0px">
         <div class="w-100 h-400px d-fx fxd-c jc-c">
             <div class="w-100  d-fx jc-sb p-10px fw-900">
-                <button class=" c-FF9696 " id="previous" ng-click="previous()">{{'<'}}</button>
+                <button class=" c-FF9696 " id="previous" ng-click="previous()">&#60;</button>
                 <p class="c-FF9696">{{currentMonthName}} {{currentYear}}</p>
-                <button class="c-FF9696" id="next" ng-click="next()">{{'>'}}</button>
+                <button class="c-FF9696" id="next" ng-click="next()">&#62;</button>
             </div>
             <br>
             <div class="w-100 h-100 d-fx jc-c">
@@ -21,7 +21,7 @@
                         </tr>
                     </thead>
                     <tbody id="calendar-body" class="t-c p-30px" ng-model="calendarBody">
-                        
+                        {{initiateCalendar()}}
                     </tbody>
                 </table>
             </div>
@@ -30,16 +30,23 @@
     </div>
     <!-- Ledgers Name Here -->
     <div class="w-70 h-400px bo-1px bo-gy bo_b-0px dates-cont">
-        <div class="cen-x w-200px d-fx jc-sb">
-            <div class="">
-                <span class="">
-                    <button class="" ng-click="changeHoliday('philippines')">Philippines</button>
-                </span>
+        <div class="w-100 h-90px d-fx fxd-c">
+            <span>&#60;</span>
+            <div class="d-fx jc-sb lh-29px">
+                <span class="f-24px cen-x">{{currentYear}}</span>     
             </div>
-            <div class="">
-                <span class="">
-                    <button class="" ng-click="changeHoliday('korea')">Korean</button>
-                </span>
+            <span>&#62;</span>
+            <div class="cen-x d-fx jc-sb w-120px">
+                <div class="">
+                    <span class="">
+                        <button class="" ng-click="changeHoliday('PHILIPPINES')">Philippines</button>
+                    </span>
+                </div>
+                <div class="">
+                    <span class="">
+                        <button class="" ng-click="changeHoliday('KOREA')">Korean</button>
+                    </span>
+                </div>
             </div>
         </div>
         <table class ="w-100 h-45px t-91px l-365px"> 
@@ -51,21 +58,22 @@
             </tr>
             <span class="bo-px1 w-100"></span>
             <!-- <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer calendar-row" ng-repeat="holiday in boardCards | filter: {idList : theLists()}"> -->
-            <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer calendar-row" ng-repeat="holiday in boardCards | filter: {idList : getPhpHoliday()}"
-            ng-style="{display: swtichHoliday == 'philippines' ? 'static':'none'}">
+            <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer calendar-row" ng-repeat="holiday in boardCards | filter: {idList : getHoliday('HOLIDAY PHILIPPINES')}"
+            ng-style="{display: swtichHoliday == 'PHILIPPINES' ? 'static':'none'}" ng-click="getToHoliday($index, holidayMonth(holiday.name), holidayDate(holiday.name))"
+            ng-class="{selected:  $index == selectedHoliday}">
                 <td><span class="f-12px lh-17px h-18">{{$index + 1}}</span></td>
                 <td><span class="f-12px lh-17px h-18">{{holidayName(holiday.name)}}</span></td>
-                <td><span class="f-12px lh-17px h-18">{{holidayDate(holiday.name)}}</span></td>
+                <td><span class="f-12px lh-17px h-18">{{holidayFullDate(holiday.name)}}</span></td>
                 <td><span class="f-12px lh-17px h-18">{{holidayDay(holiday.name)}}</span></td>
             </tr>
-            <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer calendar-row" ng-repeat="holiday in boardCards | filter: {idList : getKorHoliday()}"
-            ng-style="{display: swtichHoliday == 'korea' ? 'static':'none'}">
+            <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer calendar-row" ng-repeat="holiday in boardCards | filter: {idList : getHoliday('HOLIDAY KOREA')}"
+            ng-style="{display: swtichHoliday == 'KOREA' ? 'static':'none'}" ng-click="getToHoliday($index, holidayMonth(holiday.name), holidayDate(holiday.name))"
+            ng-class="{selected:  $index == selectedHoliday}">
                 <td><span class="f-12px lh-17px h-18">{{$index + 1}}</span></td>
                 <td><span class="f-12px lh-17px h-18">{{holidayName(holiday.name)}}</span></td>
-                <td><span class="f-12px lh-17px h-18">{{holidayDate(holiday.name)}}</span></td>
+                <td><span class="f-12px lh-17px h-18">{{holidayFullDate(holiday.name)}}</span></td>
                 <td><span class="f-12px lh-17px h-18">{{holidayDay(holiday.name)}}</span></td>
             </tr>
         </table>
-        
     </div>
 </div>
