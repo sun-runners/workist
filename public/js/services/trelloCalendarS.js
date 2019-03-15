@@ -96,15 +96,18 @@ angular.module('workingHoursTrello').service('calendarS', function(holidayS, bir
                             }
                         }
                         span.appendChild(cellText);
-                        span.classList.add("w-40px")
-                        span.classList.add("h-40px")
+                        span.classList.add("w-30px")
+                        span.classList.add("h-30px")
                         span.classList.add("bor-50");
-                        span.classList.add("lh-40px");
+                        span.classList.add("lh-30px");
+                        span.classList.add("f-12px")
+                        span.classList.add("fw-400")
+                        span.classList.add("cen-x")
                         cell.appendChild(span);
                         cell.classList.add("w-50px");
                         cell.classList.add("h-50px");
-                        cell.classList.add("pl-10px")
-                        cell.classList.add("pr-10px")
+                        cell.classList.add("pl-5px")
+                        cell.classList.add("pr-5px");
                        
                         row.appendChild(cell);
                         date++;

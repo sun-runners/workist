@@ -1,22 +1,23 @@
 <div class="w-100 c-ACACAC">
   <div class="w-100 h-69px d-fx fxd-c ai-c">
-    <div class="t-0 h-100 c-FF9696 fw-900 w-300px d-fx jc-c mt-11px">
+    <div class="t-0 h-100 c-FF9696 w-300px d-fx jc-c mt-11px">
       <button class="w-35px h-27px mr-30px f-l" ng-click="$root.decreaseWeek();">
         {{"<"}}
       </button>
-      <span class="f-18px fw-900 cen-y f-l c-FF9696 lh-26px">
+      <span class="f-26px fw-900 cen-y f-l c-FF9696 lh-29px">
         {{$root.dt.week}} WEEK
       </span>
-      <button class="w-35px h-27px ml-30px f-l c-FF9696 fw-900" ng-click="$root.increaseWeek();">
+      <button class="w-35px h-27px ml-30px f-l c-FF9696" ng-click="$root.increaseWeek();">
         {{">"}}
       </button>
     </div>
     <div class="t-0 h-100 w-200px">
-      <span class="f-18px fw-900 cen-y lh-17px f-12px tt-u">
+      <span class="f-18px fw-900 cen-y lh-17px f-12px tt-u c-FF9696">
         <h3 class="t-c">{{$root.dt.Date|date: 'yyyy'}} {{$root.dt.Date|date: 'MMMM'}}</h3>
       </span>
     </div>
   </div>
+  <div class="w-100 h-1px b-gy o-30"></div>
   <div class="w-100">
     <table class="w-100 t-c">
       <tr class="w-100 h-60px">
@@ -38,25 +39,14 @@
       <tr class="w-100 h-45px" ng-repeat="member in boardMembers"
       ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']">
         <!-- name -->
-        <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
+        <td><span class="f-12px lh-17px h-18  c-686868">{{member.fullName}}</span></td>
         <!-- dts -->
         <!-- lists and card -->
         <td ng-repeat="dt in dts" class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{getDailyCard(dt.Date, member.id)}}</span>
+          <span class="f-12px lh-17px h-18  c-686868">{{getDailyCard(dt.Date, member.id)}}</span>
         </td>
         <!-- total -->
-        <td><span class="f-12px lh-17px h-18">{{getWeeklyCard(dts, member.id)}}/{{getWeeklyNeedWork(dts)}}</span></td>
-      </tr>
-      <tr class="w-100 h-45px" ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']">
-        <!-- name -->
-        <td><span class="f-12px lh-17px h-18">Anonymous</span></td>
-        <!-- dts -->
-        <!-- lists and card -->
-        <td ng-repeat="dt in dts">
-          {{getAnonymousCardDay(dt.Date)}}
-        </td>
-        <!-- total -->
-        <td>{{$root.death}}</td>
+        <td><span class="f-12px lh-17px h-18  c-686868">{{getWeeklyCard(dts, member.id)}}/{{getWeeklyNeedWork(dts)}}</span></td>
       </tr>
     </table>
   </div>

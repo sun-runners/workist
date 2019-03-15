@@ -45,7 +45,7 @@ table {
 }
 .selected{
   background-color: #FF9696 !important;
-  color: #FAFAFA
+  color: #FAFAFA !important;
 }
 tbody tr:nth-child(even) {
   background-color: #FAFAFA;

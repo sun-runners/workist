@@ -1,39 +1,40 @@
 <div class="w-100 c-ACACAC">
-  <div class="w-100 h-69px">
-    <div class="p-a t-0 d-ib h-100 cen-x">
-      <button class="w-45px h-100 mr-30px f-l c-FF9696 fw-900" ng-click="$root.decreaseYear();">
-        {{"<"}}
-      </button>
-      <span class="f-24px fw-900 cen-y f-l c-FF9696">
-        {{$root.dt.Date|date: 'yyyy'}}
-      </span>
-      <button class="w-45px h-100 ml-30px f-l c-FF9696 fw-900" ng-click="$root.increaseYear();">
-        {{">"}}
-      </button>
+    <div class="w-100 h-69px d-fx fxd-c ai-c">
+      <div class="t-0 h-100 c-FF9696 w-300px d-fx jc-c mt-11px">
+        <button class="w-35px h-27px mr-30px f-l fw-500" ng-click="$root.decreaseYear();">
+          {{"<"}}
+        </button>
+        <span class="f-26px fw-900 cen-y f-l c-FF9696 lh-29px tt-u">
+          {{$root.dt.Date|date: 'yyyy'}}
+        </span>
+        <button class="w-35px h-27px ml-30px f-l c-FF9696 fw-500"  ng-click="$root.increaseYear();">
+          {{">"}}
+        </button>
     </div>
-    <div class="p-a t-0 d-ib h-100 l-30px">
-      <span class="f-18px fw-900 cen-y">
+    <div class="t-0 h-100 w-40px">
+        <span class="f-18px fw-900 cen-y lh-17px f-12px tt-u c-FF9696">
         <h4>Time</h4>
       </span>
     </div>
   </div>
+  <div class="w-100 h-1px b-gy o-30"></div>
   <div class="w-100 h-60px">
     <table class="w-100 t-c">
-      <tr class="w-100 t-60px h-45px bg-FFFFFF">
+      <tr class="w-100 t-60px h-45px bg-FFFFFF  c-BDBDBD">
         <!-- name -->
-        <th><span  class="f-12px h-18 c-BDBDBD lh-17 tt-u">NAME</span></th>
+        <th><span  class="f-12px h-18 lh-17 tt-u">NAME</span></th>
         <!-- dts -->
         <th ng-repeat="dts in months">
           <!-- month/Days -->
-          <p class="f-12px h-18 c-BDBDBD lh-17 tt-u">
+          <p class="f-12px h-18 lh-17 tt-u">
             {{dts.month}}
           </p>
         </th>
         <!-- total -->
-        <th><span class="f-12px h-18 c-BDBDBD lh-17 tt-u">TOTAL</span></th>
+        <th><span class="f-12px h-18 lh-17 tt-u">TOTAL</span></th>
       </tr>
       <!-- repeating output base on Username -->
-      <tr class="t-26 b-64 h-50px" ng-repeat="member in boardMembers" ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']">
+      <tr class="t-26 b-64 h-50px c-686868" ng-repeat="member in boardMembers" ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']">
         <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
         <td ng-repeat="dts in months" class="t-26 b-64">
           <span class="f-12px lh-17px h-18"> {{getMonthlyTime(dts.value, member.id)}} </span>         

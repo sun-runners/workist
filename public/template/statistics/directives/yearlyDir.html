@@ -1,31 +1,32 @@
 <div class="w-100 c-ACACAC">
   <div class="w-100 h-69px d-fx fxd-c ai-c">
-    <div class="t-0 h-100 c-FF9696 fw-900 w-300px d-fx jc-c mt-11px">
-      <button class="w-35px h-27px mr-30px f-l c-FF9696 fw-900" ng-click="$root.decreaseYear();">
+    <div class="t-0 h-100 c-FF9696 w-300px d-fx jc-c mt-11px">
+      <button class="w-30px h-27px mr-30px f-l c-FF9696 fw-500" ng-click="$root.decreaseYear();">
         {{"<"}}
       </button>
-      <span class="f-18px fw-900 cen-y f-l c-FF9696 lh-26px tt-u">
+      <span class="f-24px lh-29px fw-900 cen-y f-l c-FF9696 tt-u">
         {{$root.dt.Date|date: 'yyyy'}}
       </span>
-      <button class="w-35px h-27px ml-30px f-l c-FF9696 fw-900" ng-click="$root.increaseYear();">
+      <button class="w-35px h-27px ml-30px f-l c-FF9696 fw-500" ng-click="$root.increaseYear();">
         {{">"}}
       </button>
     </div>
   </div>
+  <div class="w-100 h-1px b-gy o-30"></div>
   <div class="w-100 h-60px">
-    <table class="w-100 t-c">
+    <table class="w-100 t-c c-686868">
       <tr class="w-100 h-60px">
         <!-- name -->
-        <th><span class="f-12px c-BDBDBD lh-17 h-18px">NAME</span></th>
+        <th><span class="f-12px lh-17 h-18px c-BDBDBD">NAME</span></th>
         <!-- dts -->
         <th ng-repeat="dts in months">
           <!-- month/Days -->
-          <p class="f-12px h-18 c-BDBDBD lh-17 tt-u">
+          <p class="f-12px h-18 lh-17 tt-u c-BDBDBD">
             {{dts.month}}
           </p>
         </th>
         <!-- total -->
-        <th><span class="f-12px c-BDBDBD lh-17 h-18px">TOTAL</span></th>
+        <th><span class="f-12px lh-17 h-18px c-BDBDBD">TOTAL</span></th>
       </tr>
       <!-- repeating output base on Username -->
       <tr class="w-100 h-45px" ng-repeat="member in boardMembers"
