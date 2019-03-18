@@ -94,7 +94,7 @@ var initializeCardBadges = function(t){
 
 var boardButtonCallback = function(t){
   return t.popup({
-    title: 'Time calculater',
+    title: 'Work Timist',
     items: [
       {
         text: 'Weekly statistics',

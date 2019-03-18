@@ -2,13 +2,13 @@
     <div class="w-100 h-69px d-fx fxd-c ai-c">
       <div class="t-0 h-100 c-FF9696 w-300px d-fx jc-c mt-11px">
         <button class="w-35px h-27px mr-30px f-l fw-500" ng-click="$root.decreaseYear();">
-          {{"<"}}
+          <span class="f-l">{{"<"}}</span>
         </button>
         <span class="f-26px fw-900 cen-y f-l c-FF9696 lh-29px tt-u">
           {{$root.dt.Date|date: 'yyyy'}}
         </span>
-        <button class="w-35px h-27px ml-30px f-l c-FF9696 fw-500"  ng-click="$root.increaseYear();">
-          {{">"}}
+        <button class="w-35px h-27px ml-25px f-r c-FF9696 fw-500"  ng-click="$root.increaseYear();">
+          <span class="f-r"> {{">"}}</span>
         </button>
     </div>
     <div class="t-0 h-100 w-40px">
