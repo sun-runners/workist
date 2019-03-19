@@ -101,7 +101,7 @@ var boardButtonCallback = function(t){
         callback: function(t){
           return t.boardBar({
             url: './template/statistics/weekly.html',
-            height: 500
+            height: 700
           })
           .then(function(){
             return t.closePopup();
@@ -113,7 +113,7 @@ var boardButtonCallback = function(t){
         callback: function(t){
           return t.boardBar({
             url: './template/statistics/monthly.html',
-            height: 500
+            height: 700
           })
           .then(function(){
             return t.closePopup();
@@ -125,7 +125,7 @@ var boardButtonCallback = function(t){
         callback: function(t){
           return t.boardBar({
             url: './template/statistics/yearly.html',
-            height: 500
+            height: 700
           })
           .then(function(){
             return t.closePopup();
@@ -137,7 +137,7 @@ var boardButtonCallback = function(t){
         callback: function(t){
           return t.boardBar({
             url: './template/rewards/time.html',
-            height: 500
+            height: 700
           })
           .then(function(){
             return t.closePopup();
@@ -149,7 +149,7 @@ var boardButtonCallback = function(t){
         callback: function(t){
           return t.boardBar({
             url: './template/rewards/task.html',
-            height: 500
+            height: 700
           })
           .then(function(){
             return t.closePopup();
@@ -161,7 +161,7 @@ var boardButtonCallback = function(t){
         callback: function(t){
           return t.boardBar({
             url: './template/calendar/birthday.html',
-            height: 500
+            height: 700
           })
           .then(function(){
             return t.closePopup();
@@ -173,7 +173,7 @@ var boardButtonCallback = function(t){
         callback: function(t){
           return t.boardBar({
             url: './template/calendar/holiday.html',
-            height: 500
+            height: 700
           })
           .then(function(){
             return t.closePopup();
