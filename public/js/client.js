@@ -91,6 +91,9 @@ var initializeCardBadges = function(t){
     }];
   });
 };
+var initializeAllList = function(t) {
+  
+}
 
 var boardButtonCallback = function(t){
   return t.popup({
@@ -99,9 +102,10 @@ var boardButtonCallback = function(t){
       {
         text: 'Weekly statistics',
         callback: function(t){
-          return t.boardBar({
+          return t.modal({
             url: './template/statistics/weekly.html',
-            height: 700
+            height: 800,
+            width: 850,
           })
           .then(function(){
             return t.closePopup();
@@ -111,9 +115,10 @@ var boardButtonCallback = function(t){
       {
         text: 'Monthly statistics',
         callback: function(t){
-          return t.boardBar({
+          return t.modal({
             url: './template/statistics/monthly.html',
-            height: 700
+            height: 800,
+            width: 850,
           })
           .then(function(){
             return t.closePopup();
@@ -123,9 +128,10 @@ var boardButtonCallback = function(t){
       {
         text: 'Yearly statistics',
         callback: function(t){
-          return t.boardBar({
+          return t.modal({
             url: './template/statistics/yearly.html',
-            height: 700
+            height: 800,
+            width: 850,
           })
           .then(function(){
             return t.closePopup();
@@ -135,9 +141,10 @@ var boardButtonCallback = function(t){
       {
         text: 'Time Worked',
         callback: function(t){
-          return t.boardBar({
+          return t.modal({
             url: './template/rewards/time.html',
-            height: 700
+            height: 800,
+            width: 850,
           })
           .then(function(){
             return t.closePopup();
@@ -147,9 +154,10 @@ var boardButtonCallback = function(t){
       {
         text: 'Tasks Checked',
         callback: function(t){
-          return t.boardBar({
+          return t.modal({
             url: './template/rewards/task.html',
-            height: 700
+            height: 800,
+            width: 850,
           })
           .then(function(){
             return t.closePopup();
@@ -159,9 +167,10 @@ var boardButtonCallback = function(t){
       {
         text: 'Members Birthday',
         callback: function(t){
-          return t.boardBar({
+          return t.modal({
             url: './template/calendar/birthday.html',
-            height: 700
+            height: 800,
+            width: 850,
           })
           .then(function(){
             return t.closePopup();
@@ -171,9 +180,10 @@ var boardButtonCallback = function(t){
       {
         text: 'National Holidays',
         callback: function(t){
-          return t.boardBar({
+          return t.modal({
             url: './template/calendar/holiday.html',
-            height: 700
+            height: 800,
+            width: 850,
           })
           .then(function(){
             return t.closePopup();
