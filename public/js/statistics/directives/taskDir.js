@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('workingHoursTrello')
-	.directive('taskDir', function ($rootScope, apiS, monthS, yearS, timeS, taskS) {
+	.directive('taskDir', function ($rootScope, apiS, taskS) {
 		return {
 			link : function(scope, element, attrs){
 

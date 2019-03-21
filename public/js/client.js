@@ -105,7 +105,8 @@ var boardButtonCallback = function(t){
           return t.modal({
             url: './template/statistics/weekly.html',
             height: 800,
-            width: 850,
+            width: 850,/** not working */
+            fullscreen:true,
           })
           .then(function(){
             return t.closePopup();
@@ -118,7 +119,8 @@ var boardButtonCallback = function(t){
           return t.modal({
             url: './template/statistics/monthly.html',
             height: 800,
-            width: 850,
+            width: 850,/** not working */
+            fullscreen:true,
           })
           .then(function(){
             return t.closePopup();
@@ -131,7 +133,8 @@ var boardButtonCallback = function(t){
           return t.modal({
             url: './template/statistics/yearly.html',
             height: 800,
-            width: 850,
+            width: 850,/** not working */
+            fullscreen:true,
           })
           .then(function(){
             return t.closePopup();
@@ -144,7 +147,8 @@ var boardButtonCallback = function(t){
           return t.modal({
             url: './template/rewards/time.html',
             height: 800,
-            width: 850,
+            width: 850,/** not working */
+            fullscreen: true,
           })
           .then(function(){
             return t.closePopup();
@@ -157,7 +161,8 @@ var boardButtonCallback = function(t){
           return t.modal({
             url: './template/rewards/task.html',
             height: 800,
-            width: 850,
+            width: 850,/** not working */
+            fullscreen:true,
           })
           .then(function(){
             return t.closePopup();
@@ -170,7 +175,8 @@ var boardButtonCallback = function(t){
           return t.modal({
             url: './template/calendar/birthday.html',
             height: 800,
-            width: 850,
+            width: 850,/** not working */
+            fullscreen:true,
           })
           .then(function(){
             return t.closePopup();
@@ -183,7 +189,8 @@ var boardButtonCallback = function(t){
           return t.modal({
             url: './template/calendar/holiday.html',
             height: 800,
-            width: 850,
+            width: 850,/** not working */
+            fullscreen:true,
           })
           .then(function(){
             return t.closePopup();
