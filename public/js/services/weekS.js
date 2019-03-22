@@ -126,10 +126,10 @@ angular.module('workingHoursTrello').service('weekS', function(dayS){
       }
       return datesNewDates;
     };
-
     this.weeklyNeedToWork = (weeklyDates) => { /** this will give you the total days members should work */
       let weeksDatesByDay = this.weekDatesArray(weeklyDates);
       let weeksWorkingDates = this.removeWeekEnds(weeksDatesByDay);
-      return weeksWorkingDates.length;
+      // return weeksWorkingDates.length;
+      return weeksDatesByDay
     };
   });

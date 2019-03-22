@@ -26,6 +26,8 @@ angular.module('workingHoursTrello')
 				apiS.getBoardMembers().then((response) => scope.boardMembers = response.data /** Get Boards Members */);
 				apiS.getBoardLists().then((response) => scope.boardLists = response.data /**  Get Boards Lists */);
 				apiS.getBoardCards().then((response) => scope.boardCards = response.data /** Get Boards Cards */);
+				apiS.calendarBoardLists().then((response) => scope.calendarLists = response.data /**  Get Boards Lists */);
+				apiS.calendarBoardCards().then((response) => scope.calendarCards = response.data /** Get Boards Cards */);
 				
 				scope.getDailyCard = (dateOfDay, memberId) => { /** Get daily card output */
 					return dayS.getDailyCardValue(dateOfDay, memberId, scope.boardLists, scope.boardCards)
