@@ -86,7 +86,6 @@ angular.module('workingHoursTrello').service('weekS', function(dayS){
         let cardsWeeklyDays = this.calculateCardsHoursToDay(cardsWeeklyHours);
         /** Calculate cards Array of days to Total */ 
         let cardsWeeklyTotalDays = this.calculateDaysTotalDay(cardsWeeklyDays);
-  
         return cardsWeeklyTotalDays;
       } catch(e) {
         // statements
