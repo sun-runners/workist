@@ -11,11 +11,10 @@ angular.module('workingHoursTrello')
 					scope.thisDate = moment_original;
 
 					scope.months = [
-							{month: "Jan", value: 1},
-							{month: "Feb",value:2},
-							{month:"Mar", value: 3},
+							{month: "Jan", value: 1},{month: "Feb",value:2},{month:"Mar", value: 3},
 							{month:"Apr", value: 4},{month:"May", value: 5},{month:"Jun", value: 6},
-							{month: "Jul", value: 7},{month:"Aug", value:8},{month:"Sep", value: 9},{month:"Oct",value:10}, {month:"Nov",value:11},{month:"Dec", value:12}
+							{month: "Jul", value: 7},{month:"Aug", value:8},{month:"Sep", value: 9},
+							{month:"Oct",value:10},{month:"Nov",value:11},{month:"Dec", value:12},
 						];									
 				};
 				initialize();

@@ -57,15 +57,30 @@ angular.module('workingHoursTrello').service('winS', function(monthS, weekS, yea
       }
       return highest;
     }
-    this.monthWinner = (year, month, boardMembers, boardLists, boardCards) => {
+    this.taskWinner = (members) => {
+      let highest = 0;
+      for (let i = 0; i < members.length; i++) {
+        const member = members[i];
+        if (highest < member.tasks) {
+          highest = member.tasks;
+        }
+      }
+      return highest;
+    }
+    this.monthWinner = (year, month, boardMembers, boardLists, boardCards, rewardOf = 'time') => {
       try {
         let monthDateByDay = monthS.monthDaysDate(year, month); 
         let listsId = weekS.arrayListsID(monthDateByDay, boardLists); 
         let listsCards = this.listsCards(boardCards, listsId);
         let memberCards = this.membersCards(boardMembers, listsCards);
         let memberTotal = this.MonthTotal(memberCards);
-        let winner = this.timeWinner(memberTotal)
-      return winner;
+        if (rewardOf == 'time') {
+          let winnerTime = this.timeWinner(memberTotal);
+          return winnerTime;
+        }else if (rewardOf == 'task') {
+          let winnerTask = this.taskWinner(memberTotal);
+          return winnerTask;
+        }
       } catch (error) {}
     }
   });
