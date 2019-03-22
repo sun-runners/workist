@@ -1,4 +1,4 @@
-angular.module('workingHoursTrello').service('winS', function(monthS, weekS, yearS) {
+angular.module('workingHoursTrello').service('winS', function(monthS, weekS) {
     this.listsCards = (boardCards, listsId) => { /** We get the cards of the given lists */
       let cards = [];
       for (let i = 0; i < listsId.length; i++) {
@@ -74,13 +74,12 @@ angular.module('workingHoursTrello').service('winS', function(monthS, weekS, yea
         let listsCards = this.listsCards(boardCards, listsId);
         let memberCards = this.membersCards(boardMembers, listsCards);
         let memberTotal = this.MonthTotal(memberCards);
-        if (rewardOf == 'time') {
-          let winnerTime = this.timeWinner(memberTotal);
-          return winnerTime;
-        }else if (rewardOf == 'task') {
+        if (rewardOf == 'task') {
           let winnerTask = this.taskWinner(memberTotal);
           return winnerTask;
         }
+        let winnerTime = this.timeWinner(memberTotal);
+        return winnerTime;
       } catch (error) {}
     }
   });

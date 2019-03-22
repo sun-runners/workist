@@ -8,7 +8,7 @@ angular.module('workingHoursTrello').service('weekS', function(dayS){
       for (var i = 0; i < week.length; i++) {
         let date = week[i];
         let weekYMD = date.Date;
-        let weekParsed =  weekYMD.getFullYear() + '/' + ('0' + ( weekYMD.getMonth() + 1)).slice(-2) + '/' +  weekYMD.getDate();
+        let weekParsed =  weekYMD.getFullYear()+'/'+ ('0'+( weekYMD.getMonth() + 1)).slice(-2) +'/'+ weekYMD.getDate();
         weekDate.push(weekParsed);
       }
       return weekDate;
@@ -18,14 +18,12 @@ angular.module('workingHoursTrello').service('weekS', function(dayS){
       // We loop through the Array
       for (var i = 0; i < nameArrays.length; i++) {
         let nameToFind = new Date(nameArrays[i]);
-        let dateRef = `${nameToFind.getFullYear()}/${nameToFind.getMonth()}/${nameToFind.getDate()}`;
-
+        let dateRef = nameToFind.getFullYear()+'/'+nameToFind.getMonth()+'/'+nameToFind.getDate();
           // We loop through the boardsLists
           for (var x = 0; x < boardsLists.length; x++) {
             let boardsListArray = boardsLists[x];
             let boardListNameParsed = new Date(boardsListArray.name.substr(0,boardsListArray.name.indexOf(' ')));
-            let dateList = `${boardListNameParsed.getFullYear()}/${boardListNameParsed.getMonth()}/${boardListNameParsed.getDate()}`;
-            
+            let dateList = boardListNameParsed.getFullYear()+'/'+boardListNameParsed.getMonth()+'/'+boardListNameParsed.getDate();
             if (dateList == dateRef) { /** we compare the Array weekly Date to our Array of Board's Lists */
             foundListWeek.push(boardsListArray.id); /** If True we push it to the FoundListWeek */
             }
