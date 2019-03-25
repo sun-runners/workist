@@ -22,9 +22,13 @@ angular.module('workingHoursTrello').service('nationalityS', function(holidayS) 
         }
     }
     this.membersNationality = (id, calendarCards, calendarLists) => {
-        let listId = holidayS.getListByName('NATIONALITY', calendarLists)
-        let nationsCards = this.findListCards(listId, calendarCards)
-        let nationality = this.findNationality(id, nationsCards)
+        try {
+            let listId = holidayS.getListByName('NATIONALITY', calendarLists)
+            let nationsCards = this.findListCards(listId, calendarCards)
+            let nationality = this.findNationality(id, nationsCards)
         return nationality;
+        } catch (error) {
+            
+        }
     }
 });

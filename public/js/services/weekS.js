@@ -1,7 +1,7 @@
 //  ---------------------------------- Services To Get Weekly Output------------------------------------------------- //
   
   
-angular.module('workingHoursTrello').service('weekS', function(dayS){
+angular.module('workingHoursTrello').service('weekS', function(dayS, holidayS){
   
     this.weekDatesArray = (week) => {
       let weekDate = [];
@@ -117,11 +117,10 @@ angular.module('workingHoursTrello').service('weekS', function(dayS){
     this.removeWeekEnds = (datesArray) => { /** this will remove saturday and sunday */
       let datesNewDates = [];
       for (let i = 0; i < datesArray.length; i++) {
-        let dates1 = datesArray[i];
-        let dates2 = moment(dates1, 'YYYY/MM/DD');
-        let dates3 = dates2.day()
-        if (dates3 !== 5 && dates3 !== 6) {
-          datesNewDates.push(dates3)
+        let rawDates = datesArray[i];
+        let dates = new Date(rawDates).getDay();
+        if (dates != 6 && dates != 5) {
+          datesNewDates.push(rawDates)
         }
       }
       return datesNewDates;
@@ -130,6 +129,6 @@ angular.module('workingHoursTrello').service('weekS', function(dayS){
       let weeksDatesByDay = this.weekDatesArray(weeklyDates);
       let weeksWorkingDates = this.removeWeekEnds(weeksDatesByDay);
       // return weeksWorkingDates.length;
-      return weeksDatesByDay
+      return weeksWorkingDates
     };
   });

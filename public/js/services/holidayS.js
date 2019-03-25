@@ -46,10 +46,48 @@ angular.module('workingHoursTrello').service('holidayS', function() {
     }
     this.getListByName = (strToFind, boardLists) => {
         for (let x = 0; x < boardLists.length; x++) {
-            let list = boardLists[x];
+            let list = boardLists[x]; /** we loop through the board' lists and getthe list id of the list base on the given name */
             if (list.name == strToFind) {
                 return list.id;
             }
         }
+    }
+    this.getHolidayDates = (year, listId, boardCards) => {
+        let cards = []; /** Here we get the Holiday Dates */
+        for (let i = 0; i < boardCards.length; i++) {
+            const card = boardCards[i];
+            if (card.idList == listId) {
+                let rawDate = card.name.substr(0, card.name.indexOf(" "));
+                let date = new Date(year+ '/' +rawDate); 
+                cards.push(date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDate())
+            }
+        }
+        return cards
+    }
+    this.sameHoliday = (workDates, holidayDate) => {
+        let sameDates = 0;   
+        /** we'll compare the working Dates with the Holiday Dates and will return the number of the same dates*/
+        for (let i = 0; i < workDates.length; i++) {
+            const dateDate = workDates[i];
+            let rawDate = new Date(dateDate);
+            let workDate = rawDate.getFullYear()+'/'+(rawDate.getMonth()+1)+'/'+rawDate.getDate();
+            for (let x = 0; x < holidayDate.length; x++) {
+                const holiday = holidayDate[x];
+                if (workDate == holiday) {
+                    sameDates = sameDates + 1
+                }
+            }
+        }
+        return sameDates;
+    }
+    this.datesHoliday = (country, year, boardLists, boardCards, workDate) => {
+       try {
+        let listName = year + ' HOLIDAY ' + country;
+        let listId = this.getListByName(listName, boardLists);
+        let AllHolidays = this.getHolidayDates(year, listId, boardCards);
+        let nonWorking = this.sameHoliday(workDate, AllHolidays)
+        let newTotalWork = workDate.length - nonWorking;
+        return newTotalWork
+       } catch (error) {}
     }
 });

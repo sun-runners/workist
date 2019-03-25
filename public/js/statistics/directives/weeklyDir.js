@@ -1,5 +1,5 @@
 angular.module('workingHoursTrello')
-	.directive('weeklyDir',  function ($rootScope, apiS, dayS, weekS, nationalityS) {
+	.directive('weeklyDir',  function ($rootScope, apiS, dayS, weekS, nationalityS, holidayS) {
 		return {
 			link : function(scope, element, attrs){
 				// Initialize Function Section
@@ -36,10 +36,11 @@ angular.module('workingHoursTrello')
 					let datesOfTheWeek = weekS.weekDatesArray(dateWeeks);					
 					return weekS.getDaysTotalOutput(datesOfTheWeek, memberId, scope.boardLists, scope.boardCards);
 				}
-				scope.getWeeklyNeedWork = (dates) => { /** To calculate the total days the member should work on the week */
-					return weekS.weeklyNeedToWork(dates);
+				scope.getHolidays = (memberId, dates) => { /** we get the holidays base on nationality */
+					let country = nationalityS.membersNationality(memberId, scope.calendarCards, scope.calendarLists);
+					let weeklyToWork = weekS.weeklyNeedToWork(dates);
+					return holidayS.datesHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, weeklyToWork);
 				}
-				scope.getholidays = (memberId) => nationalityS.membersNationality(memberId, scope.calendarCards, scope.calendarLists); //year, month, country, listsCard, calendarLists
 			},
 			restrict: "EA",
 			replace: true,
