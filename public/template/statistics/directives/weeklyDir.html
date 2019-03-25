@@ -46,7 +46,10 @@
           <span class="f-12px lh-17px h-18  c-686868">{{getDailyCard(dt.Date, member.id)}}</span>
         </td>
         <!-- total -->
-        <td><span class="f-12px lh-17px h-18  c-686868" ng-class="{'c-gn': getWeeklyCard(dts, member.id) >= getHolidays(member.id, dts), 'c-red': getWeeklyCard(dts, member.id) < getHolidays(member.id, dts)}">{{getWeeklyCard(dts, member.id)}}/{{getHolidays(member.id, dts)}}</span></td>
+        <td><span class="f-12px lh-17px h-18  c-686868" ng-class="{'c-gn': getWeeklyCard(dts, member.id) > getHolidays(member.id, dts), 'c-red': getWeeklyCard(dts, member.id) < getHolidays(member.id, dts)}">
+          {{getWeeklyCard(dts, member.id)}}/{{getHolidays(member.id, dts)}}
+        </span>
+      </td>
         <!-- <td><span class="f-12px lh-17px h-18  c-686868">{{getWeeklyCard(dts, member.id)}}/{{getWeeklyNeedWork(dts)}}</span></td> -->
       </tr>
     </table>

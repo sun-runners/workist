@@ -40,8 +40,9 @@
           <span class="f-12px lh-17px h-18">{{member.fullName}}</span>
         </td>
         <td ng-repeat="dtr in monthlyWeeks" class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">
-              {{getWeeklyCard(dtr, member.id)}}/{{getWeeklyNeedWork(dtr)}}
+          <span class="f-12px lh-17px h-18" ng-class="{'c-gn': getWeeklyCard(dtr, member.id) > getWeeklyHolidays(member.id, dtr), 'c-red': getWeeklyCard(dtr, member.id) < getWeeklyHolidays(member.id, dtr)}">
+              <!-- {{getWeeklyCard(dtr, member.id)}}/{{getWeeklyNeedWork(dtr)}} -->
+              {{getWeeklyCard(dtr, member.id)}}/{{getWeeklyHolidays(member.id, dtr)}}
           </span>
         </td>
         <td class="f-12px lh-15px">

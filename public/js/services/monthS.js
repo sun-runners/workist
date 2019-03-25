@@ -40,7 +40,8 @@ angular.module('workingHoursTrello').service('monthS', function(weekS) {
         let monthsDatesByDay = this.monthDaysDate(year, month);
         let weeksDatesByDay = this.getInBetweenDates(monthsDatesByDay, dateStart, dateEnd);
         let weeksToWorkDates = weekS.removeWeekEnds(weeksDatesByDay)
-        return weeksToWorkDates.length;
+        return weeksToWorkDates;
+        // return weeksToWorkDates.length;
     }
     this.getMonthsValue = (year, month, boardLists, memberId, boardCards) => { /** get the total days members have work per month */
         try {
