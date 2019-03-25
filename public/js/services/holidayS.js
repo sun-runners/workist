@@ -15,13 +15,13 @@ angular.module('workingHoursTrello').service('holidayS', function() {
         let fullDate = monthDate + " " +dayDate + ", "+ yearDate;
         return fullDate;
     }
-    this.getHolidayMonth = (year, cardName) => {
+    this.getHolidayMonth = (year, cardName) => { /** get Month of the holiday */
         let rawDate = cardName.substr(0, cardName.indexOf(" "));
         let holiDate = new Date(year+ '/' +rawDate);
         let holiMonth = holiDate.getMonth();
         return holiMonth;
     }
-    this.getHolidayDate = (year, cardName) => {
+    this.getHolidayDate = (year, cardName) => { /** get Holiday date of the card */
         let rawDate = cardName.substr(0, cardName.indexOf(" "));
         let holiDate = new Date(year+ '/' +rawDate);
         let holiDay = holiDate.getDate();
