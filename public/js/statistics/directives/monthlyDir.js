@@ -48,20 +48,21 @@ angular.module('workingHoursTrello')
 					// year, month, dateStart, dateEnd, memberId, boardLists, boardCards
 					return monthS.getWeeksValue(theDates.year, theDates.month, theDates.startFull, theDates.endFull, memberId, scope.boardLists, scope.boardCards);
 				}
-				scope.getWeeklyNeedWork = (theDates) => { /** Get the total days members should work per week*/
-					// year, month, dateStart, dateEnd
-					return monthS.weeklyNeedToWork(theDates.year, theDates.month, theDates.startFull, theDates.endFull);
-				}
 				scope.getMonthlyCard = (memberId) => { /** To calculate the total working days of the member per month*/
 					return monthS.getMonthsValue(scope.thisDate.year(), scope.thisDate.month()+1, scope.boardLists, memberId, scope.boardCards);
 				}
 				scope.getMonthlyNeedWork = () => { /** Get the total days members should work per month */
 					return monthS.monthsNeedtoWork(scope.thisDate.year(), scope.thisDate.month()+1);
 				}
-				scope.getWeeklyHolidays = (memberId, theDates) => { /** we get the holidays base on nationality */
+				scope.getWeeklyTotal = (memberId, theDates) => { /** we get the holidays base on nationality */
 					let country = nationalityS.membersNationality(memberId, scope.calendarCards, scope.calendarLists);
 					let weeklyToWork = monthS.weeklyNeedToWork(theDates.year, theDates.month, theDates.startFull, theDates.endFull);
 					return holidayS.datesHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, weeklyToWork);
+				}
+				scope.getMonthlyTotal = (memberId) => { /** we get the holidays base on nationality */
+					let country = nationalityS.membersNationality(memberId, scope.calendarCards, scope.calendarLists);
+					let monthlyToWork = monthS.monthsNeedtoWork(scope.thisDate.year(), scope.thisDate.month()+1);
+					return holidayS.datesHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, monthlyToWork);
 				}
 			},
 			restrict: "EA",

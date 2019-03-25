@@ -40,13 +40,15 @@
           <span class="f-12px lh-17px h-18">{{member.fullName}}</span>
         </td>
         <td ng-repeat="dtr in monthlyWeeks" class="t-26 b-64">
-          <span class="f-12px lh-17px h-18" ng-class="{'c-gn': getWeeklyCard(dtr, member.id) > getWeeklyHolidays(member.id, dtr), 'c-red': getWeeklyCard(dtr, member.id) < getWeeklyHolidays(member.id, dtr)}">
+          <span class="f-12px lh-17px h-18" ng-class="{'c-gn': getWeeklyCard(dtr, member.id) > getWeeklyTotal(member.id, dtr), 'c-red': getWeeklyCard(dtr, member.id) < getWeeklyTotal(member.id, dtr)}">
               <!-- {{getWeeklyCard(dtr, member.id)}}/{{getWeeklyNeedWork(dtr)}} -->
-              {{getWeeklyCard(dtr, member.id)}}/{{getWeeklyHolidays(member.id, dtr)}}
+              {{getWeeklyCard(dtr, member.id)}}/{{getWeeklyTotal(member.id, dtr)}}
           </span>
         </td>
         <td class="f-12px lh-15px">
-          <span class="f-12px lh-17px h-18">{{getMonthlyCard(member.id)}}/{{getMonthlyNeedWork()}}</span>
+          <span class="f-12px lh-17px h-18" ng-class="{'c-gn': getMonthlyCard(member.id) > getMonthlyTotal(member.id), 'c-red': getMonthlyCard(member.id) < getMonthlyTotal(member.id)}">
+            {{getMonthlyCard(member.id)}}/{{getMonthlyTotal(member.id)}}
+          </span>
         </td>
       </tr>
     </table>

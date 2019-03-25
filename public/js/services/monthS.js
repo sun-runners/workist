@@ -55,6 +55,6 @@ angular.module('workingHoursTrello').service('monthS', function(weekS) {
     this.monthsNeedtoWork = (year, month) => { /** Get all the days member have to work this month*/
       let monthsDatesByDay = this.monthDaysDate(year, month);
       let monthsToWorkDates = weekS.removeWeekEnds(monthsDatesByDay);
-      return monthsToWorkDates.length;
+      return monthsToWorkDates;
     }
   });
