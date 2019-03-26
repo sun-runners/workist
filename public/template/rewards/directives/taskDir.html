@@ -37,7 +37,9 @@
       <tr class="t-26 b-64 h-50px c-686868" ng-repeat="member in boardMembers" ng-class="[$index % 2 === 1 ? 'b-we' : 'b-FAFAFA']">
         <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
         <td ng-repeat="dts in months" class="t-26 b-64">
-          <span class="f-12px lh-17px h-18" ng-style="getWinMonth(dts.value) == getMonthlyTask(dts.value, member.id) && {'color':'green'}">{{getMonthlyTask(dts.value, member.id)}}</span>
+          <span class="f-12px lh-17px h-18" ng-style="getWinMonth(dts.value) == task && {'color':'green'}">
+            {{task = getMonthlyTask(dts.value, member.id)}}
+          </span>
         </td>
         <td class="t-26 b-64">
           <span class="f-12px lh-17px h-18">{{getYearlyTask(member.id)}}</span>
