@@ -35,12 +35,14 @@
   
         <td ng-repeat="dts in months" class="t-26 b-64">
           <span class="f-12px lh-17px h-18" ng-class="{'c-gn': work > toWork, 'c-red': work < toWork, 'c-bk': work == 0}">
-            {{showMonthly(work = getMonthlyCard(dts.value, member.id), toWork = getToWorkTotal(member.id, dts.value))}}
+            {{showMonthly(work = getMonthlyCard(dts.value, member.id), toWork = getMonthlyToWork(member.id, dts.value))}}
             <!-- {{getMonthlyTotal(member.id, dts.value)}} -->
           </span>
         </td>
         <td>
-            <span class="f-12px lh-17px h-18">{{getYearlyCard(member.id)}}/{{getYearlyNeedWork()}}</span>
+            <span class="f-12px lh-17px h-18" ng-class="{'c-gn': work > toWork, 'c-red': work < toWork, 'c-bk': work == 0}">
+              {{work = getYearlyCard(member.id)}}/{{toWork = getYearlyToWork(member.id)}}
+            </span>
         </td>
       </tr>
     </table>

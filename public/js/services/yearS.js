@@ -25,6 +25,6 @@
     this.yearsNeedToWork = (year, month) => {
       let yearsDatesByDay = this.getAllDates(year, month);
       let yearsToWorkDays = weekS.removeWeekEnds(yearsDatesByDay);
-      return yearsToWorkDays.length
+      return yearsToWorkDays;
     }
   });
