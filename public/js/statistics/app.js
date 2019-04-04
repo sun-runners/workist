@@ -30,6 +30,9 @@ angular.module('workingHoursTrello', [
     });
 
 }).run(function($rootScope, $http){
+  
+  $rootScope.selectedMember = ''; /** this will indicate who current selected Member */
+  $rootScope.changeSelectedMember = (memberId) => $rootScope.selectedMember = memberId; 
 
   // Variable Section
   $rootScope.moment = moment();
@@ -80,23 +83,33 @@ angular.module('workingHoursTrello', [
  const t = window.TrelloPowerUp.iframe();
 
 }).controller('mainCtrl', function($scope, $compile) {
-
+  
 	$scope.template = 'monthlys';
-	$scope.subMenu = ['weekly', 'monthly', 'yearly'];
+  $scope.subMenu = ['weekly', 'monthly', 'yearly'];
+  $scope.mainMenu = [{title:'attendance', active:'weekly'}, {title:'award', active:'time'}, {title:'salary', active:''}, {title:'calendar', active:'birthday'}];
   $scope.activeSub = 'weekly';
+  $scope.activeMenu = 'attendance';
   
 	$scope.switchSub = (menuOf) => {
-		switch (menuOf) {
-			case 'attendance':
-				$scope.subMenu = ['weekly', 'monthly', 'yearly'];
-				break;
-			case 'award':
-				$scope.subMenu = ['time', 'task'];
-				break;
-			case 'calendar':
-				$scope.subMenu = ['birthday', 'holiday'];
-				break;
-		}
-	}	
+      switch (menuOf) {
+        case 'attendance':
+          $scope.subMenu = ['weekly', 'monthly', 'yearly'];
+          $scope.activateSub('weekly');
+          break;
+        case 'award':
+          $scope.subMenu = ['time', 'task'];
+          $scope.activateSub('time');
+          break;
+        case 'calendar':
+          $scope.subMenu = ['birthday', 'holiday'];
+          $scope.activateSub('birthday');
+          break;
+      }
+    }	
+  
+  $scope.activateSub = (target) => $scope.activeSub = target; 
+
+  $scope.activateMenu = (target) => $scope.activeMenu = target;
+
 });
 

@@ -26,31 +26,34 @@ table {
   border-spacing: 0px;
 }
 .bg-today {
-  color: #FF9696;
+  color: #73AFE4;
   /* border-radius:50%; */
   /* font-weight: 600; */
 }
 
 .bg-bday{
   color: #fff;
-  background: rgba(255, 150, 150, 0.5);;
-
-
+  background:rgba(115, 175, 228, 0.5);
 }
 .bg-bday-today {
   color: #fff;
-  background: #FF9696;
+  background: #73AFE4;
   /* border-radius:50%; */
   /* font-weight: 600; */
 }
 .selected{
-  background-color: #FF9696 !important;
+  background-color: #73AFE4 !important;
   color: #FAFAFA !important;
 }
 tbody tr:nth-child(even) {
-  background-color: #FAFAFA;
+  background-color: rgba(115, 175, 228, 0.1);
 }
 .dates-cont{
   overflow:scroll;
   overflow-x:hidden;
+}
+.active_subMenu{
+  border-bottom: 3px solid #73AFE4;
+  color: #73AFE4;
+  text-decoration: none;
 }
