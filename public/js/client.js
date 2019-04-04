@@ -91,116 +91,54 @@ var initializeCardBadges = function(t){
     }];
   });
 };
-var initializeAllList = function(t) {
-  
-}
-
 var boardButtonCallback = function(t){
-  return t.popup({
-    title: 'Work Timist',
-    items: [
-      {
-        text: 'Weekly statistics',
-        callback: function(t){
-          return t.modal({
-            url: './template/statistics/weekly.html',
-            height: 800,
-            width: 850,/** not working */
-            fullscreen:true,
-          })
-          .then(function(){
-            return t.closePopup();
-          });
-        }
-      },
-      {
-        text: 'Monthly statistics',
-        callback: function(t){
-          return t.modal({
-            url: './template/statistics/monthly.html',
-            height: 800,
-            width: 850,/** not working */
-            fullscreen:true,
-          })
-          .then(function(){
-            return t.closePopup();
-          });
-        }
-      },
-      {
-        text: 'Yearly statistics',
-        callback: function(t){
-          return t.modal({
-            url: './template/statistics/yearly.html',
-            height: 800,
-            width: 850,/** not working */
-            fullscreen:true,
-          })
-          .then(function(){
-            return t.closePopup();
-          });
-        }
-      },
-      {
-        text: 'Time Worked',
-        callback: function(t){
-          return t.modal({
-            url: './template/rewards/time.html',
-            height: 800,
-            width: 850,/** not working */
-            fullscreen: true,
-          })
-          .then(function(){
-            return t.closePopup();
-          });
-        }
-      },
-      {
-        text: 'Tasks Checked',
-        callback: function(t){
-          return t.modal({
-            url: './template/rewards/task.html',
-            height: 800,
-            width: 850,/** not working */
-            fullscreen:true,
-          })
-          .then(function(){
-            return t.closePopup();
-          });
-        }
-      },
-      {
-        text: 'Members Birthday',
-        callback: function(t){
-          return t.modal({
-            url: './template/calendar/birthday.html',
-            height: 800,
-            width: 850,/** not working */
-            fullscreen:true,
-          })
-          .then(function(){
-            return t.closePopup();
-          });
-        }
-      },
-      {
-        text: 'National Holidays',
-        callback: function(t){
-          return t.modal({
-            url: './template/calendar/holiday.html',
-            height: 800,
-            width: 850,/** not working */
-            fullscreen:true,
-          })
-          .then(function(){
-            return t.closePopup();
-          });
-        }
-      }
-    ]
+  return t.modal({
+    url: './template/workTimist.html',
+    height: 800,
+    width: 850,/** not working */ // This seems all correct
+    fullscreen: true // Intresting, this seems all correct, but I can't really help if nothing is wrong.
+    // Sorry!
+  }) // it seems that the height and width does not work. . . it is always fullscreen.. it's okey
+  .then(function(){
+    return t.closePopup();
   });
 };
 
+// var boardButtonCallback = function(t){
+//   return t.popup({
+//     title: 'Work Timist',
+//     items: [
+//       {
+//         text: 'Weekly statistics',
+//         callback: function(t){
+//           return t.modal({
+//             url: './template/statistics/weekly.html',
+//             height: 800,
+//             width: 850,/** not working */
+//             fullscreen:true,
+//           })
+//           .then(function(){
+//             return t.closePopup();
+//           });
+//         }
+//       },
+//       {
+//         text: 'Monthly statistics',
+//         callback: function(t){
+//           return t.modal({
+//             url: './template/statistics/monthly.html',
+//             height: 800,
+//             width: 850,/** not working */
+//             fullscreen:true,
+//           })
+//           .then(function(){
+//             return t.closePopup();
+//           });
+//         }
+//       },
+//     ]
+//   });
+// };
 
 TrelloPowerUp.initialize({
   'board-buttons': function(t, options){
