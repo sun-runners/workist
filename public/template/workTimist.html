@@ -1,0 +1,78 @@
+<html>
+<head>
+    <!-- Bower -->
+    <link rel="stylesheet" href="../bower_components/reset.css/reset.css">
+    <!-- Custom -->
+    <link rel="stylesheet" href="../css/sanfrancisco-font.css">
+    <link rel="stylesheet" href="../css/main.css">
+
+    <!-- CDN -->
+    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+    <!-- Bower -->
+    <script src="../bower_components/cssist/cssist.js"></script>
+    <script src="../bower_components/moment/moment.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular/angular-route.js"></script>
+
+    <!-- Custom -->
+    <script src="../js/statistics/app.js"></script>
+
+    <!-- Directives -->
+    <script src="../js/statistics/directives/weeklyDir.js"></script>
+    <script src="../js/statistics/directives/monthlyDir.js"></script>
+    <script src="../js/statistics/directives/yearlyDir.js"></script>
+    <script src="../js/statistics/directives/timeDir.js"></script>
+    <script src="../js/statistics/directives/taskDir.js"></script>
+    <script src="../js/calendar/birthdayDir.js"></script>
+    <script src="../js/calendar/holidayDir.js"></script>
+
+    <!-- Services -->
+    <script src="../js/services/apiS.js"></script>
+    <script src="../js/services/dayS.js"></script>
+    <script src="../js/services/holidayS.js"></script>
+    <script src="../js/services/nationalityS.js"></script>
+    <script src="../js/services/weekS.js"></script>
+    <script src="../js/services/monthS.js"></script>
+    <script src="../js/services/yearS.js"></script>
+    <script src="../js/services/timeS.js"></script>
+    <script src="../js/services/winS.js"></script>
+    <script src="../js/services/taskS.js"></script>  
+    <script src="../js/services/birthdayS.js"></script>
+    <script src="../js/services/holidayS.js"></script>
+    <script src="../js/services/calendarS.js"></script>
+ 
+    <title>WorkTimist</title>
+</head>
+<body class="p-r f-l w-100" ng-app="workingHoursTrello" ng-controller="mainCtrl">
+    <div class="bo_b-1px" style="background: white; width: 100%; color: #777777;">
+        <div style="width:100%;">
+            <span class="cursor-pointer"
+            style="line-height:21px; font-size: 15px; padding-top: 21px; padding-bottom: 21px; padding-left: 24px; padding-right: 24px; text-align: center; text-transform: uppercase">
+                <a ng-click="switchSub('attendance')">Attendance</a>
+            </span>
+            <span class="cursor-pointer" 
+            style="line-height:21px; font-size: 15px; padding-top: 21px; padding-bottom: 21px; padding-left: 24px; padding-right: 24px; text-align: center; text-transform: uppercase">
+                <a ng-click="switchSub('award')">AWARD</a>
+            </span>
+            <span class="cursor-pointer" 
+            style="line-height:21px; font-size: 15px; padding-top: 21px; padding-bottom: 21px; padding-left: 24px; padding-right: 24px; text-align: center; text-transform: uppercase">
+                <a ng-click="switchSub('attendance')">SALARY</a>
+            </span>
+            <span class="cursor-pointer" 
+            style="line-height:21px; font-size: 15px; padding-top: 21px; padding-bottom: 21px; padding-left: 24px; padding-right: 24px; text-align: center; text-transform: uppercase">
+                <a ng-click="switchSub('calendar')">CALENDAR</a>
+            </span>
+        </div>
+        <div style="width:100%;">
+            <span  ng-repeat="item in subMenu" style="line-height:21px; font-size: 15px; padding-top: 12px; padding-bottom: 12px; padding-left: 21px; padding-right: 21px;">
+                <p class="tt-c cursor-pointer" ng-click="changeTemplate(item)"><a  href="#!{{item}}">{{item}}</a></p>
+            </span>
+        </div>
+    </div>
+    <div id="target" class='w-100'>
+            <div ng-view class="w-100"> <!-- the template will be rendered here --></div>
+       
+    </div>
+
+</body>
+</html>

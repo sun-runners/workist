@@ -1,9 +1,33 @@
 angular.module('workingHoursTrello', [
-
-]).config(function($sceDelegateProvider){
-
+  'ngRoute'
+]).config(function($sceDelegateProvider, $routeProvider){
   // Codes will he here
   $sceDelegateProvider.resourceUrlWhitelist(['**']);
+  $routeProvider
+    .when("/weekly", {
+        template : "<weekly-dir></weekly-dir>"
+    })
+    .when("/monthly", {
+        template : "<monthly-dir></monthly-dir>"
+    })
+    .when("/yearly", {
+        template : "<yearly-dir></yearly-dir>"
+    })
+    .when("/time", {
+        template : "<time-dir></time-dir>"
+    })
+    .when("/task", {
+      template : "<task-dir></task-dir>"
+    })
+    .when("/holiday", {
+    template : "<holiday-dir></holiday-dir>"
+    })
+    .when("/birthday", {
+      template : "<birthday-dir></birthday-dir>"
+    })
+    .otherwise({
+      template : "<weekly-dir></weekly-dir>"
+    });
 
 }).run(function($rootScope, $http){
 
@@ -23,8 +47,6 @@ angular.module('workingHoursTrello', [
   $rootScope.increaseYear = function(){
     $rootScope.moment.add(1, 'years');
   };
-
-
 
   // Decrease Function Section
   $rootScope.decreaseWeek = function(){
@@ -56,4 +78,25 @@ angular.module('workingHoursTrello', [
   }, true);
 
  const t = window.TrelloPowerUp.iframe();
+
+}).controller('mainCtrl', function($scope, $compile) {
+
+	$scope.template = 'monthlys';
+	$scope.subMenu = ['weekly', 'monthly', 'yearly'];
+  $scope.activeSub = 'weekly';
+  
+	$scope.switchSub = (menuOf) => {
+		switch (menuOf) {
+			case 'attendance':
+				$scope.subMenu = ['weekly', 'monthly', 'yearly'];
+				break;
+			case 'award':
+				$scope.subMenu = ['time', 'task'];
+				break;
+			case 'calendar':
+				$scope.subMenu = ['birthday', 'holiday'];
+				break;
+		}
+	}	
 });
+
