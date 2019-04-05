@@ -44,19 +44,23 @@
  
     <title>WorkTimist</title>
 </head>
-<body class="p-r f-l w-100" ng-app="workingHoursTrello" ng-controller="mainCtrl">
-    <div style="background: white; width: 100%; color: #777777;">
-        <div style="width:100%;">
-            <span ng-repeat="item in mainMenu" class="cursor-pointer tt-u pt-21px pb-21px pl-24px pr-24px t-c" ng-class="{'b-73AFE4 c-we':  activeMenu == item.title}" 
-            ng-click="activateMenu(item.title)">
-                <a ng-click="switchSub(item.title)" href="#!{{item.active}}" style="text-decoration: none;">{{item.title}}</a>
-            </span>
-            <span class="cursor-pointer tt-u pt-21px pb-21px pl-24px pr-24px t-c bo_l-1px"  ng-click="">
-                <a style="text-decoration: none;"><img class="h-20px" src="../asset/camera_pic.png" ng-click="openModal()"></a>
-            </span>
+<body class="p-r f-l w-100 "  ng-app="workingHoursTrello" ng-controller="mainCtrl">
+    <div class="" style="background: white; width: 100%; color: #777777;">
+        <div class="w-100 d-fx jc-sb h-62px">
+            <div class="w-165px pt-10px pl-24px pr-24px t-c"><img class="h-50px" src="../asset/logo.png"></div>
+
+            <div class="h-100 d-fx">
+                <span ng-repeat="item in mainMenu" class="cursor-pointer tt-u pt-21px pb-21px pl-24px pr-24px t-c" ng-class="{'b-73AFE4 c-we':  activeMenu == item.title}" 
+                ng-click="activateMenu(item.title)">
+                    <a ng-click="switchSub(item.title)" href="#!{{item.active}}" style="text-decoration: none;">{{item.title}}</a>
+                </span>
+                <span class="cursor-pointer tt-u pt-21px pb-21px pl-24px pr-24px t-c bo_l-1px bo-gy"  ng-click="">
+                    <a style="text-decoration: none;"><img class="h-20px" src="../asset/camera_pic.png" ng-click="openModal()"></a>
+                </span>
+            </div>
         </div>
         <span style="width:100%; height:1px; background: #EAEAEA;"></span>
-        <div style="width:100%;">
+        <div class="w-100 pl-40px">
             <span  ng-repeat="item in subMenu" 
             ng-class="{'active_subMenu':  activeSub == item}"
             style=" font-size: 15px; padding-top: 12px; padding-bottom: 12px; padding-left: 21px; padding-right: 21px;">
@@ -69,8 +73,9 @@
         </div>
     </div>
     <span class="" style="width:100%; height:2px; background: #EAEAEA;"></span>
-    <div  class='w-100'  id="targetDiv">
-            <div ng-view class="w-100"></div><!-- the template will be rendered here -->
+    <div  class='w-100 pl-33px pr-33px'  id="targetDiv">
+            <div ng-view class="w-100"></div>
+            <!-- the template will be rendered here -->
     </div>
 
     <!-- Modal of Prited Screen here -->
