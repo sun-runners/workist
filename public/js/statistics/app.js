@@ -26,13 +26,13 @@ angular.module('workingHoursTrello', [
       template : "<birthday-dir></birthday-dir>"
     })
     .otherwise({
-      template : "<weekly-dir></weekly-dir>"
+      template : "<monthly-dir></monthly-dir>"
     });
 
 }).run(function($rootScope, $http){
   
   $rootScope.selectedMember = null; /** this will indicate who current selected Member */
-  $rootScope.changeSelectedMember = (memberId) => {$rootScope.selectedMember = memberId; console.log($rootScope.selectedMember)}
+  $rootScope.changeSelectedMember = (memberId) => $rootScope.selectedMember = memberId; 
 
   // Variable Section
   $rootScope.moment = moment();
@@ -88,7 +88,9 @@ angular.module('workingHoursTrello', [
   $scope.subMenu = ['weekly', 'monthly', 'yearly'];
   $scope.mainMenu = [{title:'attendance', active:'weekly'}, {title:'award', active:'time'}, {title:'salary', active:''}, {title:'calendar', active:'birthday'}];
   $scope.activeSub = 'weekly';
+  $scope.activateSub = (target) => $scope.activeSub = target; 
   $scope.activeMenu = 'attendance';
+  $scope.activateMenu = (target) => $scope.activeMenu = target;
   
 	$scope.switchSub = (menuOf) => {
       switch (menuOf) {
@@ -106,10 +108,40 @@ angular.module('workingHoursTrello', [
           break;
       }
     }	
-  
-  $scope.activateSub = (target) => $scope.activeSub = target; 
 
-  $scope.activateMenu = (target) => $scope.activeMenu = target;
+
+    $scope.openModal = function() {
+      $scope.target = document.querySelector('#targetDiv');
+      // the div where we append the target
+      $scope.showTarget = document.querySelector('#showTarget')
+      // Get the modal
+      $scope.modal = document.querySelector('#modalTimist');
+      // When the user clicks the button, open the modal 
+      $scope.modal.style.display = "block";
+        // showTarget.removeChild(canvas);
+        html2canvas($scope.target).then(function(canvas) {
+            $scope.showTarget.appendChild(canvas);
+        });
+    }
+    // When the user clicks on <span> (x), close the modal
+    $scope.closeModal = function() {
+        while ($scope.showTarget.firstChild) {
+          $scope.showTarget.removeChild($scope.showTarget.firstChild)
+        }
+        $scope.modal.style.display = "none";
+    };
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == $scope.modal) {
+            // showTarget.innerHTML=""
+            while ($scope.showTarget.firstChild) {
+              $scope.showTarget.removeChild($scope.showTarget.firstChild)
+            }
+            $scope.modal.style.display = "none";
+            }
+    };
+  
+  
 
 });
 

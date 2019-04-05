@@ -13,7 +13,7 @@
     <script src="../bower_components/moment/moment.js"></script>
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular/angular-route.js"></script>
-    <script src="../bower_components/html2Canvas/html2canvas.js"></script>
+    
 
     <!-- Custom -->
     <script src="../js/statistics/app.js"></script>
@@ -52,7 +52,7 @@
                 <a ng-click="switchSub(item.title)" href="#!{{item.active}}" style="text-decoration: none;">{{item.title}}</a>
             </span>
             <span class="cursor-pointer tt-u pt-21px pb-21px pl-24px pr-24px t-c bo_l-2px"  ng-click="">
-                <a style="text-decoration: none;">Print Screen</a>
+                <a style="text-decoration: none;"><img class="h-20px" src="../asset/camera_pic.png" ng-click="openModal()"></a>
             </span>
         </div>
         <span style="width:100%; height:1px; background: #EAEAEA;"></span>
@@ -69,10 +69,19 @@
         </div>
     </div>
     <span class="" style="width:100%; height:2px; background: #EAEAEA;"></span>
-    <div id="target" class='w-100'>
-            <div ng-view class="w-100"> <!-- the template will be rendered here --></div>
-       
+    <div  class='w-100'  id="targetDiv">
+            <div ng-view class="w-100"></div><!-- the template will be rendered here -->
     </div>
 
+    <!-- Modal of Prited Screen here -->
+    <div id="modalTimist" class="modal">
+        <div class="modal-content">
+            <span class="close" ng-click="closeModal()">&times;</span>
+            <div  id="showTarget">
+                <!-- Append the Print Screen Here -->
+            </div>
+        </div>
+    </div>
+    <script src="../bower_components/html2Canvas/html2canvas.js"></script>
 </body>
 </html>
