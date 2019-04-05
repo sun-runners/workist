@@ -26,7 +26,7 @@ angular.module('workingHoursTrello', [
       template : "<birthday-dir></birthday-dir>"
     })
     .otherwise({
-      template : "<monthly-dir></monthly-dir>"
+      template : "<weekly-dir></weekly-dir>"
     });
 
 }).run(function($rootScope, $http){
