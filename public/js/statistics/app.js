@@ -31,8 +31,8 @@ angular.module('workingHoursTrello', [
 
 }).run(function($rootScope, $http){
   
-  $rootScope.selectedMember = ''; /** this will indicate who current selected Member */
-  $rootScope.changeSelectedMember = (memberId) => $rootScope.selectedMember = memberId; 
+  $rootScope.selectedMember = null; /** this will indicate who current selected Member */
+  $rootScope.changeSelectedMember = (memberId) => {$rootScope.selectedMember = memberId; console.log($rootScope.selectedMember)}
 
   // Variable Section
   $rootScope.moment = moment();
