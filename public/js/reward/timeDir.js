@@ -36,6 +36,7 @@ angular.module('workingHoursTrello')
 			restrict: "EA",
 			replace: true,
 			scope: {},
-			templateUrl: "../template/rewards/directives/timeDir.html"
+			templateUrl: "../template/rewards/directives/timeDir.html" /** if Initialize from workTimist.html */
+			// templateUrl: "../../template/rewards/directives/timeDir.html" i
 		}
 	});

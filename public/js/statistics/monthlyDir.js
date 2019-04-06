@@ -20,9 +20,7 @@ angular.module('workingHoursTrello')
 				    let end=7;
 				    let weekNumber = 1;
 				    let monthMonthly = month+1;
-				    if (monthMonthly <= 9) {
-				    	monthMonthly = "0"+ monthMonthly
-				    }
+				    if (monthMonthly <= 9) { monthMonthly = "0"+ monthMonthly}
 				    while(start<=numDays){
 				        weeks.push({year: year, month: monthMonthly, week:weekNumber, start:start, end:end, startFull: year + "/" + monthMonthly + "/" + start, endFull: year + "/" + monthMonthly + "/" + end,});
 				        weekNumber = weekNumber + 1;
@@ -68,6 +66,7 @@ angular.module('workingHoursTrello')
 			restrict: "EA",
 			replace: true,
 			scope: {},
-			templateUrl: "../template/statistics/directives/monthlyDir.html"
+			templateUrl: "../template/statistics/directives/monthlyDir.html" /** if Initialize from workTimist.html */
+			// templateUrl: "../../template/statistics/directives/monthlyDir.html"
 		}
 	});

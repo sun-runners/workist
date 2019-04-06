@@ -58,6 +58,7 @@ angular.module('workingHoursTrello')
 			restrict: "EA",
 			replace: true,
 			scope: {},
-			templateUrl: "../template/calendar/directives/birthdayDir.html",
+			templateUrl: "../template/calendar/directives/birthdayDir.html", /** if Initialize from workTimist.html */
+			// templateUrl: "../../template/calendar/directives/birthdayDir.html"
 	  	}
 	});

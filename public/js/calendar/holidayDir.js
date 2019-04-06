@@ -63,6 +63,7 @@ angular.module('workingHoursTrello')
 			restrict: "EA",
 			replace: true,
 			scope: {},
-			templateUrl: "../template/calendar/directives/holidayDir.html",
+			templateUrl: "../template/calendar/directives/holidayDir.html", /** if Initialize from workTimist.html */
+			// templateUrl: "../../template/calendar/directives/holidayDir.html",
 	  	}
 	});
