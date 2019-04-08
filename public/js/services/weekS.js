@@ -119,7 +119,7 @@ angular.module('workingHoursTrello').service('weekS', function(dayS){
       for (let i = 0; i < datesArray.length; i++) {
         let rawDates = datesArray[i];
         let dates = new Date(rawDates).getDay();
-        if (dates != 6 && dates != 5) {
+        if (dates != 6 && dates != 0) {
           datesNewDates.push(rawDates)
         }
       }
