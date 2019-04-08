@@ -4,7 +4,7 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
         let foundList =  boardLists.find((list) => list.name == nameToFind)
         return foundList.id;
     }
-    this.getEntryDate = (boardCards, listId, memberId) => {
+    this.getEntryDate = (boardCards, listId, memberId) => { /** we get the entry date of the member */
         let foundCard = boardCards.find((card) => card.idMembers == memberId && card.idList == listId);
         return new Date(foundCard.name.substr(0,foundCard.name.indexOf(' ')));
     }
@@ -20,15 +20,30 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
     
         return months;
     }
-    
-    this.monthDuration = (boardLists, boardCards, memberId, currentDate, nameToFind) => {
-        try {
+    this.monthDuration = (boardLists, boardCards, memberId, nameToFind, currentDate) => {
+        try { /** we get the total duration vy month */
             let listId = this.getListByName(boardLists, nameToFind);
             let entryDate = this.getEntryDate(boardCards, listId, memberId);
             let Month = this.diffInMonths(entryDate, currentDate);
         return  Month;
         } catch (error) {
-            return '-'
+            return '-';
+        }
+    }
+    this.salaryFromCardName = (boardCards, listId, memberId) => {
+        let foundCard = boardCards.find((card) => card.idMembers == memberId && card.idList == listId);
+        return salary = foundCard.name.substr(foundCard.name.indexOf(' ')+1);
+        // return foundCard
+    }
+
+    this.salary = (boardLists, boardCards, memberId, nameToFind) => {
+        try {
+            let listId = this.getListByName(boardLists, nameToFind);
+            let startSalary = this.salaryFromCardName(boardCards, listId, memberId)
+           return parseInt(startSalary).toLocaleString() +' PHP'; /** parse string number to integer and add commas every 3 digits */
+            
+        } catch (error) {
+            return '-';
         }
     }
   });

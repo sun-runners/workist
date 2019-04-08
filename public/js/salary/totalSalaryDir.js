@@ -9,8 +9,8 @@ angular.module('workingHoursTrello')
 					apiS.calendarBoardLists().then((response) => scope.calendarLists = response.data /**  Get Boards Lists */);
 					apiS.calendarBoardCards().then((response) => scope.calendarCards = response.data /** Get Boards Cards */);
 					scope.menuItem = ['months', 'salary', 'percentage', 'bonuse', 'total salary'];
-					scope.getMonthDuration = (memberId) => totalSalaryS.monthDuration(scope.calendarLists, scope.calendarCards ,memberId , $rootScope.dt.Date, 'ENTERING DATE');
-					scope.getCurrentSalary = () => '$13,000';
+					scope.getMonthDuration = (memberId) => totalSalaryS.monthDuration(scope.calendarLists, scope.calendarCards ,memberId , 'ENTERING DATE', $rootScope.dt.Date);
+					scope.getCurrentSalary = (memberId) => totalSalaryS.salary(scope.calendarLists, scope.calendarCards ,memberId , 'ENTERING DATE');
 					scope.getPercentage = () => '100%';
 					scope.getBonuse = () => '(the Bonuse)';
 					scope.getTotalSalary = () => 'the total www';
