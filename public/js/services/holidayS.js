@@ -45,12 +45,8 @@ angular.module('workingHoursTrello').service('holidayS', function() {
         return cards;
     }
     this.getListByName = (strToFind, boardLists) => {
-        for (let x = 0; x < boardLists.length; x++) {
-            let list = boardLists[x]; /** we loop through the board' lists and getthe list id of the list base on the given name */
-            if (list.name == strToFind) {
-                return list.id;
-            }
-        }
+        let foundList = boardLists.find((list) => list.name == strToFind);
+        return foundList.id
     }
     this.getHolidayDates = (year, listId, boardCards) => {
         let cards = []; /** Here we get the Holiday Dates */

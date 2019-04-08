@@ -15,7 +15,7 @@ angular.module('workingHoursTrello')
 							{month:"Apr", value: 4},{month:"May", value: 5},{month:"Jun", value: 6},
 							{month: "Jul", value: 7},{month:"Aug", value:8},{month:"Sep", value: 9},
 							{month:"Oct",value:10}, {month:"Nov",value:11},{month:"Dec", value:12}
-						];									
+						];
 				};
 				initialize();
 

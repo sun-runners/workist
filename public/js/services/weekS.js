@@ -1,7 +1,7 @@
 //  ---------------------------------- Services To Get Weekly Output------------------------------------------------- //
   
   
-angular.module('workingHoursTrello').service('weekS', function(dayS, holidayS){
+angular.module('workingHoursTrello').service('weekS', function(dayS){
   
     this.weekDatesArray = (week) => {
       let weekDate = [];
@@ -21,11 +21,11 @@ angular.module('workingHoursTrello').service('weekS', function(dayS, holidayS){
         let dateRef = nameToFind.getFullYear()+'/'+nameToFind.getMonth()+'/'+nameToFind.getDate();
           // We loop through the boardsLists
           for (var x = 0; x < boardsLists.length; x++) {
-            let boardsListArray = boardsLists[x];
-            let boardListNameParsed = new Date(boardsListArray.name.substr(0,boardsListArray.name.indexOf(' ')));
-            let dateList = boardListNameParsed.getFullYear()+'/'+boardListNameParsed.getMonth()+'/'+boardListNameParsed.getDate();
+            let boardListName = boardsLists[x];
+            let listName = new Date(boardListName.name.substr(0,boardListName.name.indexOf(' ')));
+            let dateList = listName.getFullYear()+'/'+listName.getMonth()+'/'+listName.getDate();
             if (dateList == dateRef) { /** we compare the Array weekly Date to our Array of Board's Lists */
-            foundListWeek.push(boardsListArray.id); /** If True we push it to the FoundListWeek */
+            foundListWeek.push(boardListName.id); /** If True we push it to the FoundListWeek */
             }
           }
         }

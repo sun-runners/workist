@@ -19,12 +19,8 @@ angular.module('workingHoursTrello').service('dayS', function() {
         }
     }
     this.findListMemberCard = (cardsArray, ownerId, list) => { /** Get Members Cards */
-      for (let i = 0; i < cardsArray.length; i++) { 
-        const cards = cardsArray[i];
-        if (cards.idMembers == ownerId && cards.idList == list.id) {
-          return cards;
-        }
-      }	
+      let foundCard = cardsArray.find(card => card.idMembers == ownerId && card.idList == list.id)
+      return foundCard
     }
     this.calculateCardNameToHours = (card) => {
       if (card.name.match(/[a-z]/i)) { /** Card name: 12-13+14-18  to hours = 5*/

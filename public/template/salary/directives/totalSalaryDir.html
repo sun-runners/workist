@@ -1,3 +1,51 @@
-<div>
-    <h1>Hello World</h1>
+<div class="w-100 c-ACACAC">
+    <div class="w-100 h-69px d-fx fxd-c ai-c">
+      <div class="t-0 h-100 c-333333 w-300px d-fx jc-c mt-11px">
+        <button class="w-35px h-27px mr-30px f-l fw-500" ng-click="$root.decreaseYear();">
+          <span class="f-l">{{"<"}}</span>
+        </button>
+        <span class="f-26px fw-900 cen-y f-l c-333333 lh-29px tt-u">
+          {{$root.dt.Date|date: 'yyyy'}}
+        </span>
+        <button class="w-35px h-27px ml-25px f-r c-333333 fw-500"  ng-click="$root.increaseYear();">
+          <span class="f-r"> {{">"}}</span>
+        </button>
+    </div>
+  </div>
+  <div class="w-100 b-gy o-30" style="height:1px"></div>
+  <div class="w-100">
+    <table class="w-100 t-c">
+      <tr class="w-100 t-60px h-45px bg-FFFFFF  c-BDBDBD">
+        <!-- name -->
+        <th><span  class="f-12px h-18 lh-17 tt-u">NAME</span></th>
+        <!-- dts -->
+        <th ng-repeat="item in menuItem">
+          <!-- month/Days -->
+          <p class="f-12px h-18 lh-17 tt-u">
+            {{item}}
+          </p>
+        </th>
+      </tr>
+      <!-- repeating output base on Username -->
+      <tr class="t-26 b-64 h-50px c-686868" ng-repeat="member in boardMembers" 
+      ng-click="$root.changeSelectedMember(member.fullName)" ng-class="{selected:  member.fullName == $root.selectedMember}">
+        <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
+        <td class="t-26 b-64">
+          <span class="f-12px lh-17px h-18">{{getMonthDuration(member.id)}}</span>
+        </td>
+        <td class="t-26 b-64">
+          <span class="f-12px lh-17px h-18">{{getCurrentSalary()}}</span>
+        </td>
+        <td class="t-26 b-64">
+          <span class="f-12px lh-17px h-18">{{getPercentage()}}</span>
+        </td>
+        <td class="t-26 b-64">
+          <span class="f-12px lh-17px h-18">{{getBonuse()}}</span>
+        </td>
+        <td class="t-26 b-64">
+          <span class="f-12px lh-17px h-18">{{getTotalSalary()}}</span>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>

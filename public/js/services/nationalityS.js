@@ -16,6 +16,7 @@ angular.module('workingHoursTrello').service('nationalityS', function(holidayS) 
             for (let x = 0; x < nation.members.length; x++) {
                 const member = nation.members[x];
                if (idMember == member) {
+                   
                    return nation.name /** will return either philippines or korea */
                }
             }
