@@ -31,10 +31,10 @@
       ng-click="$root.changeSelectedMember(member.fullName)" ng-class="{selected:  member.fullName == $root.selectedMember}">
         <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{getMonthDuration(member.id)}}</span>
+          <span class="f-12px lh-17px h-18">{{monthNumber = getMonthDuration(member.id)}}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{getCurrentSalary(member.id)}}</span>
+          <span class="f-12px lh-17px h-18">{{getCurrentSalary(member.id, monthNumber)}}</span>
         </td>
         <td class="t-26 b-64">
           <span class="f-12px lh-17px h-18">{{getPercentage()}}</span>

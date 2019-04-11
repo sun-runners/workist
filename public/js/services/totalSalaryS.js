@@ -9,18 +9,16 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
         return new Date(foundCard.name.substr(0,foundCard.name.indexOf(' ')));
     }
     this.diffInMonths = (from, to) => {
-        var months = to.getMonth() - from.getMonth() + (12 * (to.getFullYear() - from.getFullYear()));
-    
+        let months = to.getMonth() - from.getMonth() + (12 * (to.getFullYear() - from.getFullYear()));
         if(to.getDate() < from.getDate()){
-            var newFrom = new Date(to.getFullYear(),to.getMonth(),from.getDate());
+            let newFrom = new Date(to.getFullYear(),to.getMonth(),from.getDate());
             if (to < newFrom  && to.getMonth() == newFrom.getMonth() && to.getYear() %4 != 0){
                 months--;
             }
         }
-    
         return months;
     }
-    this.monthDuration = (boardLists, boardCards, memberId, nameToFind, currentDate) => {
+    this.monthDuration = (boardLists, boardCards, nameToFind, currentDate, memberId) => {
         try { /** we get the total duration vy month */
             let listId = this.getListByName(boardLists, nameToFind);
             let entryDate = this.getEntryDate(boardCards, listId, memberId);
@@ -35,13 +33,23 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
         return salary = foundCard.name.substr(foundCard.name.indexOf(' ')+1);
         // return foundCard
     }
-
-    this.salary = (boardLists, boardCards, memberId, nameToFind) => {
+    this.increasePer = (monthDuration) => {
+        let result = ((divResult = monthDuration / 6) <= 0 ? 0 : Math.floor(divResult));
+        if (result > 2) {
+            return ((divResult = monthDuration / 12) <= 0 ? 0 : Math.floor(divResult) + 1);
+        }
+        return result
+    }
+    this.currentIncreased = (increasedPer, value) => {
+        return value * increasedPer;
+    }
+    this.salary = (boardLists, boardCards, nameToFind, memberId, monthDuration) => {
         try {
             let listId = this.getListByName(boardLists, nameToFind);
             let startSalary = this.salaryFromCardName(boardCards, listId, memberId)
-           return parseInt(startSalary).toLocaleString() +' PHP'; /** parse string number to integer and add commas every 3 digits */
-            
+            let increasePer = this.increasePer(monthDuration);
+            let salaryIncreased = this.currentIncreased(increasePer, 5000)
+           return (parseInt(startSalary) + parseInt(salaryIncreased)).toLocaleString() +' PHP'; /** parse string number to integer and add commas every 3 digits */
         } catch (error) {
             return '-';
         }
