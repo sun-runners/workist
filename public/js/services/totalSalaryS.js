@@ -43,7 +43,7 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
     this.currentIncreased = (increasedPer, value) => {
         return value * increasedPer;
     }
-    this.salary = (boardLists, boardCards, nameToFind, memberId, monthDuration) => {
+    this.salary = (boardLists, boardCards, nameToFind, memberId, monthDuration) => { /** get salary per month */
         try {
             let listId = this.getListByName(boardLists, nameToFind);
             let startSalary = this.salaryFromCardName(boardCards, listId, memberId)
@@ -53,5 +53,29 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
         } catch (error) {
             return '-';
         }
+    }
+    this.betweenDates = (startDate, endDate) => {
+        let dates = [], /** to get all the dates between two dates */
+            currentDate = startDate,
+            addDays = function(days) {
+              let date = new Date(this.valueOf());
+              date.setDate(date.getDate() + days);
+              return date;
+            };
+        while (currentDate <= endDate) {
+            // if (condition) {
+                
+            // }
+          dates.push(currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getDate());
+          currentDate = addDays.call(currentDate, 1);
+        }
+        return dates;
+      };
+
+    this.percentage = (boardLists, boardCards, nameToFind, currentDate, memberId) => {
+        let listId = this.getListByName(boardLists, nameToFind);
+        let entryDate = this.getEntryDate(boardCards, listId, memberId);
+        let datesToWork = this.betweenDates(entryDate, currentDate)
+        return datesToWork;
     }
   });

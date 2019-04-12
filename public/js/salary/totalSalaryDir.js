@@ -12,7 +12,7 @@ angular.module('workingHoursTrello')
 					scope.getMonthDuration = (memberId) => totalSalaryS.monthDuration(scope.calendarLists, scope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId);
 					// scope.getMonthDuration = (memberId) => totalSalaryS.monthDuration(scope.calendarLists, scope.calendarCards, 'ENTERING DATE', new Date('2020/11/14'), memberId );
 					scope.getCurrentSalary = (memberId, monthNumber) => totalSalaryS.salary(scope.calendarLists, scope.calendarCards, 'ENTERING DATE', memberId, monthNumber);
-					scope.getPercentage = () => '100%';
+					scope.getPercentage = (memberId) => totalSalaryS.percentage(scope.calendarLists, scope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId);
 					scope.getBonuse = () => '(the Bonuse)';
 					scope.getTotalSalary = () => 'the total www';
 				}
