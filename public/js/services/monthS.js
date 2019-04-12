@@ -11,7 +11,9 @@ angular.module('workingHoursTrello').service('monthS', function(weekS) {
         let result = [];
         while (date.getMonth() == month - 1) {
         //   result.push(`${date.getDate()}-${names[date.getDay()]}`);
-            result.push(date.getFullYear()+ "/" + monthMomment +"/"+ date.getDate());
+            if (date.getDay() != 6 && date.getDay() != 0) {
+                result.push(date.getFullYear()+ "/" + monthMomment +"/"+ date.getDate());
+            }
             date.setDate(date.getDate() + 1);
         }
         return result;
@@ -54,7 +56,7 @@ angular.module('workingHoursTrello').service('monthS', function(weekS) {
     }
     this.monthsNeedtoWork = (year, month) => { /** Get all the days member have to work this month*/
       let monthsDatesByDay = this.monthDaysDate(year, month);
-      let monthsToWorkDates = weekS.removeWeekEnds(monthsDatesByDay);
-      return monthsToWorkDates;
+    //   let monthsToWorkDates = weekS.removeWeekEnds(monthsDatesByDay);
+      return monthsDatesByDay;
     }
   });

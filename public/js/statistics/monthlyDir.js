@@ -34,7 +34,7 @@ angular.module('workingHoursTrello')
 				 scope.monthlyWeeks =  getWeeklyMonth(scope.thisDate.month(), scope.thisDate.year())  
 				};
 				// Watch Function Section
-				$rootScope.$watch('moment', function($scope){
+				$rootScope.$watch('moment', function(){
 					initialize();
 				  }, true);	
 				apiS.getBoardMembers().then((response) => scope.boardMembers = response.data /** Get Boards Members */);
@@ -60,7 +60,7 @@ angular.module('workingHoursTrello')
 				scope.getMonthlyTotal = (memberId) => { /** we get the holidays base on nationality */
 					let country = nationalityS.membersNationality(memberId, scope.calendarCards, scope.calendarLists);
 					let monthlyToWork = monthS.monthsNeedtoWork(scope.thisDate.year(), scope.thisDate.month()+1);
-					return holidayS.datesHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, monthlyToWork);
+					return holidayS.datesHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, monthlyToWork); 
 				}
 			},
 			restrict: "EA",
