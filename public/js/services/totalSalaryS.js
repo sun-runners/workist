@@ -1,4 +1,3 @@
-
 angular.module('workingHoursTrello').service('totalSalaryS', function(){
     this.getListByName = (boardLists, nameToFind) => {
         let foundList =  boardLists.find((list) => list.name == nameToFind)
@@ -63,19 +62,20 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
               return date;
             };
         while (currentDate <= endDate) {
-            // if (condition) {
-                
-            // }
-          dates.push(currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getDate());
-          currentDate = addDays.call(currentDate, 1);
+            if (currentDate.getDay() != 6 && currentDate.getDay() != 0) {
+                dates.push(currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getDate());
+            }
+            currentDate = addDays.call(currentDate, 1);
         }
         return dates;
       };
-
-    this.percentage = (boardLists, boardCards, nameToFind, currentDate, memberId) => {
-        let listId = this.getListByName(boardLists, nameToFind);
-        let entryDate = this.getEntryDate(boardCards, listId, memberId);
-        let datesToWork = this.betweenDates(entryDate, currentDate)
-        return datesToWork;
+    this.possibleWorkingDates = (boardLists, boardCards, nameToFind, currentDate, memberId) => {
+        let listId = this.getListByName(boardLists, nameToFind); /** find the list base on the given name */
+        let entryDate = this.getEntryDate(boardCards, listId, memberId); /** Date when the member join */
+        if (entryDate.getFullYear() == currentDate.getFullYear()) {  
+            return datesToWork = this.betweenDates(entryDate, currentDate)
+        }else{
+            return datesToWork = this.betweenDates(new Date(`${currentDate.getFullYear()}/01/1`), currentDate)
+        }
     }
   });
