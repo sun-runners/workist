@@ -53,7 +53,7 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
             return '-';
         }
     }
-    this.betweenDates = (startDate, endDate) => {
+    this.betweenDates = (startDate, endDate, weekEnds=null) => {
         let dates = [], /** to get all the dates between two dates */
             currentDate = startDate,
             addDays = function(days) {
@@ -62,7 +62,11 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
               return date;
             };
         while (currentDate <= endDate) {
-            if (currentDate.getDay() != 6 && currentDate.getDay() != 0) {
+            if (weekEnds == null) {
+                if (currentDate.getDay() != 6 && currentDate.getDay() != 0) {
+                    dates.push(currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getDate());
+                }
+            }else{
                 dates.push(currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getDate());
             }
             currentDate = addDays.call(currentDate, 1);
@@ -70,12 +74,16 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
         return dates;
       };
     this.possibleWorkingDates = (boardLists, boardCards, nameToFind, currentDate, memberId) => {
-        let listId = this.getListByName(boardLists, nameToFind); /** find the list base on the given name */
-        let entryDate = this.getEntryDate(boardCards, listId, memberId); /** Date when the member join */
-        if (entryDate.getFullYear() == currentDate.getFullYear()) {  
-            return datesToWork = this.betweenDates(entryDate, currentDate)
-        }else{
-            return datesToWork = this.betweenDates(new Date(`${currentDate.getFullYear()}/01/1`), currentDate)
+        try {
+            let listId = this.getListByName(boardLists, nameToFind); /** find the list base on the given name */
+            let entryDate = this.getEntryDate(boardCards, listId, memberId); /** Date when the member join */
+            if (entryDate.getFullYear() == currentDate.getFullYear()) {  
+                return datesToWork = this.betweenDates(entryDate, currentDate)
+            }else{
+                return datesToWork = this.betweenDates(new Date(`${currentDate.getFullYear()}/01/1`), currentDate)
+            }
+        } catch (error) {
+            
         }
     }
   });
