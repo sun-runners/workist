@@ -29,10 +29,17 @@ angular.module('workingHoursTrello', [
       template : "<weekly-dir></weekly-dir>"
     });
 
-}).run(function($rootScope, $http){
+}).run(function($rootScope, $http, apiS){
   
   $rootScope.selectedMember = null; /** this will indicate who current selected Member */
   $rootScope.changeSelectedMember = (memberId) => $rootScope.selectedMember = memberId; 
+
+  // We get the Api from trello
+  apiS.getBoardLists().then((response) => $rootScope.boardLists = response.data /**  Get Boards Lists */);
+  apiS.getBoardCards().then((response) => $rootScope.boardCards = response.data /** Get Boards Cards */);
+  apiS.getBoardMembers().then((response) => $rootScope.boardMembers = response.data /** Get Boards Members */);
+  apiS.calendarBoardLists().then((response) => $rootScope.calendarLists = response.data /**  Get Boards Lists of Work Timist Data */);
+  apiS.calendarBoardCards().then((response) => $rootScope.calendarCards = response.data /** Get Boards Cards of Work Timist Data */);
 
   // Variable Section
   $rootScope.moment = moment();
@@ -108,40 +115,38 @@ angular.module('workingHoursTrello', [
           break;
       }
     }	
+  $scope.openModal = function() {
+    $scope.target = document.querySelector('#targetDiv');
+    // the div where we append the target
+    $scope.showTarget = document.querySelector('#showTarget')
+    // Get the modal
+    $scope.modal = document.querySelector('#modalTimist');
+    // When the user clicks the button, open the modal 
+    $scope.modal.style.display = "block";
+      // showTarget.removeChild(canvas);
+      html2canvas($scope.target).then(function(canvas) {
+          $scope.showTarget.appendChild(canvas);
+      });
+  }
+  // When the user clicks on <span> (x), close the modal
+  $scope.closeModal = function() {
+      while ($scope.showTarget.firstChild) {
+        $scope.showTarget.removeChild($scope.showTarget.firstChild)
+      }
+      $scope.modal.style.display = "none";
+  };
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+      if (event.target == $scope.modal) {
+          // showTarget.innerHTML=""
+          while ($scope.showTarget.firstChild) {
+            $scope.showTarget.removeChild($scope.showTarget.firstChild)
+          }
+          $scope.modal.style.display = "none";
+          }
+  };
 
 
-    $scope.openModal = function() {
-      $scope.target = document.querySelector('#targetDiv');
-      // the div where we append the target
-      $scope.showTarget = document.querySelector('#showTarget')
-      // Get the modal
-      $scope.modal = document.querySelector('#modalTimist');
-      // When the user clicks the button, open the modal 
-      $scope.modal.style.display = "block";
-        // showTarget.removeChild(canvas);
-        html2canvas($scope.target).then(function(canvas) {
-            $scope.showTarget.appendChild(canvas);
-        });
-    }
-    // When the user clicks on <span> (x), close the modal
-    $scope.closeModal = function() {
-        while ($scope.showTarget.firstChild) {
-          $scope.showTarget.removeChild($scope.showTarget.firstChild)
-        }
-        $scope.modal.style.display = "none";
-    };
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == $scope.modal) {
-            // showTarget.innerHTML=""
-            while ($scope.showTarget.firstChild) {
-              $scope.showTarget.removeChild($scope.showTarget.firstChild)
-            }
-            $scope.modal.style.display = "none";
-            }
-    };
-  
-  
 
 });
 

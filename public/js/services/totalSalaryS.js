@@ -42,11 +42,12 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
     this.currentIncreased = (increasedPer, value) => {
         return value * increasedPer;
     }
+    this.percentage = (value1, value2) => Math.ceil((value1/value2) * 100);
     this.salary = (boardLists, boardCards, nameToFind, memberId, monthDuration) => { /** get salary per month */
         try {
             let listId = this.getListByName(boardLists, nameToFind);
             let startSalary = this.salaryFromCardName(boardCards, listId, memberId)
-            let increasePer = this.increasePer(monthDuration);
+            let increasePer = this.increasePer(monthDuration); /** the number of time the salary will have to increase */
             let salaryIncreased = this.currentIncreased(increasePer, 5000)
            return (parseInt(startSalary) + parseInt(salaryIncreased)).toLocaleString() +' PHP'; /** parse string number to integer and add commas every 3 digits */
         } catch (error) {
@@ -73,15 +74,28 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
         }
         return dates;
       };
-    this.possibleWorkingDates = (boardLists, boardCards, nameToFind, currentDate, memberId) => {
+    this.prevMonthsDate = (dates) => {
+        let prevDate = []
+        for (let i = 0; i < dates.length; i++) {
+            const date = new Date(dates[i]);
+            if (date.getMonth() < new Date().getMonth()) {
+                prevDate.push(date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate());
+            }
+        }
+        return prevDate
+    };
+    this.prevMonthsToWorkDates = (boardLists, boardCards, nameToFind, currentDate, memberId) => {
         try {
             let listId = this.getListByName(boardLists, nameToFind); /** find the list base on the given name */
             let entryDate = this.getEntryDate(boardCards, listId, memberId); /** Date when the member join */
+            let datesToWork = []
             if (entryDate.getFullYear() == currentDate.getFullYear()) {  
-                return datesToWork = this.betweenDates(entryDate, currentDate)
+                datesToWork = this.betweenDates(entryDate, currentDate)
             }else{
-                return datesToWork = this.betweenDates(new Date(`${currentDate.getFullYear()}/01/1`), currentDate)
+                datesToWork = this.betweenDates(new Date(`${currentDate.getFullYear()}/01/1`), currentDate)
             }
+            let prevDates = this.prevMonthsDate(datesToWork) /** we get the dates of previouse months */
+            return prevDates
         } catch (error) {
             
         }
