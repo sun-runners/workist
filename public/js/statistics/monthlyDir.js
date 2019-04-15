@@ -49,9 +49,6 @@ angular.module('workingHoursTrello')
 				scope.getMonthlyCard = (memberId) => { /** To calculate the total working days of the member per month*/
 					return monthS.getMonthsValue(scope.thisDate.year(), scope.thisDate.month()+1, scope.boardLists, memberId, scope.boardCards);
 				}
-				scope.getMonthlyNeedWork = () => { /** Get the total days members should work per month */
-					return monthS.monthsNeedtoWork(scope.thisDate.year(), scope.thisDate.month()+1);
-				}
 				scope.getWeeklyTotal = (memberId, theDates) => { /** we get the holidays base on nationality */
 					let country = nationalityS.membersNationality(memberId, scope.calendarCards, scope.calendarLists);
 					let weeklyToWork = monthS.weeklyNeedToWork(theDates.year, theDates.month, theDates.startFull, theDates.endFull);

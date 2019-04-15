@@ -18,7 +18,7 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
         return months;
     }
     this.monthDuration = (boardLists, boardCards, nameToFind, currentDate, memberId) => {
-        try { /** we get the total duration vy month */
+        try { /** we get the total duration per month */
             let listId = this.getListByName(boardLists, nameToFind);
             let entryDate = this.getEntryDate(boardCards, listId, memberId);
             let Month = this.diffInMonths(entryDate, currentDate);
