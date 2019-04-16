@@ -52,12 +52,12 @@ angular.module('workingHoursTrello')
 				scope.getWeeklyTotal = (memberId, theDates) => { /** we get the holidays base on nationality */
 					let country = nationalityS.membersNationality(memberId, scope.calendarCards, scope.calendarLists);
 					let weeklyToWork = monthS.weeklyNeedToWork(theDates.year, theDates.month, theDates.startFull, theDates.endFull);
-					return holidayS.datesHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, weeklyToWork);
+					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, weeklyToWork);
 				}
 				scope.getMonthlyTotal = (memberId) => { /** we get the holidays base on nationality */
 					let country = nationalityS.membersNationality(memberId, scope.calendarCards, scope.calendarLists);
 					let monthlyToWork = monthS.monthsNeedtoWork(scope.thisDate.year(), scope.thisDate.month()+1);
-					return holidayS.datesHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, monthlyToWork); 
+					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, monthlyToWork); 
 				}
 			},
 			restrict: "EA",

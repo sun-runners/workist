@@ -76,7 +76,7 @@ angular.module('workingHoursTrello').service('holidayS', function() {
         }
         return sameDates;
     }
-    this.datesHoliday = (country, year, boardLists, boardCards, workDate) => {
+    this.datesWithoutHoliday = (country, year, boardLists, boardCards, workDate) => {
        try {
         let listName = year + ' HOLIDAY ' + country;
         let listId = this.getListByName(listName, boardLists);

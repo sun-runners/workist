@@ -35,12 +35,12 @@ angular.module('workingHoursTrello')
 				scope.getMonthlyToWork = (memberId, month) => {
 					let country = nationalityS.membersNationality(memberId, scope.calendarCards, scope.calendarLists);
 					let toWork = monthS.monthsNeedtoWork(scope.thisDate.year(), month); /** get the total days to work whith holiday not a factor  */
-					return holidayS.datesHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, toWork);
+					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, toWork);
 				}
 				scope.getYearlyToWork = (memberId) => {
 					let country = nationalityS.membersNationality(memberId, scope.calendarCards, scope.calendarLists);
 					let toWork = yearS.yearsNeedToWork($rootScope.dt.year, scope.months); /** get the total days to work whith holiday not a factor  */
-					return holidayS.datesHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, toWork);
+					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, toWork);
 				}
 				scope.showMonthly = (work, toWork) => (work != 0) ? work+' / '+toWork : '-';
 

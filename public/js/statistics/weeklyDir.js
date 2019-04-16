@@ -39,7 +39,7 @@ angular.module('workingHoursTrello')
 				scope.getHolidays = (memberId, dates) => { /** we get the holidays base on nationality */
 					let country = nationalityS.membersNationality(memberId, scope.calendarCards, scope.calendarLists);
 					let weeklyToWork = weekS.weeklyNeedToWork(dates);
-					return holidayS.datesHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, weeklyToWork);
+					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, weeklyToWork);
 				}
 			},
 			restrict: "EA",

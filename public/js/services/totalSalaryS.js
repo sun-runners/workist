@@ -7,7 +7,7 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
         let foundCard = boardCards.find((card) => card.idMembers == memberId && card.idList == listId);
         return new Date(foundCard.name.substr(0,foundCard.name.indexOf(' ')));
     }
-    this.diffInMonths = (from, to) => {
+    this.diffInMonths = (from, to) => { /** we get the dirrerence in month */
         let months = to.getMonth() - from.getMonth() + (12 * (to.getFullYear() - from.getFullYear()));
         if(to.getDate() < from.getDate()){
             let newFrom = new Date(to.getFullYear(),to.getMonth(),from.getDate());
@@ -43,6 +43,7 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
         return value * increasedPer;
     }
     this.percentage = (value1, value2) => Math.ceil((value1/value2) * 100);
+    
     this.salary = (boardLists, boardCards, nameToFind, memberId, monthDuration) => { /** get salary per month */
         try {
             let listId = this.getListByName(boardLists, nameToFind);
@@ -63,7 +64,7 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
               return date;
             };
         while (currentDate <= endDate) {
-            if (weekEnds == null) {
+            if (weekEnds == null) { /** if null remove saturday and sunday */
                 if (currentDate.getDay() != 6 && currentDate.getDay() != 0) {
                     dates.push(currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getDate());
                 }
@@ -96,8 +97,18 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
             }
             let prevDates = this.prevMonthsDate(datesToWork) /** we get the dates of previouse months */
             return prevDates
-        } catch (error) {
-            
-        }
+        } catch (error) {}
+    }
+    this.annualLeaves = (boardLists, boardCards, nameToFind, currentDate, memberId) => {
+        try {
+            let listId = this.getListByName(boardLists, nameToFind);
+            let entryDate = this.getEntryDate(boardCards, listId, memberId) 
+            let currentLeaves 
+            if (entryDate.getFullYear() == currentDate.getFullYear()) {
+                return ((entryDate.getMonth() + 1) > 1) ? ((currentDate.getMonth() + 1) - entryDate.getMonth()) : currentDate.getMonth() + 1;
+            }else{
+                return currentDate.getMonth() + 1;
+            }
+        } catch (error) {}
     }
   });
