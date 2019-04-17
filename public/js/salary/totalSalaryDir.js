@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('workingHoursTrello')
-	.directive('salaryDir', function ($rootScope, totalSalaryS, nationalityS, holidayS, weekS, monthS) {
+	.directive('salaryDir', function ($rootScope, totalSalaryS, nationalityS, holidayS, weekS, monthS, taskS, timeS, winS) {
 		return {
 			link : function(scope, element, attrs){
           		function initialize() {
@@ -39,7 +39,21 @@ angular.module('workingHoursTrello')
 						return totalSalaryS.percentage(currentWorked, monthToWork);
 						// return "annual Leave: "+ myAnnualLeave + " Used Leave: " + usedLeave + " Available Leave: " + availableLeave;
 					}
-					scope.getBonuse = () => '(the Bonuse)';
+					scope.getBonuse = (memberId) => {
+						let leader = winS.leader($rootScope.calendarCards, memberId);
+						if (leader) {
+							 return "10,000 PHP (Leader)"; }
+						let monthlyTask = taskS.monthlyTasks($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);				
+						let winTask = winS.monthWinner($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards,'task');
+						let monthlyTime = timeS.monthlyTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);
+						let winTime = winS.monthWinner($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards);
+						if (monthlyTask == winTask) {
+							 return "5,000 PHP (Tasks)";
+						}else if (monthlyTime == winTime) {
+							return "5,000 PHP (Tasks)";
+						}				 
+						// return winTime + " :Win time " + monthlyTime + " --- " + winTask + " :Win task " + monthlyTask;
+					};
 					scope.getTotalSalary = () => 'the total www';
 				}
 				initialize();

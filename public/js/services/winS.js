@@ -82,4 +82,10 @@ angular.module('workingHoursTrello').service('winS', function(monthS, weekS) {
         return winnerTime;
       } catch (error) {}
     }
+    this.leader = (boardCards, memberId) => {
+      try {
+        let foundCard = boardCards.find((card) => card.idMembers == memberId && card.labels[0].name == 'leader')
+        return foundCard.idMembers
+      } catch (error) {}
+    }
   });
