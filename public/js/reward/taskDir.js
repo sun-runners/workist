@@ -18,19 +18,15 @@ angular.module('workingHoursTrello')
 						];
 				};
 				initialize();
-
-				apiS.getBoardMembers().then((response) => scope.boardMembers = response.data /** Get Boards Members */);
-				apiS.getBoardLists().then((response) => scope.boardLists = response.data /**  Get Boards Lists */);
-				apiS.getBoardCards().then((response) => scope.boardCards = response.data /** Get Boards Cards */);
 				
 				scope.getMonthlyTask = (month, memberId) => { /** To calculate the total time of the member per month */
-					return taskS.monthlyTasks($rootScope.dt.year ,month, scope.boardLists, memberId, scope.boardCards); /** year , month, boardLists, memberId, boardCards */
+					return taskS.monthlyTasks($rootScope.dt.year ,month, $rootScope.boardLists, memberId, $rootScope.boardCards); /** year , month, Lists, memberId, Cards */
 				}
 				scope.getYearlyTask = (memberId) => {   
-					return taskS.yearlyTasks($rootScope.dt.year, scope.months, scope.boardLists, memberId, scope.boardCards);
+					return taskS.yearlyTasks($rootScope.dt.year, scope.months, $rootScope.boardLists, memberId, $rootScope.boardCards);
 				}
 				scope.getWinMonth = (month) => {
-					return winS.monthWinner($rootScope.dt.year, month, scope.boardMembers, scope.boardLists, scope.boardCards,'task');
+					return winS.monthWinner($rootScope.dt.year, month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards,'task');
 				}
 			},
 			restrict: "EA",

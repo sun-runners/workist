@@ -52,7 +52,7 @@ angular.module('workingHoursTrello')
 						}else if (monthlyTime == winTime) {
 							return "5,000 PHP (Tasks)";
 						}				 
-						// return winTime + " :Win time " + monthlyTime + " --- " + winTask + " :Win task " + monthlyTask;
+						// return  winTask + " :Win task " + monthlyTask;
 					};
 					scope.getTotalSalary = () => 'the total www';
 				}
