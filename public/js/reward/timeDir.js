@@ -17,20 +17,15 @@ angular.module('workingHoursTrello')
 							{month:"Oct",value:10},{month:"Nov",value:11},{month:"Dec", value:12},
 						];									
 				};
-				initialize();
-
-				apiS.getBoardMembers().then((response) => scope.boardMembers = response.data /** Get Boards Members */);
-				apiS.getBoardLists().then((response) => scope.boardLists = response.data /**  Get Boards Lists */);
-				apiS.getBoardCards().then((response) => scope.boardCards = response.data /** Get Boards Cards */);
-				
+				initialize();	
 				scope.getMonthlyTime = (month, memberId) => { /** To calculate the total time of the member per month */
-					return timeS.monthlyTime($rootScope.dt.year, month, scope.boardLists, memberId, scope.boardCards); /** year , month, boardLists, memberId, boardCards */
+					return timeS.monthlyTime($rootScope.dt.year, month, $rootScope.boardLists, memberId, $rootScope.boardCards); /** year , month, Lists, memberId, Cards */
 				};
 				scope.getYearlyTime = (memberId) => { /** To calculate the total time of the member per year */
-					return timeS.yearlyTime($rootScope.dt.year, scope.months, scope.boardLists, memberId, scope.boardCards);
+					return timeS.yearlyTime($rootScope.dt.year, scope.months, $rootScope.boardLists, memberId, $rootScope.boardCards);
 				};
 				scope.getWinMonth = (month) => {
-					return winS.monthWinner($rootScope.dt.year, month, scope.boardMembers, scope.boardLists, scope.boardCards);
+					return winS.monthWinner($rootScope.dt.year, month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards);
 				}
 			},
 			restrict: "EA",
