@@ -3,10 +3,6 @@ angular.module('workingHoursTrello')
 		return {
 			link : function(scope, element, attrs){
 				// Initialize Function Section
-				apiS.getBoardMembers().then((response) => scope.boardMembers = response.data /** Get Boards Members */);
-				apiS.calendarBoardLists().then((response) => scope.calendarLists = response.data /**  Get Boards Lists */);
-				apiS.calendarBoardCards().then((response) => scope.calendarCards = response.data /** Get Boards Cards */);
-				
 				scope.today = new Date();
 				scope.currentMonth = scope.today.getMonth();
 				scope.currentMonthName = moment(scope.currentMonth + 1, 'MM').format('MMMM');
@@ -41,17 +37,17 @@ angular.module('workingHoursTrello')
 					scope.selectedMember = id; 				
 				}			
 				/** to get Member Day of Birth and Name of Month */
-				scope.getMemberBirthDate = (memberId) => birthdayS.getBirthdate(memberId, scope.calendarLists, scope.calendarCards, "BIRTHDAY");
+				scope.getMemberBirthDate = (memberId) => birthdayS.getBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY");
 				/** to get Member Birth Day */
-				scope.getMemberBirthDay = (memberId) => birthdayS.getBirthday(memberId, scope.calendarLists, scope.calendarCards, "BIRTHDAY");
+				scope.getMemberBirthDay = (memberId) => birthdayS.getBirthday(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY");
 				/** to get Member Birth Month */
-				scope.getMemberBirthMonth = (memberId) => birthdayS.getBirthMonth(memberId, scope.calendarLists, scope.calendarCards, "BIRTHDAY");
+				scope.getMemberBirthMonth = (memberId) => birthdayS.getBirthMonth(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY");
 				/** to get Member Birth Year */
-				scope.getMemberBirthYear = (memberId) => birthdayS.getBirthYear(memberId, scope.calendarLists, scope.calendarCards, "BIRTHDAY");
+				scope.getMemberBirthYear = (memberId) => birthdayS.getBirthYear(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY");
 				/** to get Member current Age */	 
-				scope.getMemberAge = (memberId) => birthdayS.getAge(memberId, scope.calendarLists, scope.calendarCards, "BIRTHDAY");
+				scope.getMemberAge = (memberId) => birthdayS.getAge(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY");
 				/** Function to show Calendar */
-				scope.initiateCalendar = () => calendarS.showCalendar(scope.currentMonth, scope.currentYear, scope.calendarLists, scope.calendarCards, "BIRTHDAY", scope.targetDay); 
+				scope.initiateCalendar = () => calendarS.showCalendar(scope.currentMonth, scope.currentYear, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", scope.targetDay); 
 					
 					
 			},

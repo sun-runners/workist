@@ -5,8 +5,8 @@ angular.module('workingHoursTrello')
 				function initialize() {
 					scope.getHoliday = (name) => { 
 						try { /** We create a list of cards base on the name given */
-							for (let i = 0; i < scope.calendarLists.length; i++) {
-								const list = scope.calendarLists[i];
+							for (let i = 0; i < $rootScope.calendarLists.length; i++) {
+								const list = $rootScope.calendarLists[i];
 								if (list.name == `${scope.currentYear} ${name}`) {
 									return list.id
 								}
@@ -15,10 +15,7 @@ angular.module('workingHoursTrello')
 					}
 					scope.swtichHoliday = "PHILIPPINES";
 				}
-				initialize()
-				apiS.calendarBoardLists().then((response) => scope.calendarLists = response.data /**  Get Boards Lists */);
-				apiS.calendarBoardCards().then((response) => scope.calendarCards = response.data /** Get Boards Cards */);
-				
+				initialize()			
 				scope.today = new Date();
 				scope.currentMonth = scope.today.getMonth();
 				scope.currentMonthName = moment(scope.currentMonth + 1, 'MM').format('MMMM')
@@ -58,7 +55,7 @@ angular.module('workingHoursTrello')
 				scope.changeHoliday = (country) => { if (country == "KOREA") { scope.swtichHoliday = "KOREA"}
 					else{scope.swtichHoliday = "PHILIPPINES"}
 				}
-				scope.initiateCalendar = () => calendarS.showCalendar(scope.currentMonth, scope.currentYear, scope.calendarLists, scope.calendarCards, "HOLIDAY", scope.targetDay, scope.swtichHoliday);
+				scope.initiateCalendar = () => calendarS.showCalendar(scope.currentMonth, scope.currentYear, $rootScope.calendarLists, $rootScope.calendarCards, "HOLIDAY", scope.targetDay, scope.swtichHoliday);
 			},	
 			restrict: "EA",
 			replace: true,
