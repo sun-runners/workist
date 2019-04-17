@@ -20,26 +20,20 @@ angular.module('workingHoursTrello')
 					}
 				};
 				// Watch Function Section
-				$rootScope.$watch('moment', function( $scope){
+				$rootScope.$watch('moment', function(){
 					initialize();
 			  	}, true);   
-				apiS.getBoardMembers().then((response) => scope.boardMembers = response.data /** Get Boards Members */);
-				apiS.getBoardLists().then((response) => scope.boardLists = response.data /**  Get Boards Lists */);
-				apiS.getBoardCards().then((response) => scope.boardCards = response.data /** Get Boards Cards */);
-				apiS.calendarBoardLists().then((response) => scope.calendarLists = response.data /**  Get Boards Lists */);
-				apiS.calendarBoardCards().then((response) => scope.calendarCards = response.data /** Get Boards Cards */);
-				
 				scope.getDailyCard = (dateOfDay, memberId) => { /** Get daily card output */
-					return dayS.getDailyCardValue(dateOfDay, memberId, scope.boardLists, scope.boardCards)
+					return dayS.getDailyCardValue(dateOfDay, memberId, $rootScope.boardLists, $rootScope.boardCards)
 				}
 				scope.getWeeklyCard = (dateWeeks, memberId) => { /** To calculate the total working days of the member */
 					let datesOfTheWeek = weekS.weekDatesArray(dateWeeks);					
-					return weekS.getDaysTotalOutput(datesOfTheWeek, memberId, scope.boardLists, scope.boardCards);
+					return weekS.getDaysTotalOutput(datesOfTheWeek, memberId, $rootScope.boardLists, $rootScope.boardCards);
 				}
 				scope.getHolidays = (memberId, dates) => { /** we get the holidays base on nationality */
-					let country = nationalityS.membersNationality(memberId, scope.calendarCards, scope.calendarLists);
+					let country = nationalityS.membersNationality(memberId, $rootScope.calendarCards, $rootScope.calendarLists);
 					let weeklyToWork = weekS.weeklyNeedToWork(dates);
-					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, scope.calendarLists, scope.calendarCards, weeklyToWork);
+					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, weeklyToWork);
 				}
 			},
 			restrict: "EA",

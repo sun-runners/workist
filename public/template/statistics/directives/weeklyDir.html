@@ -36,7 +36,7 @@
         <th><span class="f-12px c-BDBDBD lh-17 h-18px">TOTAL</span></th>
       </tr>
       <!-- repeating output base on Username -->
-      <tr class="w-100 h-45px c-686868" ng-repeat="member in boardMembers" ng-click="$root.changeSelectedMember(member.fullName)" ng-class="{selected:  member.fullName == $root.selectedMember}">
+      <tr class="w-100 h-45px c-686868" ng-repeat="member in $root.boardMembers" ng-click="$root.changeSelectedMember(member.fullName)" ng-class="{selected:  member.fullName == $root.selectedMember}">
         <!-- name -->
         <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
         <!-- dts -->
