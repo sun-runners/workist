@@ -50,7 +50,8 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
             let startSalary = this.salaryFromCardName(boardCards, listId, memberId)
             let increasePer = this.increasePer(monthDuration); /** the number of time the salary will have to increase */
             let salaryIncreased = this.currentIncreased(increasePer, 5000)
-           return (parseInt(startSalary) + parseInt(salaryIncreased)).toLocaleString() +' PHP'; /** parse string number to integer and add commas every 3 digits */
+        //    return (parseInt(startSalary) + parseInt(salaryIncreased)).toLocaleString() +' PHP'; /** parse string number to integer and add commas every 3 digits */
+            return parseInt(startSalary) + parseInt(salaryIncreased);
         } catch (error) {
             return '-';
         }
@@ -110,5 +111,8 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
                 return currentDate.getMonth() + 1;
             }
         } catch (error) {}
+    }
+    this.totalSalary = (monthDuration) => {
+        return monthDuration = this.increasePer(monthDuration);
     }
   });

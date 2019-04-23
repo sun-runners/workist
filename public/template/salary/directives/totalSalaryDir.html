@@ -34,16 +34,17 @@
           <span class="f-12px lh-17px h-18">{{monthNumber = getMonthDuration(member.id)}} {{(monthNumber > 0) ? "Months": ""}}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{salary = getCurrentSalary(member.id, monthNumber)}}</span>
+          <span class="f-12px lh-17px h-18">{{formatSalary(salary = getCurrentSalary(member.id, monthNumber))}}</span>
         </td>
         <td class="t-26 b-64">
           <span class="f-12px lh-17px h-18">{{percentage = getPercentage(member.id)}} {{(percentage > 0) ? " %" : " "}}</span>
+          <!-- <span class="f-12px lh-17px h-18">{{percentage = 100}}</span> -->
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{getBonuse(member.id)}}</span>
+          <span class="f-12px lh-17px h-18">{{formatBonuse(bonuse = getBonuse(member.id))}}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{getTotalSalary()}}</span>
+          <span class="f-12px lh-17px h-18">{{formatSalary(totalSalary = getTotalSalary(salary, percentage, bonuse.value))}}</span>
         </td>
       </tr>
     </table>

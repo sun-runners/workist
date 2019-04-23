@@ -5,7 +5,7 @@ angular.module('workingHoursTrello')
 		return {
 			link : function(scope, element, attrs){
           		function initialize() {
-					let notEmployees = ['53ca58ad2018034bbeb54e29', '5a2de2c831a41435d465e564'];
+					scope.notEmployees = ['53ca58ad2018034bbeb54e29', '5a2de2c831a41435d465e564'];
 					scope.menuItem = ['months', 'salary', 'percentage', 'bonuse', 'total salary'];
 					scope.getMonthDuration = (memberId) => totalSalaryS.monthDuration($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId);
 					scope.getCurrentSalary = (memberId, monthNumber) => totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, monthNumber);
@@ -43,11 +43,39 @@ angular.module('workingHoursTrello')
 					scope.getBonuse = (memberId) => {
 						let monthlyTask = taskS.monthlyTasks($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);				
 						let monthlyTime = timeS.monthlyTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);
-						let bonuse = bonuseS.bonuseTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards, $rootScope.calendarCards, notEmployees);
-						// return bonuse.leader + "-" + memberId
-						return bonuse
+						let bonuse = bonuseS.bonuseTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards, $rootScope.calendarCards);
+						try {
+							if (memberId == bonuse.leader) {
+								return {bonuse:"LEADER", value:10000}
+							}else if (monthlyTask == bonuse.winTask) {
+								return {bonuse:"TASKS", value:5000}
+							}else if (monthlyTime == bonuse.winTime) {
+								return {bonuse:'TIME', value:5000}
+							}else{
+								return {bonuse:'', value:0}
+							}
+						} catch (error) {}
 					};
-					scope.getTotalSalary = () => 'the total www';
+					scope.formatBonuse = (bonuse) => {
+						try {
+							if (bonuse.value != 0) {
+								return parseInt(bonuse.value).toLocaleString() + " PHP ( " + bonuse.bonuse + " )";
+							}else{
+								return "-";
+							}
+						} catch (error) {}
+					}
+					scope.formatSalary = (salary) => {
+						return salary.toLocaleString() + " PHP"
+					}
+					scope.getTotalSalary = (salary, percentage, bonuse) => {
+						let initSalary = parseInt(salary) + parseInt(bonuse);
+						if (percentage < 100) {
+							return initSalary * parseFloat("0."+percentage)
+						}else{
+							return initSalary
+						}
+					}
 				}
 				initialize();
 			},

@@ -1,16 +1,13 @@
 angular.module('workingHoursTrello').service('bonuseS', function(weekS, monthS, winS) {
-    this.employeesFilter = (boardMembers, notEmployee) => { /** Filter members to get only employee */
-        for (let i = 0; i < notEmployee.length; i++) {
-            const notEmp = notEmployee[i];
-            let employees = [];
-            for (let x = 0; x < boardMembers.length; x++) {
-                const member = boardMembers[x];
-                if (member.id != notEmp) {
-                    employees.push(member);
-                }
+    this.employeesFilter = (boardMembers) => { /** Filter members to get only employee */
+        let employee = [];
+        for (let i = 0; i < boardMembers.length; i++) {
+            const member = boardMembers[i];
+            if (member.fullName != "Sunwook" && member.fullName != "Gain") {
+                employee.push(member)
             }
-            return employees
         }
+        return employee
     }
     this.getLeader = (boardCards, members) => {
         for (let y = 0; y < boardCards.length; y++) {
@@ -47,14 +44,16 @@ angular.module('workingHoursTrello').service('bonuseS', function(weekS, monthS, 
         }
         return winner = {winTask: winTask.tasks, winTime: winTime.time, leader: leader};
       }
-    this.bonuseTime = (year, month, boardMembers, boardLists, boardCards, calendarCards, notEmployees) => {
-        let monthDateByDay = monthS.monthDaysDate(year, month); 
-        let listsId = weekS.arrayListsID(monthDateByDay, boardLists); 
-        let listsCards = winS.listsCards(boardCards, listsId);
-        let employees = this.employeesFilter(boardMembers, notEmployees);
-        let memberCards = winS.membersCards(employees, listsCards);
-        let memberTotal = winS.MonthTotal(memberCards);
-        let winnerTask = this.winner(calendarCards, memberTotal);
-        return winnerTask;
+    this.bonuseTime = (year, month, boardMembers, boardLists, boardCards, calendarCards) => {
+        try {
+            let monthDateByDay = monthS.monthDaysDate(year, month); 
+            let listsId = weekS.arrayListsID(monthDateByDay, boardLists); 
+            let listsCards = winS.listsCards(boardCards, listsId);
+            let employees = this.employeesFilter(boardMembers);
+            let memberCards = winS.membersCards(employees, listsCards);
+            let memberTotal = winS.MonthTotal(memberCards);
+            let winnerBonuse = this.winner(calendarCards, memberTotal);
+            return winnerBonuse;
+        } catch (e) {}
     }
   });
