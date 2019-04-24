@@ -153,7 +153,13 @@ angular.module('workingHoursTrello', [
           }
   };
 
-
-
+  // $scope.showLoader = () => {
+  //   document.getElementById("tyle-loader").style.display = "block";
+  //   return setTimeout(showPage, 1000);
+  // }
+	// function showPage() {
+	// 	document.getElementById("tyle-loader").style.display = "none";
+	// }
+	// $scope.showLoader()
 });
 
