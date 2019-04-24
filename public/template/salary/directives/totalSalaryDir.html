@@ -38,13 +38,16 @@
         </td>
         <td class="t-26 b-64">
           <span class="f-12px lh-17px h-18">{{percentage = getPercentage(member.id)}} {{(percentage > 0) ? " %" : " "}}</span>
-          <!-- <span class="f-12px lh-17px h-18">{{percentage = 100}}</span> -->
+          <!-- for testing
+          <span class="f-12px lh-17px h-18">{{percentage = 100}} %</span>  -->
         </td>
         <td class="t-26 b-64">
           <span class="f-12px lh-17px h-18">{{formatBonuse(bonuse = getBonuse(member.id))}}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{formatSalary(totalSalary = getTotalSalary(salary, percentage, bonuse.value))}}</span>
+          <span class="f-12px lh-17px h-18">{{formatSalary(totalSalary = getTotalSalary(monthNumber, salary, percentage, bonuse.value, member.id))}}</span>
+          <!-- for Testing
+          <span class="f-12px lh-17px h-18">{{totalSalary = getTotalSalary(monthNumber, salary, percentage, bonuse.value, member.id)}}</span> -->
         </td>
       </tr>
     </table>

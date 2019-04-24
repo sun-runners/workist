@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('workingHoursTrello')
-	.directive('salaryDir', function ($rootScope, totalSalaryS, nationalityS, holidayS, weekS, monthS, taskS, timeS, winS, bonuseS) {
+	.directive('salaryDir', function ($rootScope, totalSalaryS, nationalityS, holidayS, weekS, monthS, taskS, timeS, bonuseS) {
 		return {
 			link : function(scope, element, attrs){
           		function initialize() {
 					scope.notEmployees = ['53ca58ad2018034bbeb54e29', '5a2de2c831a41435d465e564'];
 					scope.menuItem = ['months', 'salary', 'percentage', 'bonuse', 'total salary'];
 					scope.getMonthDuration = (memberId) => totalSalaryS.monthDuration($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId);
+					// scope.getMonthDuration = (memberId) => totalSalaryS.monthDuration($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', new Date('2019/05/30'), memberId);
 					scope.getCurrentSalary = (memberId, monthNumber) => totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, monthNumber);
 					scope.getPercentage = (memberId) => {
 						// We get the number of annual leave currently used
@@ -66,15 +67,22 @@ angular.module('workingHoursTrello')
 						} catch (error) {}
 					}
 					scope.formatSalary = (salary) => {
-						return salary.toLocaleString() + " PHP"
+						try {
+							return salary.toLocaleString() + " PHP"
+						} catch (error) {}
 					}
-					scope.getTotalSalary = (salary, percentage, bonuse) => {
-						let initSalary = parseInt(salary) + parseInt(bonuse);
-						if (percentage < 100) {
-							return initSalary * parseFloat("0."+percentage)
-						}else{
-							return initSalary
-						}
+					scope.getTotalSalary = (monthNumber, salary, percentage, bonuse, memberId) => {
+						try {
+							let oldSalary = totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, monthNumber - 1);
+							let totalSalary = totalSalaryS.totalSalary(monthNumber, salary, oldSalary,  $rootScope.calendarLists, $rootScope.calendarCards, memberId, 'ENTERING DATE');
+							if (percentage < 100 && percentage > 0) {
+								return (totalSalary * parseFloat("0."+percentage)) + bonuse;
+							}else if(percentage == 0){
+								return 0
+							}else{
+								return totalSalary + bonuse;
+							}
+						} catch (error) {}
 					}
 				}
 				initialize();

@@ -43,13 +43,12 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
         return value * increasedPer;
     }
     this.percentage = (value1, value2) => Math.ceil((value1/value2) * 100);
-    
     this.salary = (boardLists, boardCards, nameToFind, memberId, monthDuration) => { /** get salary per month */
         try {
             let listId = this.getListByName(boardLists, nameToFind);
             let startSalary = this.salaryFromCardName(boardCards, listId, memberId)
             let increasePer = this.increasePer(monthDuration); /** the number of time the salary will have to increase */
-            let salaryIncreased = this.currentIncreased(increasePer, 5000)
+            let salaryIncreased = this.currentIncreased(increasePer, 5000) /** the new salary when it increased */
         //    return (parseInt(startSalary) + parseInt(salaryIncreased)).toLocaleString() +' PHP'; /** parse string number to integer and add commas every 3 digits */
             return parseInt(startSalary) + parseInt(salaryIncreased);
         } catch (error) {
@@ -112,7 +111,17 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
             }
         } catch (error) {}
     }
-    this.totalSalary = (monthDuration) => {
-        return monthDuration = this.increasePer(monthDuration);
+    this.totalSalary = (monthDuration, salary, oldSalary, boardLists, boardCards, memberId, nameToFind) => {
+        let listId = this.getListByName(boardLists, nameToFind);
+        let entryDate = this.getEntryDate(boardCards, listId, memberId);
+        let enterDay = entryDate.getDate()
+        let remainingDay = 30 - enterDay;
+        if (monthDuration == 6) {
+            return Math.ceil(((oldSalary * enterDay) + (salary * remainingDay))/30);
+        }else if (monthDuration % 12 === 0) {
+            return Math.ceil(((oldSalary * enterDay) + (salary * remainingDay))/30);
+        }else{
+            return salary
+        }
     }
   });
