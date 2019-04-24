@@ -13,6 +13,9 @@ angular.module('workingHoursTrello', [
     .when("/yearly", {
         template : "<yearly-dir></yearly-dir>"
     })
+    .when("/total", {
+      template : "<salary-dir></salary-dir>"
+  })
     .when("/time", {
         template : "<time-dir></time-dir>"
     })
@@ -93,7 +96,7 @@ angular.module('workingHoursTrello', [
   
 	$scope.template = 'monthlys';
   $scope.subMenu = ['weekly', 'monthly', 'yearly'];
-  $scope.mainMenu = [{title:'attendance', active:'weekly'}, {title:'award', active:'time'}, {title:'salary', active:''}, {title:'calendar', active:'birthday'}];
+  $scope.mainMenu = [{title:'attendance', active:'weekly'}, {title:'award', active:'time'}, {title:'salary', active:'total'}, {title:'calendar', active:'birthday'}];
   $scope.activeSub = 'weekly';
   $scope.activateSub = (target) => $scope.activeSub = target; 
   $scope.activeMenu = 'attendance';
@@ -104,6 +107,10 @@ angular.module('workingHoursTrello', [
         case 'attendance':
           $scope.subMenu = ['weekly', 'monthly', 'yearly'];
           $scope.activateSub('weekly');
+          break;
+        case 'salary':
+          $scope.subMenu = ['total'];
+          $scope.activateSub('total');
           break;
         case 'award':
           $scope.subMenu = ['time', 'task'];

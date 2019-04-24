@@ -90,6 +90,7 @@ angular.module('workingHoursTrello')
 			restrict: "EA",
 			replace: true,
 			scope: {},
-			templateUrl: "../../template/salary/directives/totalSalaryDir.html",
+			templateUrl: "../template/salary/directives/totalSalaryDir.html", /** if initialize from workTimist */
+			// templateUrl: "../../template/salary/directives/totalSalaryDir.html", 
 		}
 	});
