@@ -6,7 +6,7 @@ angular.module('workingHoursTrello')
 			link : function(scope, element, attrs){
           		function initialize() {
 					scope.notEmployees = ['53ca58ad2018034bbeb54e29', '5a2de2c831a41435d465e564'];
-					scope.menuItem = ['months', 'salary', 'percentage', 'bonuse', 'total salary'];
+					scope.menuItem = ['months', 'salary', 'percentage', 'bonus', 'total salary'];
 					scope.getMonthDuration = (memberId) => totalSalaryS.monthDuration($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId);
 					// scope.getMonthDuration = (memberId) => totalSalaryS.monthDuration($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', new Date('2019/05/30'), memberId);
 					scope.getCurrentSalary = (memberId, monthNumber) => totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, monthNumber);
