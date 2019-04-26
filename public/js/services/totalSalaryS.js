@@ -75,11 +75,11 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
         }
         return dates;
       };
-    this.prevMonthsDate = (dates, currentMonth) => {
+    this.prevDate = (dates, currentMonth) => { /** we get the days of previous month */
         let prevDate = []
         for (let i = 0; i < dates.length; i++) {
             const date = new Date(dates[i]);
-            if (date.getMonth() < currentMonth) {
+            if (date.getMonth() != currentMonth.getMonth()) {
                 prevDate.push(date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate());
             }
         }
@@ -95,7 +95,7 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
             }else{
                 datesToWork = this.betweenDates(new Date(`${currentDate.getFullYear()}/01/1`), currentDate)
             }
-            let prevDates = this.prevMonthsDate(datesToWork, currentDate.getMonth()) /** we get the dates of previouse months */
+            let prevDates = this.prevDate(datesToWork, currentDate) /** we get the dates of previouse months */
             return prevDates
         } catch (error) {}
     }

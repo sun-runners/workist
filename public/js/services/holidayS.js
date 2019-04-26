@@ -12,7 +12,7 @@ angular.module('workingHoursTrello').service('holidayS', function() {
         let monthDate = moment(holiDate.getMonth() + 1, 'MM').format('MMMM');
         let dayDate = holiDate.getDate();
         let yearDate = holiDate.getFullYear();
-        let fullDate = monthDate + " " +dayDate + ", "+ yearDate;
+        let fullDate = monthDate + " " + dayDate + ", "+ yearDate;
         return fullDate;
     }
     this.getHolidayMonth = (year, cardName) => { /** get Month of the holiday */
@@ -78,8 +78,8 @@ angular.module('workingHoursTrello').service('holidayS', function() {
     }
     this.datesWithoutHoliday = (country, year, boardLists, boardCards, workDate) => {
        try {
-        let listName = year + ' HOLIDAY ' + country;
-        let listId = this.getListByName(listName, boardLists);
+        let listName = year + ' HOLIDAY ' + country; /** the lists name that contains holiday */
+        let listId = this.getListByName(listName, boardLists); /** get the ID of the lists containing holiday */
         let AllHolidays = this.getHolidayDates(year, listId, boardCards);
         let nonWorking = this.sameHoliday(workDate, AllHolidays)
         let newTotalWork = workDate.length - nonWorking;
