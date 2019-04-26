@@ -57,4 +57,16 @@ angular.module('workingHoursTrello').service('birthdayS', function() {
             return "-";
         }
     }
+    this.removeBirthdate = (memberId, boardLists, boardCards, strName, workingDates) => {
+        let birthday = this.getFullBirthDate(memberId, boardLists, boardCards, strName);
+        let dateBirth = new Date(birthday);
+        let datesResult = [];
+        for (let i = 0; i < workingDates.length; i++) {
+            const date = new Date(workingDates[i]);
+            if (`${date.getFullYear()}/${date.getMonth()}/${date.getDate()}` != `${date.getFullYear()}/${dateBirth.getMonth()}/${dateBirth.getDate()}`) {
+                datesResult.push(date.getFullYear() + "/" + (date.getMonth()+1) + "/" + date.getDate());
+            }
+        }
+        return datesResult
+    }
 });

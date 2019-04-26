@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('workingHoursTrello')
-	.directive('salaryDir', function ($rootScope, totalSalaryS, nationalityS, holidayS, weekS, monthS, taskS, timeS, bonuseS) {
+	.directive('salaryDir', function ($rootScope, totalSalaryS, nationalityS, birthdayS, holidayS, weekS, monthS, taskS, timeS, bonuseS) {
 		return {
 			link : function(scope, element, attrs){
           		function initialize() {
@@ -15,7 +15,11 @@ angular.module('workingHoursTrello')
 						let country = nationalityS.membersNationality(memberId, $rootScope.calendarCards, $rootScope.calendarLists); /** get members nationality */
 						
 						let possibleWork = totalSalaryS.prevMonthsToWorkDates($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId); /** for this month all working days holidays not considered */
-						let prevMonthToWork = holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, possibleWork); /** all the working days with holidays remove */	
+						
+						let filterPrevBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", possibleWork); /** remove birthday from array dates */
+						
+						let prevMonthToWork = holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday); /** all the working days with holidays remove */	
+						
 						let allDatesToNow =  totalSalaryS.betweenDates(new Date(`${$rootScope.dt.Date.getFullYear()}/01/1`), $rootScope.dt.Date, true); /** we get all the Dates */
 						let prevDates = totalSalaryS.prevDate(allDatesToNow, $rootScope.dt.Date); /** we get all the previous dates */
 						let prevMonthsWork = weekS.getDaysTotalOutput(prevDates, memberId, $rootScope.boardLists, $rootScope.boardCards); /** all the days members have worked */
@@ -26,11 +30,14 @@ angular.module('workingHoursTrello')
 						let availableLeave = myAnnualLeave - usedLeave /** available annual Leave */
 						// We get the number of days to work for this month
 						let currentMonthsDate = monthS.monthsNeedtoWork($rootScope.dt.year, $rootScope.dt.month); /** dates of current Month */
-						let monthToWork = holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, currentMonthsDate);  /** this month current month to Work */
+						let filterBirthMonthly = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", currentMonthsDate); /** remove birthday from array dates */
+						let monthToWork = holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterBirthMonthly);  /** this month current month to Work */
 						// We get the number of days to work until now
 						let monthStarted = new Date($rootScope.dt.year + '/' + $rootScope.dt.month + '/1');
+						
 						let monthToNow = totalSalaryS.betweenDates(monthStarted, $rootScope.dt.Date);
-						let daysToWork = holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, monthToNow);
+						let filterBirthToNow = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", monthToNow);
+						let daysToWork = holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterBirthToNow);
 						// We get the number of days have worked 
 						let currentWorked = monthS.getMonthsValue($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);
 						let datesToWork = null;
@@ -46,10 +53,8 @@ angular.module('workingHoursTrello')
 							}else{ break;}
 						}
 						let percentage =  totalSalaryS.percentage(currentWorked, monthToWork);
-						return percentage;
-						// return currentWorked + " --- " + daysToWork + " annual Leave" + availableLeave;
-						// return prevMonthToWork + " have worked: " + prevMonthsWork + " used leave:" + usedLeave;
-						// return possibleWork;
+						return percentage
+						
 						// return "annual Leave: "+ myAnnualLeave + " Used Leave: " + usedLeave + " Available Leave: " + availableLeave + " --- " +  monthToWork + " Worked :" + currentWorked; 
 						// return daysToWork + " - " + currentWorked + " available leave " + availableLeave
 					}
