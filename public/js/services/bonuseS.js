@@ -48,7 +48,6 @@ angular.module('workingHoursTrello').service('bonuseS', function(weekS, monthS, 
         return winner = {winTask: winTask.tasks, winTime: winTime.time, leader: leader};
       }
     this.bonuseTime = (year, month, boardMembers, boardLists, boardCards, calendarCards) => {
-
             let monthDateByDay = monthS.monthDaysDate(year, month); 
             let listsId = weekS.arrayListsID(monthDateByDay, boardLists); 
             let listsCards = winS.listsCards(boardCards, listsId);

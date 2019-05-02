@@ -88,7 +88,7 @@ angular.module('workingHoursTrello')
 							let oldSalary = totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, monthNumber - 1);
 							let totalSalary = totalSalaryS.totalSalary(monthNumber, salary, oldSalary,  $rootScope.calendarLists, $rootScope.calendarCards, memberId, 'ENTERING DATE');
 							if (percentage < 100 && percentage > 0) {
-								return (totalSalary * parseFloat("0."+percentage)) + bonuse;
+								return (totalSalary * parseFloat(percentage/100)) + bonuse;
 							}else if(percentage == 0){
 								return 0
 							}else{
