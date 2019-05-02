@@ -13,13 +13,9 @@ angular.module('workingHoursTrello')
 					scope.getPercentage = (memberId) => {
 						// We get the number of annual leave currently used
 						let country = nationalityS.membersNationality(memberId, $rootScope.calendarCards, $rootScope.calendarLists); /** get members nationality */
-						
 						let possibleWork = totalSalaryS.prevMonthsToWorkDates($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId); /** for this month all working days holidays not considered */
-						
 						let filterPrevBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", possibleWork); /** remove birthday from array dates */
-						
 						let prevMonthToWork = holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday); /** all the working days with holidays remove */	
-						
 						let allDatesToNow =  totalSalaryS.betweenDates(new Date(`${$rootScope.dt.Date.getFullYear()}/01/1`), $rootScope.dt.Date, true); /** we get all the Dates */
 						let prevDates = totalSalaryS.prevDate(allDatesToNow, $rootScope.dt.Date); /** we get all the previous dates */
 						let prevMonthsWork = weekS.getDaysTotalOutput(prevDates, memberId, $rootScope.boardLists, $rootScope.boardCards); /** all the days members have worked */
@@ -34,7 +30,6 @@ angular.module('workingHoursTrello')
 						let monthToWork = holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterBirthMonthly);  /** this month current month to Work */
 						// We get the number of days to work until now
 						let monthStarted = new Date($rootScope.dt.year + '/' + $rootScope.dt.month + '/1');
-						
 						let monthToNow = totalSalaryS.betweenDates(monthStarted, $rootScope.dt.Date);
 						let filterBirthToNow = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", monthToNow);
 						let daysToWork = holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterBirthToNow);
@@ -54,8 +49,7 @@ angular.module('workingHoursTrello')
 						}
 						let percentage =  totalSalaryS.percentage(currentWorked, monthToWork);
 						return percentage
-						
-						// return "annual Leave: "+ myAnnualLeave + " Used Leave: " + usedLeave + " Available Leave: " + availableLeave + " --- " +  monthToWork + " Worked :" + currentWorked; 
+						// return "annual Leave: "+ myAnnualLeave + " Used Leave: " + usedLeave + " Available Leave: " + availableLeave + " --- " +  monthToWork + " Worked :" + currentWorked;
 						// return daysToWork + " - " + currentWorked + " available leave " + availableLeave
 					}
 					scope.getBonuse = (memberId) => {
@@ -82,6 +76,7 @@ angular.module('workingHoursTrello')
 								return "-";
 							}
 						} catch (error) {}
+						return bonuse
 					}
 					scope.formatSalary = (salary) => {
 						try {

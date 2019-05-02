@@ -10,12 +10,15 @@ angular.module('workingHoursTrello').service('bonuseS', function(weekS, monthS, 
         return employee
     }
     this.getLeader = (boardCards, members) => {
-        for (let y = 0; y < boardCards.length; y++) {
-            const card = boardCards[y];
+        for (let i = 0; i < boardCards.length; i++) {
+            const card = boardCards[i];
             for (let z = 0; z < members.length; z++) {
                 const member = members[z];
-                if (card.idMembers == member.id && card.labels[0].name == 'leader') {
-                    return member.id
+                for (let x = 0; x < card.labels.length; x++) {
+                    const label = card.labels[x];
+                    if (card.idMembers == member.id && label.name == 'leader') {
+                        return member.id
+                    }
                 }
             }
         }
@@ -45,7 +48,7 @@ angular.module('workingHoursTrello').service('bonuseS', function(weekS, monthS, 
         return winner = {winTask: winTask.tasks, winTime: winTime.time, leader: leader};
       }
     this.bonuseTime = (year, month, boardMembers, boardLists, boardCards, calendarCards) => {
-        try {
+
             let monthDateByDay = monthS.monthDaysDate(year, month); 
             let listsId = weekS.arrayListsID(monthDateByDay, boardLists); 
             let listsCards = winS.listsCards(boardCards, listsId);
@@ -53,7 +56,8 @@ angular.module('workingHoursTrello').service('bonuseS', function(weekS, monthS, 
             let memberCards = winS.membersCards(employees, listsCards);
             let memberTotal = winS.MonthTotal(memberCards);
             let winnerBonuse = this.winner(calendarCards, memberTotal);
-            return winnerBonuse;
-        } catch (e) {}
+            return winnerBonuse
+            // return winnerBonuse;
+      
     }
   });

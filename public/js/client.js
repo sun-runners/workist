@@ -1,7 +1,7 @@
 var Promise = TrelloPowerUp.Promise;
 
 /*
-t.board('id', 'name', 'url', 'shortLink', 'members')
+t.board('id', 'name', 'url', 'shortLink', 'members');
 t.list('id', 'name', 'cards')
 t.lists('id', 'name', 'cards')
 t.card('id', 'name', 'desc', 'due', 'closed', 'cover', 'attachments', 'members', 'labels', 'url', 'shortLink', 'idList')
