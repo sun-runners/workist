@@ -29,7 +29,8 @@
         </th>
       </tr>
       <!-- repeating output base on Username -->
-      <tr class="t-26 b-64 h-50px c-686868" ng-repeat="member in $root.boardMembers">
+      <tr class="t-26 b-64 h-50px c-686868" ng-repeat="member in $root.boardMembers | filter:{id:'!53ca58ad2018034bbeb54e29'} | filter:{id:'!5a2de2c831a41435d465e564'}" 
+      ng-click="$root.changeSelectedMember(member.fullName)" ng-class="{selected:  member.fullName == $root.selectedMember}">
         <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
         <td class="t-26 b-64">
           <span class="f-12px lh-17px h-18">{{monthNumber = getMonthDuration(member.id)}} {{(monthNumber > 0) ? "Months": ""}}</span>
@@ -38,7 +39,8 @@
           <span class="f-12px lh-17px h-18">{{formatSalary(salary = getCurrentSalary(member.id, monthNumber))}}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{totalThirteen(salary, monthNumber)}}</span>
+          <span class="f-12px lh-17px h-18">{{totalThirteen(salary, monthNumber, member.id)}}</span>
+          <!-- <span class="f-12px lh-17px h-18">{{formatBonuse(getBonuse(member.id))}}</span> -->
         </td>
       </tr>
     </table>
