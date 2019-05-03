@@ -30,23 +30,15 @@
       </tr>
       <!-- repeating output base on Username -->
       <tr class="t-26 b-64 h-50px c-686868" ng-repeat="member in $root.boardMembers">
-        <td><span class="f-12px lh-17px h-18">month</span></td>
+        <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">4</span>
+          <span class="f-12px lh-17px h-18">{{monthNumber = getMonthDuration(member.id)}} {{(monthNumber > 0) ? "Months": ""}}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">15,000 PHP</span>
+          <span class="f-12px lh-17px h-18">{{formatSalary(salary = getCurrentSalary(member.id, monthNumber))}}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">90%</span>
-        </td>
-        <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">5,000 PHP(Time)</span>
-        </td>
-        <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">20,000 PHP</span>
-          <!-- for Testing
-          <span class="f-12px lh-17px h-18">{{totalSalary = getTotalSalary(monthNumber, salary, percentage, bonuse.value, member.id)}}</span> -->
+          <span class="f-12px lh-17px h-18">{{totalThirteen(salary, monthNumber)}}</span>
         </td>
       </tr>
     </table>
