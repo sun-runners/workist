@@ -34,7 +34,7 @@ angular.module('workingHoursTrello')
                     scope.totalThirteen = (salary, monthDuration, memberId) => {
 						try {
 							let bonuse = scope.getBonuse(memberId)
-							return Math.ceil(((salary * monthDuration)/12) + bonuse.value).toLocaleString() + " PHP"
+							return Math.ceil(((salary * monthDuration)/12) + bonuse.value).toLocaleString() + " PHP";
 						} catch (error) {}
 					}
 				}
@@ -43,6 +43,6 @@ angular.module('workingHoursTrello')
 			restrict: "EA",
 			replace: true,
 			scope: {},
-			templateUrl: "../../template/salary/directives/thirteenDir.html",
+			templateUrl: "../template/salary/directives/thirteenDir.html",
 		}
 	});

@@ -15,7 +15,10 @@ angular.module('workingHoursTrello', [
     })
     .when("/total", {
       template : "<salary-dir></salary-dir>"
-  })
+    })
+    .when("/13th", {
+      template : "<thirteen-dir></thirteen-dir>"
+    })
     .when("/time", {
         template : "<time-dir></time-dir>"
     })
@@ -31,7 +34,6 @@ angular.module('workingHoursTrello', [
     .otherwise({
       template : "<weekly-dir></weekly-dir>"
     });
-
 }).run(function($rootScope, $http, apiS){
   
   $rootScope.selectedMember = null; /** this will indicate who current selected Member */
@@ -109,7 +111,7 @@ angular.module('workingHoursTrello', [
           $scope.activateSub('weekly');
           break;
         case 'salary':
-          $scope.subMenu = ['total'];
+          $scope.subMenu = ['total', '13th'];
           $scope.activateSub('total');
           break;
         case 'award':
@@ -138,7 +140,7 @@ angular.module('workingHoursTrello', [
   // When the user clicks on <span> (x), close the modal
   $scope.closeModal = function() {
       while ($scope.showTarget.firstChild) {
-        $scope.showTarget.removeChild($scope.showTarget.firstChild)
+        $scope.showTarget.removeChild($scope.showTarget.firstChild);
       }
       $scope.modal.style.display = "none";
   };
@@ -147,7 +149,7 @@ angular.module('workingHoursTrello', [
       if (event.target == $scope.modal) {
           // showTarget.innerHTML=""
           while ($scope.showTarget.firstChild) {
-            $scope.showTarget.removeChild($scope.showTarget.firstChild)
+            $scope.showTarget.removeChild($scope.showTarget.firstChild);
           }
           $scope.modal.style.display = "none";
           }
