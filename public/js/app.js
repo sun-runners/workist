@@ -103,40 +103,49 @@ angular.module('workingHoursTrello', [
           let memberWorked = []; /** Holds members Worked Data */
           for (let y = 0; y < $rootScope.boardMembers.length; y++) {
             const member = $rootScope.boardMembers[y];
+
+            let monthsWorked = [];
+            for (let month = 1; month < 13; month++) {
+              
+              let listWorkData = []; /** Holds Lists Data */
+              for (let i = 0; i < $rootScope.boardLists.length; i++) {
+                const list = $rootScope.boardLists[i];
+                listName = new Date(x = list.name.substr(0,list.name.indexOf(' ')));
+                listDate = `${listName.getFullYear()}/${listName.getMonth() + 1}/${listName.getDate()}`;
   
-            let listWorkData = []; /** Holds Lists Data */
-            for (let i = 0; i < $rootScope.boardLists.length; i++) {
-              const list = $rootScope.boardLists[i];
-              listName = new Date(x = list.name.substr(0,list.name.indexOf(' ')));
-              listDate = `${listName.getFullYear()}/${listName.getMonth() + 1}/${listName.getDate()}`;
-
-              toAdd = false; /** this will tell if the list Data should be pushed */
-
-              let listWithCard = []; /** Holds Cards Data */
-              for (let x = 0; x < $rootScope.boardCards.length; x++) {
-                const card = $rootScope.boardCards[x];
-                
-                if (card.idList == list.id && card.idMembers == member.id && $rootScope.dt.year == listName.getFullYear()) {
-                  toAdd = true; /** will push the cards to the listWithCard */
-
-                  try { /** 8-12+14-16 = 6*/
-                    cardName = Math.abs(eval(card.name));
-                    /** the card data to be pushed to members cards */
-                    listWithCard.push({id:card.id, time:cardName, task:card.badges.checkItemsChecked, idMember:card.idMembers[0]});
-                    } catch (error) {}
+                toAdd = false; /** this will tell if the list Data should be pushed */
+  
+                let listWithCard = []; /** Holds Cards Data */
+                for (let x = 0; x < $rootScope.boardCards.length; x++) {
+                  const card = $rootScope.boardCards[x];
+                  
+                  if (card.idList == list.id && card.idMembers == member.id && $rootScope.dt.year == listName.getFullYear() && (listName.getMonth() + 1) == month) {
+                    toAdd = true; /** will push the cards to the listWithCard */
+  
+                    try { /** 8-12+14-16 = 6*/
+                      cardName = Math.abs(eval(card.name));
+                      /** the card data to be pushed to members cards */
+                      listWithCard.push({id:card.id, time:cardName, task:card.badges.checkItemsChecked, idMember:card.idMembers[0]});
+                      } catch (error) {}
+                  }
+                }
+                if (toAdd == true) {
+                  listWorkData.push({id:list.id, dateFull:listDate, day:listName.getDate(), month:(listName.getMonth()+1), year:listName.getFullYear(), cards:listWithCard}); /** the data to pushed on workData */
+                  toAdd = false;
                 }
               }
-              if (toAdd == true) {
-                listWorkData.push({id:list.id, date:listDate, cards:listWithCard}); /** the data to pushed on workData */
-                toAdd = false;
-              }
+             
+
+              monthsWorked.push({month:month, worked:listWorkData})
             }
-            memberWorked.push({id:member.id, fullName:member.fullName, workedData:listWorkData})
+
+            memberWorked.push({id:member.id, fullName:member.fullName, workedData:monthsWorked})
           }
   
           $rootScope.workedInfo = memberWorked;
           console.log(memberWorked)
-          console.log($rootScope.dt.year)
+          console.log($rootScope.dt.month)
+          // console.log($rootScope.dt.year)
         })
       });
     });

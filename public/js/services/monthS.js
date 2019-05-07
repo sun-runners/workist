@@ -61,8 +61,8 @@ angular.module('workingHoursTrello').service('monthS', function(weekS) {
         }
     }
     this.monthsTotalWorked = (memberId, datesByDay, workedDates) => {
-        return 1
-        // return workedData
+        let worker = workedDates.filter(work => memberId == work.id)
+        // console.log(worker)
     }
 
     this.monthsNeedtoWork = (year, month) => { /** Get all the days member have to work this month*/
