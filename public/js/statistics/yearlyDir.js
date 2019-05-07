@@ -19,9 +19,9 @@ angular.module('workingHoursTrello')
 				};
 				initialize();
 				
-				scope.getMonthlyCard = (month, memberId) => { /** To calculate the total working days of the member per month*/
-					return monthS.getMonthsValue($rootScope.dt.year, month, $rootScope.boardLists, memberId, $rootScope.boardCards); /** year , month, boardLists, memberId, boardCards */
-				}
+				// scope.getMonthlyCard = (month, memberId) => { /** To calculate the total working days of the member per month*/
+				// 	return monthS.getMonthsValue($rootScope.dt.year, month, $rootScope.boardLists, memberId, $rootScope.boardCards); /** year , month, boardLists, memberId, boardCards */
+				// }
 				scope.getYearlyCard = (memberId) => { /** To calculate the total working days of the member per month*/
 					return yearS.getYearsValue($rootScope.dt.year, scope.months, memberId, $rootScope.boardLists, $rootScope.boardCards);	/** year , month, boardLists, memberId, boardCards */	
 				}
@@ -37,6 +37,9 @@ angular.module('workingHoursTrello')
 					let country = nationalityS.membersNationality(memberId, $rootScope.calendarCards, $rootScope.calendarLists);
 					let toWork = yearS.yearsNeedToWork($rootScope.dt.year, scope.months); /** get the total days to work whith holiday not a factor  */
 					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, toWork);
+				}
+				scope.monthlyWorked = () => {
+					return yearS.monthWorked($rootScope.workedInfo);
 				}
 				scope.showMonthly = (work, toWork) => (work != 0) ? work+' / '+toWork : '-';
 

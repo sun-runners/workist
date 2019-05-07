@@ -40,48 +40,40 @@ angular.module('workingHoursTrello', [
   $rootScope.changeSelectedMember = (memberId) => $rootScope.selectedMember = memberId; 
 
   // We get the Api from trello
-  apiS.getBoardLists().then((response) => $rootScope.boardLists = response.data /**  Get Boards Lists */);
-  apiS.getBoardCards().then((response) => $rootScope.boardCards = response.data /** Get Boards Cards */);
-  apiS.getBoardMembers().then((response) => $rootScope.boardMembers = response.data /** Get Boards Members */);
-  apiS.calendarBoardLists().then((response) => $rootScope.calendarLists = response.data /**  Get Boards Lists of Work Timist Data */);
-  apiS.calendarBoardCards().then((response) => $rootScope.calendarCards = response.data /** Get Boards Cards of Work Timist Data */);
-
   const token = '7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118';
   const key ='86b2621fa79c88d61ff3a95b82ec2bd7';
 
-  async function trelloCards() {
-    let response = await fetch(`https://api.trello.com//1/boards/5ba38efef50b8979566922d0/cards?key=${key}&token=${token}`);
-    return await response.json();
-  }
-  async function trelloLists() {
-    let response = await fetch(`https://api.trello.com/1/boards/5ba38efef50b8979566922d0/lists?key=${key}&token=${token}`)
-    return await response.json();
-  }
-  async function bindWorkInfo() {
-    const cards = await trelloCards();
-    const lists = await trelloLists();
+  apiS.getBoardLists(key, token).then((response) => {
+    $rootScope.boardLists = response.data /**  Get Boards Lists */
+    
+    apiS.getBoardCards(key, token).then((response) => {
+      $rootScope.boardCards = response.data /** Get Boards Cards */
 
-    let trelloWorkData = [];
-    for (let i = 0; i < lists.length; i++) {
-      const list = lists[i];
-      list.name = list.name.substr(0,list.name.indexOf(' '))
-      let listWithCard = [];
-      for (let x = 0; x < cards.length; x++) {
-        const card = cards[x];
-        if (card.idList == list.id) {
-          try { /** 8-12+14-16 = 6*/
-            card.name = Math.abs(eval(card.name));
-            listWithCard.push({id:list.id, date:list.name, idCard:card.id, time:card.name, task:card.badges.checkItemsChecked, idMember:card.idMembers[0]});
-            } catch (error) {}
+      let trelloWorkData = [];
+
+      for (let i = 0; i < $rootScope.boardLists.length; i++) {
+        const list = $rootScope.boardLists[i];
+        listName = list.name.substr(0,list.name.indexOf(' '))
+        let listWithCard = [];
+
+        for (let x = 0; x < $rootScope.boardCards.length; x++) {
+          const card = $rootScope.boardCards[x];
+          if (card.idList == list.id) {
+            try { /** 8-12+14-16 = 6*/
+              cardName = Math.abs(eval(card.name));
+              listWithCard.push({id:list.id, date:listName, idCard:card.id, time:cardName, task:card.badges.checkItemsChecked, idMember:card.idMembers[0]});
+              } catch (error) {}
+          }
         }
+        trelloWorkData.push(listWithCard);
       }
-      trelloWorkData.push(listWithCard);
-    }
-    $rootScope.workedInfo = trelloWorkData;
-    console.log($rootScope.workedInfo);
-  }
-  bindWorkInfo();
+      $rootScope.workedInfo = trelloWorkData
+    })
+  });
 
+  apiS.getBoardMembers(key, token).then((response) => $rootScope.boardMembers = response.data /** Get Boards Members */);
+  apiS.calendarBoardLists(key, token).then((response) => $rootScope.calendarLists = response.data /**  Get Boards Lists of Work Timist Data */);
+  apiS.calendarBoardCards(key, token).then((response) => $rootScope.calendarCards = response.data /** Get Boards Cards of Work Timist Data */);
 
   // Variable Section
   $rootScope.moment = moment();
