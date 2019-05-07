@@ -43,35 +43,6 @@ angular.module('workingHoursTrello', [
   const token = '7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118';
   const key ='86b2621fa79c88d61ff3a95b82ec2bd7';
 
-  apiS.getBoardLists(key, token).then((response) => {
-    $rootScope.boardLists = response.data /**  Get Boards Lists */
-    
-    apiS.getBoardCards(key, token).then((response) => {
-      $rootScope.boardCards = response.data /** Get Boards Cards */
-
-      let trelloWorkData = [];
-
-      for (let i = 0; i < $rootScope.boardLists.length; i++) {
-        const list = $rootScope.boardLists[i];
-        listName = list.name.substr(0,list.name.indexOf(' '))
-        let listWithCard = [];
-
-        for (let x = 0; x < $rootScope.boardCards.length; x++) {
-          const card = $rootScope.boardCards[x];
-          if (card.idList == list.id) {
-            try { /** 8-12+14-16 = 6*/
-              cardName = Math.abs(eval(card.name));
-              listWithCard.push({id:list.id, date:listName, idCard:card.id, time:cardName, task:card.badges.checkItemsChecked, idMember:card.idMembers[0]});
-              } catch (error) {}
-          }
-        }
-        trelloWorkData.push(listWithCard);
-      }
-      $rootScope.workedInfo = trelloWorkData
-    })
-  });
-
-  apiS.getBoardMembers(key, token).then((response) => $rootScope.boardMembers = response.data /** Get Boards Members */);
   apiS.calendarBoardLists(key, token).then((response) => $rootScope.calendarLists = response.data /**  Get Boards Lists of Work Timist Data */);
   apiS.calendarBoardCards(key, token).then((response) => $rootScope.calendarCards = response.data /** Get Boards Cards of Work Timist Data */);
 
@@ -119,6 +90,57 @@ angular.module('workingHoursTrello', [
   // Watch Section
   $rootScope.$watch('moment', function(){
     $rootScope.dt = $rootScope.getDtOfMoment($rootScope.moment);
+
+    apiS.getBoardMembers(key, token).then((response) => {
+      $rootScope.boardMembers = response.data /** Get Boards Members */
+  
+      apiS.getBoardLists(key, token).then((response) => {
+        $rootScope.boardLists = response.data /**  Get Boards Lists */
+        
+        apiS.getBoardCards(key, token).then((response) => {
+          $rootScope.boardCards = response.data /** Get Boards Cards */
+    
+          let memberWorked = []; /** Holds members Worked Data */
+          for (let y = 0; y < $rootScope.boardMembers.length; y++) {
+            const member = $rootScope.boardMembers[y];
+  
+            let listWorkData = []; /** Holds Lists Data */
+            for (let i = 0; i < $rootScope.boardLists.length; i++) {
+              const list = $rootScope.boardLists[i];
+              listName = new Date(x = list.name.substr(0,list.name.indexOf(' ')));
+              listDate = `${listName.getFullYear()}/${listName.getMonth() + 1}/${listName.getDate()}`;
+
+              toAdd = false; /** this will tell if the list Data should be pushed */
+
+              let listWithCard = []; /** Holds Cards Data */
+              for (let x = 0; x < $rootScope.boardCards.length; x++) {
+                const card = $rootScope.boardCards[x];
+                
+                if (card.idList == list.id && card.idMembers == member.id && $rootScope.dt.year == listName.getFullYear()) {
+                  toAdd = true; /** will push the cards to the listWithCard */
+
+                  try { /** 8-12+14-16 = 6*/
+                    cardName = Math.abs(eval(card.name));
+                    /** the card data to be pushed to members cards */
+                    listWithCard.push({id:card.id, time:cardName, task:card.badges.checkItemsChecked, idMember:card.idMembers[0]});
+                    } catch (error) {}
+                }
+              }
+              if (toAdd == true) {
+                listWorkData.push({id:list.id, date:listDate, cards:listWithCard}); /** the data to pushed on workData */
+                toAdd = false;
+              }
+            }
+            memberWorked.push({id:member.id, fullName:member.fullName, workedData:listWorkData})
+          }
+  
+          $rootScope.workedInfo = memberWorked;
+          console.log(memberWorked)
+          console.log($rootScope.dt.year)
+        })
+      });
+    });
+
   }, true);
 
  const t = window.TrelloPowerUp.iframe();
