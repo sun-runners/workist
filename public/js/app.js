@@ -134,17 +134,28 @@ angular.module('workingHoursTrello', [
                   toAdd = false;
                 }
               }
-             
+              let totalTime = 0;
+              let totalTask = 0;
+            
+              for (let z = 0; z < listWorkData.length; z++) {
+                const cards = listWorkData[z].cards;
+                // console.log(data)
+                for (let j = 0; j < cards.length; j++) {
+                  const card = cards[j];
+                  totalTime = totalTime + card.time;
+                  totalTask = totalTask + card.task;
+                }
+              }
 
-              monthsWorked.push({month:month, worked:listWorkData})
+              monthsWorked.push({month:month, worked:listWorkData, monthTime: totalTime, monthTask: totalTask});
             }
 
-            memberWorked.push({id:member.id, fullName:member.fullName, workedData:monthsWorked})
+            memberWorked.push({id:member.id, fullName:member.fullName, workedData:monthsWorked});
           }
   
           $rootScope.workedInfo = memberWorked;
-          console.log(memberWorked)
-          console.log($rootScope.dt.month)
+          console.log(memberWorked);
+          console.log($rootScope.dt.month);
           // console.log($rootScope.dt.year)
         })
       });
