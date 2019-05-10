@@ -103,7 +103,9 @@ angular.module('workingHoursTrello', [
           let memberWorked = []; /** Holds members Worked Data */
           for (let y = 0; y < $rootScope.boardMembers.length; y++) {
             const member = $rootScope.boardMembers[y];
-
+            let totalYearTime = 0;
+            let totalYearTask = 0;
+            let totalYearDay = 0;
             let monthsWorked = [];
             for (let month = 1; month < 13; month++) {
               
@@ -113,19 +115,32 @@ angular.module('workingHoursTrello', [
                 listName = new Date(x = list.name.substr(0,list.name.indexOf(' ')));
                 listDate = `${listName.getFullYear()}/${listName.getMonth() + 1}/${listName.getDate()}`;
   
-                toAdd = false; /** this will tell if the list Data should be pushed */
+                toAdd = false; /** this will tell if the list Data should be assigned */
   
-                let listWithCard = []; /** Holds Cards Data */
+                let listWithCard = {id:0, time:0, task:0, idMember:0}; /** Holds Cards Data */
                 for (let x = 0; x < $rootScope.boardCards.length; x++) {
                   const card = $rootScope.boardCards[x];
-                  
                   if (card.idList == list.id && card.idMembers == member.id && $rootScope.dt.year == listName.getFullYear() && (listName.getMonth() + 1) == month) {
-                    toAdd = true; /** will push the cards to the listWithCard */
-  
+                    toAdd = true; /** will assign the cards to the listWithCard */
                     try { /** 8-12+14-16 = 6*/
-                      cardName = Math.abs(eval(card.name));
+                      cardName = card.name;
+                      let number = 0;
+                      if (cardName.match(/[a-z]/i) || /\/.*\//.test( cardName )) { /* we filter if the card name is legit **/
+                        number = 0;
+                      }else{
+                        var numbers = cardName.split(/\+|\-/);
+                        if(numbers.length%2==1){
+                           number = 0;
+                        }
+                        number = Math.abs(eval(cardName));
+                      }
+                      // cardName = Math.abs(eval(card.name));
                       /** the card data to be pushed to members cards */
-                      listWithCard.push({id:card.id, time:cardName, task:card.badges.checkItemsChecked, idMember:card.idMembers[0]});
+                      listWithCard.id = card.id;
+                      listWithCard.time = number;
+                      listWithCard.task = card.badges.checkItemsChecked;
+                      listWithCard.idMember = card.idMembers[0];
+                      // listWithCard.push({id:card.id, time:cardName, task:card.badges.checkItemsChecked, idMember:card.idMembers[0]});
                       } catch (error) {}
                   }
                 }
@@ -134,29 +149,39 @@ angular.module('workingHoursTrello', [
                   toAdd = false;
                 }
               }
-              let totalTime = 0;
-              let totalTask = 0;
-            
+              let totalMonthTime = 0;
+              let totalMonthTask = 0;
+              let totalMonthDay = 0;
+              
               for (let z = 0; z < listWorkData.length; z++) {
-                const cards = listWorkData[z].cards;
+                const card = listWorkData[z].cards;
                 // console.log(data)
-                for (let j = 0; j < cards.length; j++) {
-                  const card = cards[j];
-                  totalTime = totalTime + card.time;
-                  totalTask = totalTask + card.task;
+                cardDay = 0
+                if (card.time >= 8) {
+                    cardDay = 1;
+                }else if (card.time <= 8 && card.time > 4) {
+                    cardDay = 0.5;
+                }else if (card.time <= 4) {
+                    cardDay = 0;
                 }
+                /** will add the monthly data */
+                totalMonthDay = totalMonthDay + cardDay;
+                totalMonthTime = totalMonthTime + card.time;
+                totalMonthTask = totalMonthTask + card.task;
+                /** will add the yearly data */
+                totalYearDay = totalYearDay + cardDay;
+                totalYearTime = totalYearTime + card.time;
+                totalYearTask = totalYearTask + card.task;
+                
               }
-
-              monthsWorked.push({month:month, worked:listWorkData, monthTime: totalTime, monthTask: totalTask});
+              monthsWorked.push({month:month, monthTime: totalMonthTime, monthTask: totalMonthTask, monthWorked:totalMonthDay, worked:listWorkData});
             }
-
-            memberWorked.push({id:member.id, fullName:member.fullName, workedData:monthsWorked});
+            memberWorked.push({id:member.id, fullName:member.fullName, workedData:monthsWorked,  totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay});
           }
-  
           $rootScope.workedInfo = memberWorked;
           console.log(memberWorked);
           console.log($rootScope.dt.month);
-          // console.log($rootScope.dt.year)
+          // console.log($rootScope.dt.year);
         })
       });
     });
