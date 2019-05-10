@@ -176,11 +176,11 @@ angular.module('workingHoursTrello', [
               }
               monthsWorked.push({month:month, monthTime: totalMonthTime, monthTask: totalMonthTask, monthWorked:totalMonthDay, worked:listWorkData});
             }
-            memberWorked.push({id:member.id, fullName:member.fullName, workedData:monthsWorked,  totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay});
+            memberWorked.push({id:member.id, fullName:member.fullName,  totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
           }
           $rootScope.workedInfo = memberWorked;
           console.log(memberWorked);
-          console.log($rootScope.dt.month);
+          console.log($rootScope.dt.year);
           // console.log($rootScope.dt.year);
         })
       });

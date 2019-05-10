@@ -2,18 +2,18 @@
     'use strict';
 
     angular
-        .module('myApp')
-        .filter('getMonthValue', test1)
+        .module('workingHoursTrello')
+        .filter('getMonthValue', month)
 
-    function test1(){
+    function month(){
 
-        return test1Fn;
+        return monthFn;
 
-        function test1Fn(item, month){
+        function monthFn(item, month){
             for (let i = 0; i < item.workedData.length; i++) {
               const data = item.workedData[i];
               if (data.month == month) {
-                return `${item.fullName}  --- ${data.monthWorked}`
+                return data.monthWorked;
               }
             }
         }
