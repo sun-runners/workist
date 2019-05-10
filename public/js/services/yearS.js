@@ -27,4 +27,7 @@
       let yearsToWorkDays = weekS.removeWeekEnds(yearsDatesByDay);
       return yearsToWorkDays;
     }
+    this.monthWorked = (workedInfo) => {
+      return workedInfo.length;
+    }
   });

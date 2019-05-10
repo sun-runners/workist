@@ -50,6 +50,22 @@ angular.module('workingHoursTrello').service('monthS', function(weekS) {
           return 0
         }
     }
+    this.monthsWorked = (year, month, memberId, workedData) => { /** get the total days members have work per month */
+        try {
+        let monthDatesByDay = this.monthDaysDate(year, month); 
+        //   let totalhaveWork = weekS.getDaysTotalOutput(monthDatesByDay, memberId, boardLists, boardCards);
+        let totalWorked = this.monthsTotalWorked(memberId, monthDatesByDay, workedData);
+          return totalWorked;          
+        } catch (error) {
+          return 0
+        }
+    }
+    this.monthsTotalWorked = (memberId, datesByDay, workedDates) => {
+        let worker = workedDates.filter(work => memberId == work.id)
+        return worker
+        // console.log(worker)
+    }
+
     this.monthsNeedtoWork = (year, month) => { /** Get all the days member have to work this month*/
       let monthsDatesByDay = this.monthDaysDate(year, month);
       let monthsToWorkDates = weekS.removeWeekEnds(monthsDatesByDay);
