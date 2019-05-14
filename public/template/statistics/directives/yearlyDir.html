@@ -29,18 +29,16 @@
         <th><span class="f-12px lh-17 h-18px c-BDBDBD">TOTAL</span></th>
       </tr>
       <!-- repeating output base on Username -->
-      <tr class="w-100 h-45px" ng-repeat="member in $root.boardMembers" ng-click="$root.changeSelectedMember(member.fullName)" ng-class="{selected:  member.fullName == $root.selectedMember}">
-        <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
+      <tr class="w-100 h-45px" ng-repeat="workers in $root.workedInfo" ng-click="$root.changeSelectedMember(workers.fullName)" ng-class="{selected:  workers.fullName == $root.selectedMember}">
+        <td><span class="f-12px lh-17px h-18">{{workers.fullName}}</span></td>
         <td ng-repeat="dts in months" class="t-26 b-64">
-            <!-- {{showMonthly(work = getMonthlyCard(dts.value, member.id), toWork = getMonthlyToWork(member.id, dts.value))}} -->
-            <!-- <span ng-class="{'c-gn': work > toWork, 'c-red': work < toWork, 'c-bk': (work == toWork || overall == '-')}"></span> -->
-           <span ng-repeat="workers in $root.workedInfo | filter:{id:member.id}" class="f-12px lh-17px h-18" ng-class="{'c-gn': work > toWork, 'c-red': work < toWork}">
-            <span ng-class="{'c-gy': overall == '-'}">{{overall = showMonthly(work = (workers | getMonthValue: dts.value), toWork = getMonthlyToWork(member.id, dts.value))}}</span>
+           <span class="f-12px lh-17px h-18" ng-class="{'c-gn': work > toWork, 'c-red': work < toWork}">
+            <span ng-class="{'c-gy': overall == '-'}">{{overall = showMonthly(work = (workers | getMonthValue: dts.value), toWork = getMonthlyToWork(workers.id, dts.value))}}</span>
           </span>
         </td>
         <td>
-          <span ng-repeat="work in $root.workedInfo | filter:{id:member.id}" class="f-12px lh-17px h-18" ng-class="{'c-gn': work > toWork, 'c-red': work < toWork, 'c-bk': work == 0}">
-                {{ work | getYearValue}} / {{toWork = getYearlyToWork(member.id)}}
+          <span class="f-12px lh-17px h-18" ng-class="{'c-gn': work > toWork, 'c-red': work < toWork, 'c-bk': work == 0}">
+                {{ workers | getYearValue}} / {{toWork = getYearlyToWork(workers.id)}}
           </span>
         </td>
       </tr>
