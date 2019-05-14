@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('workingHoursTrello')
-	.directive('timeDir', function ($rootScope, apiS, timeS, winS) {
+	.directive('timeDir', function ($rootScope, timeS, winS) {
 		return {
 			link : function(scope, element, attrs){
 
@@ -9,7 +9,6 @@ angular.module('workingHoursTrello')
 				var initialize = function(){
 					let moment_original = $rootScope.moment.clone();
 					scope.thisDate = moment_original;
-
 					scope.months = [
 							{month: "Jan", value: 1},{month: "Feb",value:2},{month:"Mar", value: 3},
 							{month:"Apr", value: 4},{month:"May", value: 5},{month:"Jun", value: 6},
@@ -18,20 +17,18 @@ angular.module('workingHoursTrello')
 						];									
 				};
 				initialize();	
-				scope.getMonthlyTime = (month, memberId) => { /** To calculate the total time of the member per month */
-					return timeS.monthlyTime($rootScope.dt.year, month, $rootScope.boardLists, memberId, $rootScope.boardCards); /** year , month, Lists, memberId, Cards */
-				};
 				scope.getYearlyTime = (memberId) => { /** To calculate the total time of the member per year */
 					return timeS.yearlyTime($rootScope.dt.year, scope.months, $rootScope.boardLists, memberId, $rootScope.boardCards);
 				};
 				scope.getWinMonth = (month) => {
 					return winS.monthWinner($rootScope.dt.year, month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards);
 				}
+				scope.formatTime = time => (time <= 0) ? "-" : time;
 			},
 			restrict: "EA",
 			replace: true,
 			scope: {},
-			templateUrl: "../template/rewards/directives/timeDir.html" /** if Initialize from workTimist.html */
-			// templateUrl: "../../template/rewards/directives/timeDir.html" i
+			// templateUrl: "../template/rewards/directives/timeDir.html" /** if Initialize from workTimist.html */
+			templateUrl: "../../template/rewards/directives/timeDir.html",
 		}
 	});
