@@ -100,7 +100,8 @@ angular.module('workingHoursTrello', [
         
         apiS.getBoardCards(key, token).then((response) => {
           $rootScope.boardCards = response.data /** Get Boards Cards */
-    
+          
+          let monthlyWin = [] /** Holds the winners per month */
           let memberWorked = []; /** Holds members Worked Data */
           for (let y = 0; y < $rootScope.boardMembers.length; y++) {
             const member = $rootScope.boardMembers[y];
@@ -108,6 +109,7 @@ angular.module('workingHoursTrello', [
             let totalYearTask = 0;
             let totalYearDay = 0;
             let monthsWorked = [];
+            /** we loop 12 times to show per month */
             for (let month = 1; month < 13; month++) {
               
               let listWorkData = []; /** Holds Lists Data */
@@ -115,7 +117,6 @@ angular.module('workingHoursTrello', [
                 const list = $rootScope.boardLists[i];
                 listName = new Date(x = list.name.substr(0,list.name.indexOf(' ')));
                 listDate = `${listName.getFullYear()}/${listName.getMonth() + 1}/${listName.getDate()}`;
-  
                 toAdd = false; /** this will tell if the list Data should be assigned */
   
                 let listWithCard = {id:0, time:0, task:0, idMember:0}; /** Holds Cards Data */
@@ -173,16 +174,31 @@ angular.module('workingHoursTrello', [
                 totalYearDay = totalYearDay + cardDay;
                 totalYearTime = totalYearTime + card.time;
                 totalYearTask = totalYearTask + card.task;
-                
               }
               monthsWorked.push({month:month, monthTime: totalMonthTime, monthTask: totalMonthTask, monthWorked:totalMonthDay, worked:listWorkData});
+   
+              while (monthlyWin.length < month) {
+                monthlyWin.push({month:month, winTime:totalMonthTime, winTask:totalMonthTask});
+              }
+              if (monthlyWin.length >= 12) {
+                for (let j = 0; j < monthlyWin.length; j++) {
+                  const winner = monthlyWin[j];
+                  if (winner.month == month) {
+                    if (winner.winTime < totalMonthTime) {
+                      winner.winTime = totalMonthTime
+                    }
+                    if (winner.winTask < totalMonthTask) {
+                      winner.winTask = totalMonthTask
+                    }
+                  }
+                }
+              }
             }
             memberWorked.push({id:member.id, fullName:member.fullName,  totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
           }
           $rootScope.workedInfo = memberWorked;
-          console.log(memberWorked);
-          // console.log($rootScope.dt.year);
-          // console.log($rootScope.dt.year);
+          $rootScope.monthWin =monthlyWin;
+          // console.log($rootScope.monthWin);
         })
       })
     });

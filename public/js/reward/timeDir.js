@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('workingHoursTrello')
-	.directive('timeDir', function ($rootScope, timeS, winS) {
+	.directive('timeDir', function ($rootScope) {
 		return {
-			link : function(scope, element, attrs){
+			link : function(scope){
 
 				// Initialize Function Section
 				var initialize = function(){
@@ -17,12 +17,6 @@ angular.module('workingHoursTrello')
 						];									
 				};
 				initialize();	
-				scope.getYearlyTime = (memberId) => { /** To calculate the total time of the member per year */
-					return timeS.yearlyTime($rootScope.dt.year, scope.months, $rootScope.boardLists, memberId, $rootScope.boardCards);
-				};
-				scope.getWinMonth = (month) => {
-					return winS.monthWinner($rootScope.dt.year, month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards);
-				}
 				scope.formatTime = time => (time <= 0) ? "-" : time;
 			},
 			restrict: "EA",
