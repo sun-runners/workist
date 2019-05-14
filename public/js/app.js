@@ -91,6 +91,7 @@ angular.module('workingHoursTrello', [
   $rootScope.$watch('moment', function(){
     $rootScope.dt = $rootScope.getDtOfMoment($rootScope.moment);
 
+    // API Manipulation Starts here -------------------------------------------
     apiS.getBoardMembers(key, token).then((response) => {
       $rootScope.boardMembers = response.data /** Get Boards Members */
   
@@ -180,12 +181,11 @@ angular.module('workingHoursTrello', [
           }
           $rootScope.workedInfo = memberWorked;
           console.log(memberWorked);
-          console.log($rootScope.dt.year);
+          // console.log($rootScope.dt.year);
           // console.log($rootScope.dt.year);
         })
-      });
+      })
     });
-
   }, true);
 
  const t = window.TrelloPowerUp.iframe();
