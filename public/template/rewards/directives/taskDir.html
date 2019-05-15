@@ -38,11 +38,11 @@
         <td><span class="f-12px lh-17px h-18">{{ workers.fullName}}</span></td>
         <td ng-repeat="dts in months" class="t-26 b-64">
           <span class="f-12px lh-17px h-18" ng-style="getWinMonth(dts.value) == task && {'color':'green'}">
-            {{ workers | getMonthTask: dts.value }}
+            {{ formatTask(workers | getMonthTask: dts.value) }}
           </span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">2</span>
+          <span class="f-12px lh-17px h-18">{{ workers | getYearTask }}</span>
         </td>
       </tr>
     </table>
