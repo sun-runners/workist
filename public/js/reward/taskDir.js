@@ -23,7 +23,7 @@ angular.module('workingHoursTrello')
 			restrict: "EA",
 			replace: true,
 			scope: {},
-			// templateUrl: "../template/rewards/directives/taskDir.html" /** if Initialize from workTimist.html */
-			templateUrl: "../../template/rewards/directives/taskDir.html" 
+			templateUrl: "../template/rewards/directives/taskDir.html" /** if Initialize from workTimist.html */
+			// templateUrl: "../../template/rewards/directives/taskDir.html" 
 		}
 	});
