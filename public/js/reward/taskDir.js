@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('workingHoursTrello')
-	.directive('taskDir', function ($rootScope, taskS, winS) {
+	.directive('taskDir', function ($rootScope) {
 		return {
 			link : function(scope){
 
@@ -18,13 +18,6 @@ angular.module('workingHoursTrello')
 						];
 				};
 				initialize();
-				
-				scope.getYearlyTask = (memberId) => {   
-					return taskS.yearlyTasks($rootScope.dt.year, scope.months, $rootScope.boardLists, memberId, $rootScope.boardCards);
-				}
-				scope.getWinMonth = (month) => {
-					return winS.monthWinner($rootScope.dt.year, month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards,'task');
-				}
 				scope.formatTask = (value) => (value <= 0) ? "-" : value;
 			},
 			restrict: "EA",

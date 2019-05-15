@@ -37,8 +37,8 @@
       <tr class="t-26 b-64 h-50px c-686868" ng-repeat="workers in $root.workedInfo" ng-click="$root.changeSelectedMember(workers.fullName)" ng-class="{selected:  workers.fullName == $root.selectedMember}">
         <td><span class="f-12px lh-17px h-18">{{ workers.fullName}}</span></td>
         <td ng-repeat="dts in months" class="t-26 b-64">
-          <span class="f-12px lh-17px h-18" ng-style="getWinMonth(dts.value) == task && {'color':'green'}">
-            {{ formatTask(workers | getMonthTask: dts.value) }}
+          <span class="f-12px lh-17px h-18" ng-class="{'c-gn': task == ($root.monthWin | taskWinner : dts.value), 'c-black': time == 0 }">
+            {{ formatTask(task = (workers | getMonthTask: dts.value)) }}
           </span>
         </td>
         <td class="t-26 b-64">
