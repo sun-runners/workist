@@ -206,7 +206,7 @@ angular.module('workingHoursTrello', [
 
  const t = window.TrelloPowerUp.iframe();
 
-}).controller('mainCtrl', function($scope, $compile) {
+}).controller('mainCtrl', function($scope, $compile, $rootScope) {
   
 	$scope.template = 'monthlys';
   $scope.subMenu = ['weekly', 'monthly', 'yearly'];
@@ -267,13 +267,13 @@ angular.module('workingHoursTrello', [
           }
   };
 
-  // $scope.showLoader = () => {
-  //   document.getElementById("tyle-loader").style.display = "block";
-  //   return setTimeout(showPage, 1000);
-  // }
-	// function showPage() {
-	// 	document.getElementById("tyle-loader").style.display = "none";
-	// }
-	// $scope.showLoader()
+  $rootScope.showLoader = () => {
+    document.getElementById("tyle-loader").style.display = "block";
+    return setTimeout(showPage, 3000);
+  }
+	const showPage = () => {
+		document.getElementById("tyle-loader").style.display = "none";
+	}
+	$rootScope.showLoader()
 });
 
