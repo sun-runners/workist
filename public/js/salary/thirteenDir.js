@@ -11,13 +11,19 @@ angular.module('workingHoursTrello')
 							const listId = totalSalaryS.getListByName($rootScope.calendarLists, 'ENTERING DATE');
 							const entryDate = totalSalaryS.getEntryDate($rootScope.calendarCards, listId, memberId);
 							let dateDuration;
-							if (entryDate.getFullYear() == $rootScope.dt.year) {
-								dateDuration = totalSalaryS.diffInMonths(entryDate, $rootScope.dt.Date);
+							if (entryDate.getFullYear() >= $rootScope.dt.year) {
 								// dateDuration = totalSalaryS.diffInMonths(entryDate, new Date("2019/12/15"));
+								dateDuration = totalSalaryS.diffInMonths(entryDate, $rootScope.dt.Date);
+								if (entryDate.getDay() >= 15 && $rootScope.dt.date >= 15 && $rootScope.dt.month == 12) {
+									dateDuration = dateDuration + 1;
+								}
 							}else{
 								const year = $rootScope.dt.year;
-								dateDuration = totalSalaryS.diffInMonths(new Date(+year+'/01/01'), $rootScope.dt.Date) 
 								// dateDuration = totalSalaryS.diffInMonths(new Date(+year+'/01/01'), new Date("2019/12/15"))
+								dateDuration = totalSalaryS.diffInMonths(new Date(+year+'/01/01'), $rootScope.dt.Date) 
+								if ($rootScope.dt.date >= 15 && $rootScope.dt.month == 12) {
+									dateDuration = dateDuration + 1;
+								}
 							}
 							return dateDuration
 						} catch (error) {}
