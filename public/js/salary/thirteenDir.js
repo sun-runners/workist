@@ -3,26 +3,27 @@
 angular.module('workingHoursTrello')
 	.directive('thirteenDir', function ($rootScope, totalSalaryS, taskS, timeS, bonuseS) {
 		return {
-			link : function(scope, element, attrs){
+			link : function(scope){
           		function initialize() {
 					scope.menuItem = ['Name', 'months', 'basic salary', 'total'];
-					scope.memberId = "5c32e94ce49690729ecd0794";
 					scope.getMonthDuration = (memberId) => {
-						let listId = totalSalaryS.getListByName($rootScope.calendarLists, 'ENTERING DATE');
-						let entryDate = totalSalaryS.getEntryDate($rootScope.calendarCards, listId, memberId);
-						let dateDuration;
-						if (entryDate.getFullYear() == $rootScope.dt.year) {
-							return dateDuration = totalSalaryS.diffInMonths(entryDate, $rootScope.dt.Date);
-						}else{
-							return dateDuration = totalSalaryS.diffInMonths(new Date('2019/01/01'), $rootScope.dt.Date)
-						}
-
-						// return $rootScope.dt.year
+						try {
+							const listId = totalSalaryS.getListByName($rootScope.calendarLists, 'ENTERING DATE');
+							const entryDate = totalSalaryS.getEntryDate($rootScope.calendarCards, listId, memberId);
+							let dateDuration;
+							if (entryDate.getFullYear() == $rootScope.dt.year) {
+								dateDuration = totalSalaryS.diffInMonths(entryDate, $rootScope.dt.Date);
+								// dateDuration = totalSalaryS.diffInMonths(entryDate, new Date("2019/12/15"));
+							}else{
+								const year = $rootScope.dt.year;
+								dateDuration = totalSalaryS.diffInMonths(new Date(+year+'/01/01'), $rootScope.dt.Date) 
+								// dateDuration = totalSalaryS.diffInMonths(new Date(+year+'/01/01'), new Date("2019/12/15"))
+							}
+							return dateDuration
+						} catch (error) {}
 					}
-						// totalSalaryS.monthDuration($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId);}
-					// scope.getMonthDuration = (memberId) => totalSalaryS.monthDuration($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', new Date('2019/12/7'), memberId);
 					scope.getCurrentSalary = (memberId) => {
-						let  monthNumber = totalSalaryS.monthDuration($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId);
+						const monthNumber = totalSalaryS.monthDuration($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId);
 						return totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, monthNumber);}
 					scope.formatSalary = (salary) => {
 						try {
@@ -30,9 +31,9 @@ angular.module('workingHoursTrello')
 						} catch (error) {}
 					}
 					scope.getBonuse = (memberId) => {
-						let monthlyTask = taskS.monthlyTasks($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);				
-						let monthlyTime = timeS.monthlyTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);
-						let bonuse = bonuseS.bonuseTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards, $rootScope.calendarCards);
+						const monthlyTask = taskS.monthlyTasks($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);				
+						const monthlyTime = timeS.monthlyTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);
+						const bonuse = bonuseS.bonuseTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards, $rootScope.calendarCards);
 						try {
 							if (memberId == bonuse.leader) {
 								return {bonuse:"LEADER", value:10000}
@@ -47,7 +48,7 @@ angular.module('workingHoursTrello')
 					};
                     scope.totalThirteen = (salary, monthDuration, memberId) => {
 						try {
-							let bonuse = scope.getBonuse(memberId)
+							const bonuse = scope.getBonuse(memberId)
 							return Math.ceil(((salary * monthDuration)/12) + bonuse.value).toLocaleString() + " PHP";
 						} catch (error) {}
 					}
