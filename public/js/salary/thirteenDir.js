@@ -3,22 +3,43 @@
 angular.module('workingHoursTrello')
 	.directive('thirteenDir', function ($rootScope, totalSalaryS, taskS, timeS, bonuseS) {
 		return {
-			link : function(scope, element, attrs){
+			link : function(scope){
           		function initialize() {
 					scope.menuItem = ['Name', 'months', 'basic salary', 'total'];
-					scope.memberId = "5c32e94ce49690729ecd0794";
-					scope.getMonthDuration = (memberId) => totalSalaryS.monthDuration($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId);
-					// scope.getMonthDuration = (memberId) => totalSalaryS.monthDuration($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', new Date('2019/12/7'), memberId);
-					scope.getCurrentSalary = (memberId, monthNumber) => totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, monthNumber);
+					scope.getMonthDuration = (memberId) => {
+						try {
+							const listId = totalSalaryS.getListByName($rootScope.calendarLists, 'ENTERING DATE');
+							const entryDate = totalSalaryS.getEntryDate($rootScope.calendarCards, listId, memberId);
+							let dateDuration;
+							if (entryDate.getFullYear() >= $rootScope.dt.year) {
+								// dateDuration = totalSalaryS.diffInMonths(entryDate, new Date("2019/12/15"));
+								dateDuration = totalSalaryS.diffInMonths(entryDate, $rootScope.dt.Date);
+								if (entryDate.getDay() >= 15 && $rootScope.dt.date >= 15 && $rootScope.dt.month == 12) {
+									dateDuration = dateDuration + 1;
+								}
+							}else{
+								const year = $rootScope.dt.year;
+								// dateDuration = totalSalaryS.diffInMonths(new Date(+year+'/01/01'), new Date("2019/12/15"))
+								dateDuration = totalSalaryS.diffInMonths(new Date(+year+'/01/01'), $rootScope.dt.Date) 
+								if ($rootScope.dt.date >= 15 && $rootScope.dt.month == 12) {
+									dateDuration = dateDuration + 1;
+								}
+							}
+							return dateDuration
+						} catch (error) {}
+					}
+					scope.getCurrentSalary = (memberId) => {
+						const monthNumber = totalSalaryS.monthDuration($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId);
+						return totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, monthNumber);}
 					scope.formatSalary = (salary) => {
 						try {
-							return salary.toLocaleString() + " PHP"
+							return salary.toLocaleString() + " PHP";
 						} catch (error) {}
 					}
 					scope.getBonuse = (memberId) => {
-						let monthlyTask = taskS.monthlyTasks($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);				
-						let monthlyTime = timeS.monthlyTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);
-						let bonuse = bonuseS.bonuseTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards, $rootScope.calendarCards);
+						const monthlyTask = taskS.monthlyTasks($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);				
+						const monthlyTime = timeS.monthlyTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);
+						const bonuse = bonuseS.bonuseTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards, $rootScope.calendarCards);
 						try {
 							if (memberId == bonuse.leader) {
 								return {bonuse:"LEADER", value:10000}
@@ -33,7 +54,7 @@ angular.module('workingHoursTrello')
 					};
                     scope.totalThirteen = (salary, monthDuration, memberId) => {
 						try {
-							let bonuse = scope.getBonuse(memberId)
+							const bonuse = scope.getBonuse(memberId)
 							return Math.ceil(((salary * monthDuration)/12) + bonuse.value).toLocaleString() + " PHP";
 						} catch (error) {}
 					}
