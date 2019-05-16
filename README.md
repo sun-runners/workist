@@ -10,7 +10,7 @@ It is a Trello power-up that calculates Time, Attendance, Tasks etc . . .
 
     * click **Clone From Git Repo**
 
-    * enter this: https://github.com/KimSunWook/cssist.git
+    * enter this: https://github.com/KimSunWook/workist.git
 
 1. Use **Trello.com**:
     
