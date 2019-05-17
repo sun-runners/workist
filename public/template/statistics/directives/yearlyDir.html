@@ -21,12 +21,14 @@
         <!-- dts -->
         <th ng-repeat="dts in months">
           <!-- month/Days -->
-          <p class="f-12px h-18 lh-17 tt-u c-BDBDBD">
+          <p class="f-12px lh-17 h-18px c-BDBDBD">
             {{dts.month}}
           </p>
         </th>
         <!-- total -->
+        <th><span class="f-11px lh-1 h-1px c-BDBDBD">Annual</span><br><span class="f-11px lh-1 h-1px c-BDBDBD">Leave</span></th>
         <th><span class="f-12px lh-17 h-18px c-BDBDBD">TOTAL</span></th>
+        
       </tr>
       <!-- repeating output base on Username -->
       <tr class="w-100 h-45px" ng-repeat="workers in $root.workedInfo" ng-click="$root.changeSelectedMember(workers.fullName)" ng-class="{selected:  workers.fullName == $root.selectedMember}">
@@ -37,8 +39,13 @@
           </span>
         </td>
         <td>
+          <span class="f-12px lh-17px h-18">
+                {{getAnnualLeave(workers.id, yearWork)}}
+          </span>
+        </td>
+        <td>
           <span class="f-12px lh-17px h-18" ng-class="{'c-gn': work > toWork, 'c-red': work < toWork, 'c-bk': work == 0}">
-                {{ workers | getYearValue}} / {{toWork = getYearlyToWork(workers.id)}}
+                {{yearWork = (workers | getYearValue)}} / {{toWork = getYearlyToWork(workers.id)}}
           </span>
         </td>
       </tr>
