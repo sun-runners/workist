@@ -40,10 +40,8 @@ angular.module('workingHoursTrello')
 						let haveWork = allDatesToWork - allWorked;
 						let availableLeave = (haveWork < 0) ? 0 : haveWork;
 						let usedLeave = myAnnualLeave - availableLeave;
-					return usedLeave + "/" + myAnnualLeave;
-					} catch (error) {
-						
-					}
+					return ((new Date().getFullYear() !== $rootScope.dt.year) ? ((usedLeave < 0)? 0:usedLeave) : usedLeave) + "/" + ((new Date().getFullYear() !== $rootScope.dt.year) ? 12 : myAnnualLeave);
+					} catch (error) {}
 				}
 				scope.getYearlyToWork = (memberId) => {
 					let country = nationalityS.membersNationality(memberId, $rootScope.calendarCards, $rootScope.calendarLists);
@@ -51,7 +49,6 @@ angular.module('workingHoursTrello')
 					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, toWork);
 				}
 				scope.showMonthly = (work, toWork) => (work != 0) ? work+' / '+toWork : '-';
-
 			},
 			restrict: "EA",
 			replace: true,
