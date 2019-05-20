@@ -23,9 +23,41 @@ angular.module('workingHoursTrello')
 				scope.targetDay = 0;
 				scope.selectedHoliday = -1;
 
+				scope.nextYear = () => {
+					let lists = $rootScope.calendarLists.filter(list => {
+						let year = list.name.substr(0,list.name.indexOf(' '));
+						if (year == scope.currentYear + 1) {
+							return year
+						}
+					});
+					if (lists.length > 1) {
+						scope.currentYear = scope.currentYear + 1;
+						calendarS.showCalendar(scope.currentMonth, scope.currentYear);
+					}else{
+						scope.currentYear = scope.currentYear;
+						calendarS.showCalendar(scope.currentMonth, scope.currentYear);
+					}
+				}
+				scope.lastYear = () => {
+					let lists = $rootScope.calendarLists.filter(list => {
+						let year = list.name.substr(0,list.name.indexOf(' '));
+						if (year == scope.currentYear - 1) {
+							return year
+						}
+					});
+					if (lists.length > 1) {
+						scope.currentYear = scope.currentYear - 1;
+						calendarS.showCalendar(scope.currentMonth, scope.currentYear);
+					}else{
+						scope.currentYear = scope.currentYear;
+						calendarS.showCalendar(scope.currentMonth, scope.currentYear);
+					}
+				}
 				scope.next = function() {
 					scope.targetDay = 0;
-					scope.currentYear = (scope.currentMonth === 11) ? scope.currentYear + 1 : scope.currentYear;
+					if (scope.currentMonth == 11) {
+						scope.nextYear();
+					}
 					scope.currentMonth = (scope.currentMonth + 1) % 12;
 					scope.currentMonthName = moment(scope.currentMonth + 1, 'MM').format('MMMM')
 					calendarS.showCalendar(scope.currentMonth, scope.currentYear); /** Function to show Calendar */
@@ -33,7 +65,9 @@ angular.module('workingHoursTrello')
 				}
 				scope.previous = function() {
 					scope.targetDay = 0;
-					scope.currentYear = (scope.currentMonth === 0) ? scope.currentYear -  1 : scope.currentYear;
+					if (scope.currentMonth === 0) {
+						scope.lastYear();
+					}
 					scope.currentMonth = (scope.currentMonth === 0) ? 11 : scope.currentMonth - 1;
 					scope.currentMonthName = moment(scope.currentMonth + 1, 'MM').format('MMMM')
 					calendarS.showCalendar(scope.currentMonth, scope.currentYear); /** Function to show Calendar */

@@ -33,11 +33,15 @@
 
         <div class="w-100 h-90px d-fx fxd-c mt-20px">
             <div class="d-fx jc-c ai-c  c-333333">
-                <span>&#60;</span>
+                <button class="w-30px h-27px mr-10px f-l c-333333 fw-500" ng-click="lastYear()">
+                    {{"<"}}
+                  </button>
                 <div class="d-fx jc-sb lh-29px">
                     <span class="ml-35px mr-35px fw-900 tt-u c-333333 lh-29px f-24px"><p>{{currentYear}}</p></span>     
                 </div>
-                <span>&#62;</span>
+                <button class="w-35px h-27px ml-20px f-l c-333333 fw-500" ng-click="nextYear()">
+                    {{">"}}
+                </button>
             </div>
             <div class="cen-x d-fx w-100  jc-c ai-c">
                 <div class="">
@@ -73,6 +77,7 @@
                             <th class="w-25"></th>
                             <th class="w-25"></th>
                         </tr>
+                        
                     <tr class="w-100 h-36px t-c cursor-pointer calendar-row c-686868" ng-repeat="holiday in $root.calendarCards | filter: {idList : getHoliday('HOLIDAY PHILIPPINES')}"
                     ng-style="{display: swtichHoliday == 'PHILIPPINES' ? 'static':'none'}" ng-click="getToHoliday($index, holidayMonth(holiday.name), holidayDate(holiday.name))"
                     ng-class="{selected:  $index == selectedHoliday}">
