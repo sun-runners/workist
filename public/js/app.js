@@ -46,51 +46,7 @@ angular.module('workingHoursTrello', [
   apiS.calendarBoardLists(key, token).then((response) => $rootScope.calendarLists = response.data /**  Get Boards Lists of Work Timist Data */);
   apiS.calendarBoardCards(key, token).then((response) => $rootScope.calendarCards = response.data /** Get Boards Cards of Work Timist Data */);
 
-  // Variable Section
-  $rootScope.moment = moment();
-  $rootScope.trello = {};
-
-  // Increase Function Section
-  $rootScope.increaseWeek = function(){
-    $rootScope.moment.add(7, 'days');
-  };
-
-  $rootScope.increaseMonth = function(){
-    $rootScope.moment.add(1, 'months');
-  };
-
-  $rootScope.increaseYear = function(){
-    $rootScope.moment.add(1, 'years');
-  };
-
-  // Decrease Function Section
-  $rootScope.decreaseWeek = function(){
-    $rootScope.moment.subtract(7, 'days');
-  };
-
-  $rootScope.decreaseMonth = function(){
-    $rootScope.moment.subtract(1, 'months');
-  };
-
-  $rootScope.decreaseYear = function(){
-    $rootScope.moment.subtract(1, 'years');
-  };
-
-  // Get Function Section
-  $rootScope.getDtOfMoment = function(moment){
-    var dt = {};
-    dt.Date = moment.toDate();
-    dt.year = moment.year();
-    dt.month = moment.month()+1;
-    dt.date = moment.date();
-    dt.week = Math.ceil(moment.date()/7);
-    return dt;
-  }
-
-  // Watch Section
-  $rootScope.$watch('moment', function(){
-    $rootScope.dt = $rootScope.getDtOfMoment($rootScope.moment);
-
+  function initApi(params) {
     // API Manipulation Starts here -------------------------------------------
     apiS.getBoardMembers(key, token).then((response) => {
       $rootScope.boardMembers = response.data /** Get Boards Members */
@@ -202,6 +158,53 @@ angular.module('workingHoursTrello', [
         })
       })
     });
+  }
+  // Variable Section
+  $rootScope.moment = moment();
+  $rootScope.trello = {};
+
+  // Increase Function Section
+  $rootScope.increaseWeek = function(){
+    $rootScope.moment.add(7, 'days');
+  };
+
+  $rootScope.increaseMonth = function(){
+    $rootScope.moment.add(1, 'months');
+  };
+
+  $rootScope.increaseYear = function(){
+    $rootScope.moment.add(1, 'years');
+  };
+
+  // Decrease Function Section
+  $rootScope.decreaseWeek = function(){
+    $rootScope.moment.subtract(7, 'days');
+  };
+
+  $rootScope.decreaseMonth = function(){
+    $rootScope.moment.subtract(1, 'months');
+  };
+
+  $rootScope.decreaseYear = function(){
+    $rootScope.moment.subtract(1, 'years');
+  };
+
+  // Get Function Section
+  $rootScope.getDtOfMoment = function(moment){
+    var dt = {};
+    dt.Date = moment.toDate();
+    dt.year = moment.year();
+    dt.month = moment.month()+1;
+    dt.date = moment.date();
+    dt.week = Math.ceil(moment.date()/7);
+    return dt;
+  }
+
+  // Watch Section
+  $rootScope.$watch('moment', function(){
+    $rootScope.dt = $rootScope.getDtOfMoment($rootScope.moment);
+    initApi();
+    
   }, true);
 
  const t = window.TrelloPowerUp.iframe();
