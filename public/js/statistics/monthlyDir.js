@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('workingHoursTrello')
-	.directive('monthlyDir',  function ($rootScope, apiS, monthS, nationalityS, holidayS) {
+	.directive('monthlyDir',  function ($rootScope, apiS, monthS, nationalityS, holidayS, birthdayS) {
 		return {
 			link : function(scope, element, attrs){
 
@@ -47,12 +47,14 @@ angular.module('workingHoursTrello')
 				scope.getWeeklyTotal = (memberId, theDates) => { /** we get the holidays base on nationality */
 					let country = nationalityS.membersNationality(memberId, $rootScope.calendarCards, $rootScope.calendarLists);
 					let weeklyToWork = monthS.weeklyNeedToWork(theDates.year, theDates.month, theDates.startFull, theDates.endFull);
-					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, weeklyToWork);
+					let filterTheBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", weeklyToWork);
+					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterTheBirthday);
 				}
 				scope.getMonthlyTotal = (memberId) => { /** we get the holidays base on nationality */
 					let country = nationalityS.membersNationality(memberId, $rootScope.calendarCards, $rootScope.calendarLists);
 					let monthlyToWork = monthS.monthsNeedtoWork(scope.thisDate.year(), scope.thisDate.month()+1);
-					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, monthlyToWork); 
+					let filterTheBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", monthlyToWork);
+					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterTheBirthday); 
 				}
 			},
 			restrict: "EA",

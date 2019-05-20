@@ -1,5 +1,5 @@
 angular.module('workingHoursTrello')
-	.directive('weeklyDir',  function ($rootScope, apiS, dayS, weekS, nationalityS, holidayS) {
+	.directive('weeklyDir',  function ($rootScope, apiS, dayS, weekS, nationalityS, holidayS, birthdayS) {
 		return {
 			link : function(scope, element, attrs){
 				// Initialize Function Section
@@ -33,7 +33,8 @@ angular.module('workingHoursTrello')
 				scope.getHolidays = (memberId, dates) => { /** we get the holidays base on nationality */
 					let country = nationalityS.membersNationality(memberId, $rootScope.calendarCards, $rootScope.calendarLists);
 					let weeklyToWork = weekS.weeklyNeedToWork(dates);
-					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, weeklyToWork);
+					let filterTheBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", weeklyToWork);
+					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterTheBirthday);
 				}
 			},
 			restrict: "EA",
