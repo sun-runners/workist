@@ -43,121 +43,134 @@ angular.module('workingHoursTrello', [
   const token = '7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118';
   const key ='86b2621fa79c88d61ff3a95b82ec2bd7';
 
-  apiS.calendarBoardLists(key, token).then((response) => $rootScope.calendarLists = response.data /**  Get Boards Lists of Work Timist Data */);
-  apiS.calendarBoardCards(key, token).then((response) => $rootScope.calendarCards = response.data /** Get Boards Cards of Work Timist Data */);
+  // apiS.calendarBoardLists(key, token).then((response) => $rootScope.calendarLists = response.data /**  Get Boards Lists of Work Timist Data */);
+  
 
   function initApi(params) {
     // API Manipulation Starts here -------------------------------------------
     apiS.getBoardMembers(key, token).then((response) => {
       $rootScope.boardMembers = response.data /** Get Boards Members */
+      
+      apiS.calendarBoardLists(key, token).then((response) => {
+        $rootScope.calendarLists = response.data 
+
+        apiS.calendarBoardCards(key, token).then((response) => {
+          $rootScope.calendarCards = response.data
+
+          apiS.getBoardLists(key, token).then((response) => {
+            $rootScope.boardLists = response.data /**  Get Boards Lists */
   
-      apiS.getBoardLists(key, token).then((response) => {
-        $rootScope.boardLists = response.data /**  Get Boards Lists */
-        
-        apiS.getBoardCards(key, token).then((response) => {
-          $rootScope.boardCards = response.data /** Get Boards Cards */
-          
-          let monthlyWin = [] /** Holds the winners per month */
-          let memberWorked = []; /** Holds members Worked Data */
-          for (let y = 0; y < $rootScope.boardMembers.length; y++) {
-            const member = $rootScope.boardMembers[y];
-            let totalYearTime = 0;
-            let totalYearTask = 0;
-            let totalYearDay = 0;
-            let monthsWorked = [];
-            /** we loop 12 times to show per month */
-            for (let month = 1; month < 13; month++) {
+            apiS.getBoardCards(key, token).then((response) => {
+              $rootScope.boardCards = response.data /** Get Boards Cards */
               
-              let listWorkData = []; /** Holds Lists Data */
-              for (let i = 0; i < $rootScope.boardLists.length; i++) {
-                const list = $rootScope.boardLists[i];
-                listName = new Date(x = list.name.substr(0,list.name.indexOf(' ')));
-                listDate = `${listName.getFullYear()}/${listName.getMonth() + 1}/${listName.getDate()}`;
-                toAdd = false; /** this will tell if the list Data should be assigned */
-  
-                let listWithCard = {id:0, time:0, task:0, idMember:0}; /** Holds Cards Data */
-                for (let x = 0; x < $rootScope.boardCards.length; x++) {
-                  const card = $rootScope.boardCards[x];
-                  if (card.idList == list.id && card.idMembers == member.id && $rootScope.dt.year == listName.getFullYear() && (listName.getMonth() + 1) == month) {
-                    toAdd = true; /** will assign the cards to the listWithCard */
-                    try { /** 8-12+14-16 = 6*/
-                      cardName = card.name;
-                      let number = 0;
-                      if (cardName.match(/[a-z]/i) || /\/.*\//.test( cardName )) { /* we filter if the card name is legit **/
-                        number = 0;
-                      }else{
-                        var numbers = cardName.split(/\+|\-/);
-                        if(numbers.length%2==1){
-                           number = 0;
-                        }
-                        number = Math.abs(eval(cardName));
+              let monthlyWin = []; /** Holds the winners per month */
+              let memberWorked = []; /** Holds members Worked Data */
+
+              for (let y = 0; y < $rootScope.boardMembers.length; y++) {
+                const member = $rootScope.boardMembers[y];
+                let totalYearTime = 0;
+                let totalYearTask = 0;
+                let totalYearDay = 0;
+                let monthsWorked = [];
+                /** we loop 12 times to show per month */
+                for (let month = 1; month < 13; month++) {
+                  
+                  let listWorkData = []; /** Holds Lists Data */
+                  for (let i = 0; i < $rootScope.boardLists.length; i++) {
+                    const list = $rootScope.boardLists[i];
+                    listName = new Date(x = list.name.substr(0,list.name.indexOf(' ')));
+                    listDate = `${listName.getFullYear()}/${listName.getMonth() + 1}/${listName.getDate()}`;
+                    toAdd = false; /** this will tell if the list Data should be assigned */
+      
+                    let listWithCard = {id:0, time:0, task:0, idMember:0}; /** Holds Cards Data */
+                    for (let x = 0; x < $rootScope.boardCards.length; x++) {
+                      const card = $rootScope.boardCards[x];
+                      if (card.idList == list.id && card.idMembers == member.id && $rootScope.dt.year == listName.getFullYear() && (listName.getMonth() + 1) == month) {
+                        toAdd = true; /** will assign the cards to the listWithCard */
+                        try { /** 8-12+14-16 = 6*/
+                          cardName = card.name;
+                          let number = 0;
+                          if (cardName.match(/[a-z]/i) || /\/.*\//.test( cardName )) { /* we filter if the card name is legit **/
+                            number = 0;
+                          }else{
+                            var numbers = cardName.split(/\+|\-/);
+                            if(numbers.length%2==1){
+                               number = 0;
+                            }
+                            number = Math.abs(eval(cardName));
+                          }
+                          // cardName = Math.abs(eval(card.name));
+                          /** the card data to be pushed to members cards */
+                          listWithCard.id = card.id;
+                          listWithCard.time = number;
+                          listWithCard.task = card.badges.checkItemsChecked;
+                          listWithCard.idMember = card.idMembers[0];
+                          // listWithCard.push({id:card.id, time:cardName, task:card.badges.checkItemsChecked, idMember:card.idMembers[0]});
+                          } catch (error) {}
                       }
-                      // cardName = Math.abs(eval(card.name));
-                      /** the card data to be pushed to members cards */
-                      listWithCard.id = card.id;
-                      listWithCard.time = number;
-                      listWithCard.task = card.badges.checkItemsChecked;
-                      listWithCard.idMember = card.idMembers[0];
-                      // listWithCard.push({id:card.id, time:cardName, task:card.badges.checkItemsChecked, idMember:card.idMembers[0]});
-                      } catch (error) {}
+                    }
+                    if (toAdd == true) {
+                      listWorkData.push({id:list.id, dateFull:listDate, day:listName.getDate(), month:(listName.getMonth()+1), year:listName.getFullYear(), cards:listWithCard}); /** the data to pushed on workData */
+                      toAdd = false;
+                    }
+                  }
+                  let totalMonthTime = 0;
+                  let totalMonthTask = 0;
+                  let totalMonthDay = 0;
+                  
+                  for (let z = 0; z < listWorkData.length; z++) {
+                    const card = listWorkData[z].cards;
+                    // console.log(data)
+                    cardDay = 0
+                    if (card.time >= 8) {
+                        cardDay = 1;
+                    }else if (card.time <= 8 && card.time > 4) {
+                        cardDay = 0.5;
+                    }else if (card.time <= 4) {
+                        cardDay = 0;
+                    }
+                    /** will add the monthly data */
+                    totalMonthDay = totalMonthDay + cardDay;
+                    totalMonthTime = totalMonthTime + card.time;
+                    totalMonthTask = totalMonthTask + card.task;
+                    /** will add the yearly data */
+                    totalYearDay = totalYearDay + cardDay;
+                    totalYearTime = totalYearTime + card.time;
+                    totalYearTask = totalYearTask + card.task;
+                  }
+                  monthsWorked.push({month:month, monthTime: totalMonthTime, monthTask: totalMonthTask, monthWorked:totalMonthDay, worked:listWorkData});
+       
+                  while (monthlyWin.length < month) {
+                    monthlyWin.push({month:month, winTime:totalMonthTime, winTask:totalMonthTask});
+                  }
+                  if (monthlyWin.length >= 12) {
+                    for (let j = 0; j < monthlyWin.length; j++) {
+                      const winner = monthlyWin[j];
+                      if (winner.month == month) {
+                        if (winner.winTime < totalMonthTime) {
+                          winner.winTime = totalMonthTime
+                        }
+                        if (winner.winTask < totalMonthTask) {
+                          winner.winTask = totalMonthTask
+                        }
+                      }
+                    }
                   }
                 }
-                if (toAdd == true) {
-                  listWorkData.push({id:list.id, dateFull:listDate, day:listName.getDate(), month:(listName.getMonth()+1), year:listName.getFullYear(), cards:listWithCard}); /** the data to pushed on workData */
-                  toAdd = false;
-                }
+                memberWorked.push({id:member.id, fullName:member.fullName,  totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
               }
-              let totalMonthTime = 0;
-              let totalMonthTask = 0;
-              let totalMonthDay = 0;
+              $rootScope.workedInfo = memberWorked;
+              $rootScope.monthWin = monthlyWin;
+              // console.log($rootScope.monthWin);
               
-              for (let z = 0; z < listWorkData.length; z++) {
-                const card = listWorkData[z].cards;
-                // console.log(data)
-                cardDay = 0
-                if (card.time >= 8) {
-                    cardDay = 1;
-                }else if (card.time <= 8 && card.time > 4) {
-                    cardDay = 0.5;
-                }else if (card.time <= 4) {
-                    cardDay = 0;
-                }
-                /** will add the monthly data */
-                totalMonthDay = totalMonthDay + cardDay;
-                totalMonthTime = totalMonthTime + card.time;
-                totalMonthTask = totalMonthTask + card.task;
-                /** will add the yearly data */
-                totalYearDay = totalYearDay + cardDay;
-                totalYearTime = totalYearTime + card.time;
-                totalYearTask = totalYearTask + card.task;
-              }
-              monthsWorked.push({month:month, monthTime: totalMonthTime, monthTask: totalMonthTask, monthWorked:totalMonthDay, worked:listWorkData});
-   
-              while (monthlyWin.length < month) {
-                monthlyWin.push({month:month, winTime:totalMonthTime, winTask:totalMonthTask});
-              }
-              if (monthlyWin.length >= 12) {
-                for (let j = 0; j < monthlyWin.length; j++) {
-                  const winner = monthlyWin[j];
-                  if (winner.month == month) {
-                    if (winner.winTime < totalMonthTime) {
-                      winner.winTime = totalMonthTime
-                    }
-                    if (winner.winTask < totalMonthTask) {
-                      winner.winTask = totalMonthTask
-                    }
-                  }
-                }
-              }
-            }
-            memberWorked.push({id:member.id, fullName:member.fullName,  totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
-          }
-          $rootScope.workedInfo = memberWorked;
-          $rootScope.monthWin = monthlyWin;
-          // console.log($rootScope.monthWin);
-        })
-      })
-    });
+            }); /** getBoardCards */
+          }); /** getBoardLists */
+
+          // code for holiday insert here
+
+        }); /** calendarBoardCards End */
+      }); /** calendarBoardList End */
+    }); /** boardMembers End */
   }
   // Variable Section
   $rootScope.moment = moment();
@@ -272,7 +285,7 @@ angular.module('workingHoursTrello', [
 
   $rootScope.showLoader = () => {
     document.getElementById("tyle-loader").style.display = "block";
-    return setTimeout(showPage, 3000);
+    return setTimeout(showPage, 4000);
   }
 	const showPage = () => {
 		document.getElementById("tyle-loader").style.display = "none";
