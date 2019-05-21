@@ -67,11 +67,12 @@
         <div class="w-100 d-fx jc-sb h-62px">
             <div class="w-165px pt-10px pl-24px pr-24px t-c"><img class="h-50px" src="../asset/logo.png"></div>
 
-            <div class="h-100 d-fx">
+            <div class="h-100 d-fx ai-c">
                 <span ng-repeat="item in mainMenu" class="cursor-pointer tt-u t-c" ng-class="{'b-73AFE4 c-we':  activeMenu == item.title}" ng-click="$root.showLoader()">
                     <a class="pt-21px pb-21px pl-24px pr-24px" ng-click="activateMenu(item.title); switchSub(item.title)" href="#!{{item.active}}" style="text-decoration: none;">{{item.title}}</a>
                 </span>
-                <span class="cursor-pointer tt-u pt-21px pb-21px pl-24px pr-24px t-c bo_l-1px bo-gy"  ng-click="">
+                <div class="h-40  bo-1px bo-gy"></div>
+                <span class="cursor-pointer tt-u pt-21px pb-21px pl-24px pr-24px t-c"  ng-click="">
                     <a style="text-decoration: none;"><img class="h-20px" src="../asset/camera_pic.png" ng-click="openModal()"></a>
                 </span>
             </div>
