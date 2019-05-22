@@ -43,10 +43,7 @@ angular.module('workingHoursTrello', [
   const token = '7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118';
   const key ='86b2621fa79c88d61ff3a95b82ec2bd7';
 
-  // apiS.calendarBoardLists(key, token).then((response) => $rootScope.calendarLists = response.data /**  Get Boards Lists of Work Timist Data */);
-  
-
-  function initApi(params) {
+  function initApi() {
     // API Manipulation Starts here -------------------------------------------
     apiS.getBoardMembers(key, token).then((response) => {
       $rootScope.boardMembers = response.data /** Get Boards Members */
@@ -166,8 +163,40 @@ angular.module('workingHoursTrello', [
             }); /** getBoardCards */
           }); /** getBoardLists */
 
-          // code for holiday insert here
-
+          let holidays = []
+          for (let i = 0; i < $rootScope.calendarLists.length; i++) {
+              const list = $rootScope.calendarLists[i];
+              const listWords = list.name.split(" ");
+              let country;
+              let year; 
+              for (let j = 0; j < listWords.length; j++) {
+                  const word = listWords[j];
+                  if (word == "PHILIPPINES") {
+                      country = "PHILIPPINES";
+                  }
+                  if (word == "KOREA") {
+                      country = "KOREA";
+                  }
+                  if (!isNaN(word)) {
+                      year = word
+                  }
+              }
+              let holiDates = [];
+              for (let x = 0; x < $rootScope.calendarCards.length; x++) {
+                  const card = $rootScope.calendarCards[x];
+                  if (card.idList == list.id) {
+                      cardDate = card.name.substr(0, card.name.indexOf(" ")); 
+                      fullDate = `${year}/${cardDate}`;
+                      holidayName = card.name.substr(card.name.indexOf(' ')+1);
+                      holiDates.push({date:fullDate, name:holidayName});
+                  }
+              }
+              if (country != undefined || year != undefined) {
+                  holidays.push({country:country, year:year, dates:holiDates})
+              }
+          }
+          $rootScope.holidays = holidays;
+          console.log($rootScope.holidays)
         }); /** calendarBoardCards End */
       }); /** calendarBoardList End */
     }); /** boardMembers End */
