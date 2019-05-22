@@ -86,4 +86,17 @@ angular.module('workingHoursTrello').service('holidayS', function() {
         return newTotalWork
        } catch (error) {}
     }
+    this.getHolidays = (holidays, year, country) => {
+        let cards = []; /** Will Contain Cards from the List base on the Given strName */
+        for (let i = 0; i < holidays.length; i++) {
+            const holiday = holidays[i];
+            if (holiday.country == country && holiday.year == year) {
+                for (let j = 0; j < holiday.dates.length; j++) {
+                    const date = holiday.dates[j];
+                    cards.push(new Date(date.date))
+                }
+            }
+        }
+        return cards
+    }
 });

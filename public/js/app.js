@@ -46,19 +46,19 @@ angular.module('workingHoursTrello', [
   function initApi() {
     // API Manipulation Starts here -------------------------------------------
     apiS.getBoardMembers(key, token).then((response) => {
-      $rootScope.boardMembers = response.data /** Get Boards Members */
+      $rootScope.boardMembers = response.data; /** Get Boards Members */
       
       apiS.calendarBoardLists(key, token).then((response) => {
-        $rootScope.calendarLists = response.data 
+        $rootScope.calendarLists = response.data ;
 
         apiS.calendarBoardCards(key, token).then((response) => {
-          $rootScope.calendarCards = response.data
+          $rootScope.calendarCards = response.data;
 
           apiS.getBoardLists(key, token).then((response) => {
-            $rootScope.boardLists = response.data /**  Get Boards Lists */
+            $rootScope.boardLists = response.data; /**  Get Boards Lists */
   
             apiS.getBoardCards(key, token).then((response) => {
-              $rootScope.boardCards = response.data /** Get Boards Cards */
+              $rootScope.boardCards = response.data; /** Get Boards Cards */
               
               let monthlyWin = []; /** Holds the winners per month */
               let memberWorked = []; /** Holds members Worked Data */
@@ -118,7 +118,7 @@ angular.module('workingHoursTrello', [
                   for (let z = 0; z < listWorkData.length; z++) {
                     const card = listWorkData[z].cards;
                     // console.log(data)
-                    cardDay = 0
+                    cardDay = 0;
                     if (card.time >= 8) {
                         cardDay = 1;
                     }else if (card.time <= 8 && card.time > 4) {
@@ -145,10 +145,10 @@ angular.module('workingHoursTrello', [
                       const winner = monthlyWin[j];
                       if (winner.month == month) {
                         if (winner.winTime < totalMonthTime) {
-                          winner.winTime = totalMonthTime
+                          winner.winTime = totalMonthTime;
                         }
                         if (winner.winTask < totalMonthTask) {
-                          winner.winTask = totalMonthTask
+                          winner.winTask = totalMonthTask;
                         }
                       }
                     }
@@ -195,7 +195,7 @@ angular.module('workingHoursTrello', [
               }
           }
           $rootScope.holidays = holidays;
-          console.log($rootScope.holidays)
+          // console.log($rootScope.holidays)
 
         }); /** calendarBoardCards End */
       }); /** calendarBoardList End */
