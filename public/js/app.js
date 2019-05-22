@@ -159,11 +159,10 @@ angular.module('workingHoursTrello', [
               $rootScope.workedInfo = memberWorked;
               $rootScope.monthWin = monthlyWin;
               // console.log($rootScope.monthWin);
-              
             }); /** getBoardCards */
           }); /** getBoardLists */
 
-          let holidays = []
+          let holidays = [] /** Holds the holidays per year each country */
           for (let i = 0; i < $rootScope.calendarLists.length; i++) {
               const list = $rootScope.calendarLists[i];
               const listWords = list.name.split(" ");
@@ -178,16 +177,16 @@ angular.module('workingHoursTrello', [
                       country = "KOREA";
                   }
                   if (!isNaN(word)) {
-                      year = word
+                      year = word;
                   }
               }
-              let holiDates = [];
+              let holiDates = []; /** Holds the dates of the holiday */
               for (let x = 0; x < $rootScope.calendarCards.length; x++) {
                   const card = $rootScope.calendarCards[x];
                   if (card.idList == list.id) {
                       cardDate = card.name.substr(0, card.name.indexOf(" ")); 
-                      fullDate = `${year}/${cardDate}`;
-                      holidayName = card.name.substr(card.name.indexOf(' ')+1);
+                      fullDate = `${year}/${cardDate}`; /** We get the Holiday card date */
+                      holidayName = card.name.substr(card.name.indexOf(' ')+1); /** We get the name of the Holiday */
                       holiDates.push({date:fullDate, name:holidayName});
                   }
               }
@@ -197,6 +196,7 @@ angular.module('workingHoursTrello', [
           }
           $rootScope.holidays = holidays;
           console.log($rootScope.holidays)
+
         }); /** calendarBoardCards End */
       }); /** calendarBoardList End */
     }); /** boardMembers End */
