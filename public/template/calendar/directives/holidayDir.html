@@ -80,7 +80,7 @@
                         
                     <tr class="w-100 h-36px t-c cursor-pointer calendar-row c-686868" ng-repeat="holiday in $root.calendarCards | filter: {idList : getHoliday('HOLIDAY PHILIPPINES')}"
                     ng-style="{display: swtichHoliday == 'PHILIPPINES' ? 'static':'none'}" ng-click="getToHoliday($index, holidayMonth(holiday.name), holidayDate(holiday.name))"
-                    ng-class="{selected:  $index == selectedHoliday}">
+                    ng-class="{selected:  $index == selectedHoliday}" id="{{$index}}">
                         <td><span class="f-12px lh-17px h-18">{{$index + 1}}</span></td>
                         <td><span class="f-12px lh-17px h-18">{{holidayName(holiday.name)}}</span></td>
                         <td><span class="f-12px lh-17px h-18">{{holidayFullDate(holiday.name)}}</span></td>
