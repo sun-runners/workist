@@ -26,38 +26,7 @@ angular.module('workingHoursTrello').service('birthdayS', function() {
             return "-";
         }
     }
-    this.getBirthdate = (memberId, boardLists, boardCards, strName) => {
-        let fullDate = this.getFullBirthDate(memberId, boardLists, boardCards, strName)
-        let date = moment(fullDate, "YYYY-MM-DD").format('DD MMMM');
-        return date;
-    }
-    this.getBirthday = (memberId, boardLists, boardCards, strName) => {
-        let date = this.getFullBirthDate(memberId, boardLists, boardCards, strName);
-        return date.getDate();
-    }
-    this.getBirthMonth = (memberId, boardLists, boardCards, strName) => {
-        let date = this.getFullBirthDate(memberId, boardLists, boardCards, strName);
-        return date.getMonth();
-    }
-    this.getBirthYear = (memberId, boardLists, boardCards, strName) => {
-        try {
-            let date = this.getFullBirthDate(memberId, boardLists, boardCards, strName);
-            return date.getFullYear();
-        } catch (error) {
-            
-        }
-    }
-    this.getAge = (memberId, boardLists, boardCards, strName) => {
-        try {
-            let list = this.findBoardList(boardLists, strName);
-            let cardName = this.findListCard(memberId, list.id, boardCards);
-            let date = Math.floor((new Date() - new Date(cardName).getTime()) / 3.15576e+10);
-            return date;
-        } catch (error) {
-            return "-";
-        }
-    }
-    this.removeBirthdate = (memberId, boardLists, boardCards, strName, workingDates) => {
+    this.removeBirthdate = (memberId, boardLists, boardCards, strName, workingDates) => { //** We remove the birthDates from the lists of Dates */
         try {
             let birthday = this.getFullBirthDate(memberId, boardLists, boardCards, strName);
             let dateBirth = new Date(birthday);
@@ -72,5 +41,22 @@ angular.module('workingHoursTrello').service('birthdayS', function() {
         } catch (error) {
             
         }
+    }
+    this.getBirthdays = (boardLists, boardCards, strName) => {
+        let cards = []; /** Will Contain Cards from the List base on the Given strName */
+            for (let i = 0; i < boardLists.length; i++) {        
+                let list = boardLists[i];
+                if (list.name == strName) {
+                    for (let x = 0; x < boardCards.length; x++) {
+                        let card = boardCards[x];
+                        if (card.idList == list.id) {
+                            let date = new Date(card.name);
+                            cards.push(date);
+                            // console.log({date:date, memberId:card.idMembers[0]});
+                        }
+                    }
+                }
+            }
+            return cards;
     }
 });
