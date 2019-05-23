@@ -68,6 +68,7 @@ angular.module('workingHoursTrello', [
                 let totalYearTime = 0;
                 let totalYearTask = 0;
                 let totalYearDay = 0;
+                let memberBirthday;
                 let monthsWorked = [];
                 /** we loop 12 times to show per month */
                 for (let month = 1; month < 13; month++) {
@@ -154,9 +155,22 @@ angular.module('workingHoursTrello', [
                     }
                   }
                 }
-                memberWorked.push({id:member.id, fullName:member.fullName,  totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
+                for (let i = 0; i < $rootScope.calendarLists.length; i++) {
+                  const list = $rootScope.calendarLists[i];
+                  if (list.name.toUpperCase() == "BIRTHDAY") {
+                    const listId = list.id;
+                    for (let j = 0; j < $rootScope.calendarCards.length; j++) {
+                      const card = $rootScope.calendarCards[j];
+                      if (listId == card.idList && member.id == card.idMembers) {
+                        memberBirthday = card.name;
+                      }
+                    }
+                  }
+                }
+                memberWorked.push({id:member.id, fullName:member.fullName, birthday:memberBirthday, totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
               }
               $rootScope.workedInfo = memberWorked;
+              console.log($rootScope.workedInfo);
               $rootScope.monthWin = monthlyWin;
               // console.log($rootScope.monthWin);
             }); /** getBoardCards */
