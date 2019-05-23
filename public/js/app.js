@@ -170,7 +170,7 @@ angular.module('workingHoursTrello', [
                 memberWorked.push({id:member.id, fullName:member.fullName, birthday:memberBirthday, totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
               }
               $rootScope.workedInfo = memberWorked;
-              console.log($rootScope.workedInfo);
+              // console.log($rootScope.workedInfo);
               $rootScope.monthWin = monthlyWin;
               // console.log($rootScope.monthWin);
             }); /** getBoardCards */
