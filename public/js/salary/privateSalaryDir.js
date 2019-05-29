@@ -7,10 +7,10 @@ angular.module('workingHoursTrello')
           		function initialize() {
 					scope.menuItem = ['month', 'months', 'basic salary', 'percentage', 'bonus', 'total salary'];
 					scope.memberId = "5c32e94ce49690729ecd0794";
+					
 					scope.monthWorked = () => {
-						return 2323
+						console.log(1)
 					}
-	
 				}
 				initialize();
 			},
