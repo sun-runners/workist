@@ -218,6 +218,35 @@ angular.module('workingHoursTrello', [
       }); /** calendarBoardList End */
     }); /** boardMembers End */
   }
+  // init Authintication
+
+const authenticationSuccess = function() {
+    let userToken = localStorage.trello_token;
+    $rootScope.myToken = userToken;
+    // console.log(token);
+    apiS.privateData(key, userToken).then((response) => {
+      $rootScope.privateData = response.data; 
+    });
+  };
+  
+const authenticationFailure = function() {
+    console.log('Failed authentication');
+  };
+
+Trello.authorize({
+    type: 'redirect',
+    name: 'Workist',
+    persist: 1,
+    // persist: 'true', // the token will be saved on localstorage
+    scope: {
+        read: 'true',
+        write: 'true' 
+    },
+    expiration: '1hour',
+    success: authenticationSuccess,
+    error: authenticationFailure
+});
+
   // Variable Section
   $rootScope.moment = moment();
   $rootScope.trello = {};
