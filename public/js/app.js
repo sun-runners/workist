@@ -71,6 +71,8 @@ angular.module('workingHoursTrello', [
                 let totalYearTime = 0;
                 let totalYearTask = 0;
                 let totalYearDay = 0;
+                let enterDate;
+                let startSalary;
                 let memberBirthday;
                 let monthsWorked = [];
                 /** we loop 12 times to show per month */
@@ -169,8 +171,18 @@ angular.module('workingHoursTrello', [
                       }
                     }
                   }
+                  if (list.name.toUpperCase() == "ENTERING DATE") {
+                    const listId = list.id;
+                    for (let j = 0; j < $rootScope.calendarCards.length; j++) {
+                      const card = $rootScope.calendarCards[j];
+                      if (listId == card.idList && member.id == card.idMembers) {
+                        enterDate = card.name.substr(0,card.name.indexOf(' '));
+                        startSalary = card.name.substr(card.name.indexOf(' ')+1);
+                      }
+                    }
+                  }
                 }
-                memberWorked.push({id:member.id, fullName:member.fullName, birthday:memberBirthday, totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
+                memberWorked.push({id:member.id, fullName:member.fullName, birthday:memberBirthday, enterDate:enterDate, startSalary:startSalary, totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
               }
               $rootScope.workedInfo = memberWorked;
               // console.log($rootScope.workedInfo);
@@ -222,10 +234,9 @@ angular.module('workingHoursTrello', [
 
 const authenticationSuccess = function() {
     let userToken = localStorage.trello_token;
-    $rootScope.myToken = userToken;
-    // console.log(token);
     apiS.privateData(key, userToken).then((response) => {
       $rootScope.privateData = response.data; 
+      console.log($rootScope.privateData)
     });
   };
   
@@ -236,11 +247,12 @@ const authenticationFailure = function() {
 Trello.authorize({
     type: 'redirect',
     name: 'Workist',
-    persist: 1,
+    persist: 0,
     // persist: 'true', // the token will be saved on localstorage
-    scope: {
-        read: 'true',
-        write: 'true' 
+    scope:{ 
+      read: true, 
+      write: false, 
+      account: false 
     },
     expiration: '1hour',
     success: authenticationSuccess,
