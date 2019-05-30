@@ -10,7 +10,7 @@ angular.module('workingHoursTrello').service('privateSalaryS', function(totalSal
           let month = year === fromYear ? fromMonth : 0;
           const monthLimit = year === toYear ? toMonth : 11;
           for (; month <= monthLimit; month++) {
-            months.push({ year, month });
+            months.push({year, month, Date:new Date(`${year}/${month+1}/1`) });
           }
         }
         return months;

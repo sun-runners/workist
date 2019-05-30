@@ -47,200 +47,214 @@ angular.module('workingHoursTrello', [
   const key ='86b2621fa79c88d61ff3a95b82ec2bd7';
 
   function initApi() {
-    let userToken = localStorage.trello_token;
-    // console.log(userToken);
-    apiS.privateData(key, userToken).then((response) => { /** Personal API starts here */
-      const privateData = response.data; 
+    apiS.getBoardMembers(key, token).then((response) => {
+      $rootScope.boardMembers = response.data; /** Get Boards Members */
       
-      apiS.getBoardMembers(key, token).then((response) => {
-        $rootScope.boardMembers = response.data; /** Get Boards Members */
-        
-        apiS.calendarBoardLists(key, token).then((response) => {
-          $rootScope.calendarLists = response.data ; /** workist calendar lists */
-  
-          apiS.calendarBoardCards(key, token).then((response) => {
-            $rootScope.calendarCards = response.data; /** workist calendar cards */
-  
-            apiS.getBoardLists(key, token).then((response) => {
-              $rootScope.boardLists = response.data; /**  Get Boards Lists */
-    
-              apiS.getBoardCards(key, token).then((response) => {
-                $rootScope.boardCards = response.data; /** Get Boards Cards */
-                
-                let monthlyWin = []; /** Holds the winners per month */
-                let memberWorked = []; /** Holds members Worked Data */
-  
-                for (let y = 0; y < $rootScope.boardMembers.length; y++) {
-                  const member = $rootScope.boardMembers[y];
-                  let totalYearTime = 0;
-                  let totalYearTask = 0;
-                  let totalYearDay = 0;
-                  let enterDate;
-                  let startSalary;
-                  let memberBirthday;
-                  let monthsWorked = [];
-                  /** we loop 12 times to show per month */
-                  for (let month = 1; month < 13; month++) {
-                    
-                    let listWorkData = []; /** Holds Lists Data */
-                    for (let i = 0; i < $rootScope.boardLists.length; i++) {
-                      const list = $rootScope.boardLists[i];
-                      listName = new Date(x = list.name.substr(0,list.name.indexOf(' ')));
-                      listDate = `${listName.getFullYear()}/${listName.getMonth() + 1}/${listName.getDate()}`;
-                      toAdd = false; /** this will tell if the list Data should be assigned */
-        
-                      let listWithCard = {id:0, time:0, task:0, idMember:0}; /** Holds Cards Data */
-                      for (let x = 0; x < $rootScope.boardCards.length; x++) {
-                        const card = $rootScope.boardCards[x];
-                        if (card.idList == list.id && card.idMembers == member.id && $rootScope.dt.year == listName.getFullYear() && (listName.getMonth() + 1) == month) {
-                          toAdd = true; /** will assign the cards to the listWithCard */
-                          try { /** 8-12+14-16 = 6*/
-                            cardName = card.name;
-                            let number = 0;
-                            if (cardName.match(/[a-z]/i) || /\/.*\//.test( cardName )) { /* we filter if the card name is legit **/
-                              number = 0;
-                            }else{
-                              var numbers = cardName.split(/\+|\-/);
-                              if(numbers.length%2==1){
-                                 number = 0;
-                              }
-                              number = Math.abs(eval(cardName));
-                            }
-                            // cardName = Math.abs(eval(card.name));
-                            /** the card data to be pushed to members cards */
-                            listWithCard.id = card.id;
-                            listWithCard.time = number;
-                            listWithCard.task = card.badges.checkItemsChecked;
-                            listWithCard.idMember = card.idMembers[0];
-                            // listWithCard.push({id:card.id, time:cardName, task:card.badges.checkItemsChecked, idMember:card.idMembers[0]});
-                            } catch (error) {}
-                        }
-                      }
-                      if (toAdd == true) {
-                        listWorkData.push({id:list.id, dateFull:listDate, day:listName.getDate(), month:(listName.getMonth()+1), year:listName.getFullYear(), cards:listWithCard}); /** the data to pushed on workData */
-                        toAdd = false;
-                      }
-                    }
-                    let totalMonthTime = 0;
-                    let totalMonthTask = 0;
-                    let totalMonthDay = 0;
-                    
-                    for (let z = 0; z < listWorkData.length; z++) {
-                      const card = listWorkData[z].cards;
-                      // console.log(data)
-                      cardDay = 0;
-                      if (card.time >= 8) {
-                          cardDay = 1;
-                      }else if (card.time <= 8 && card.time > 4) {
-                          cardDay = 0.5;
-                      }else if (card.time <= 4) {
-                          cardDay = 0;
-                      }
-                      /** will add the monthly data */
-                      totalMonthDay = totalMonthDay + cardDay;
-                      totalMonthTime = totalMonthTime + card.time;
-                      totalMonthTask = totalMonthTask + card.task;
-                      /** will add the yearly data */
-                      totalYearDay = totalYearDay + cardDay;
-                      totalYearTime = totalYearTime + card.time;
-                      totalYearTask = totalYearTask + card.task;
-                    }
-                    monthsWorked.push({month:month, monthTime: totalMonthTime, monthTask: totalMonthTask, monthWorked:totalMonthDay, worked:listWorkData});
-         
-                    while (monthlyWin.length < month) {
-                      monthlyWin.push({month:month, winTime:totalMonthTime, winTask:totalMonthTask});
-                    }
-                    if (monthlyWin.length >= 12) {
-                      for (let j = 0; j < monthlyWin.length; j++) {
-                        const winner = monthlyWin[j];
-                        if (winner.month == month) {
-                          if (winner.winTime < totalMonthTime) {
-                            winner.winTime = totalMonthTime;
-                          }
-                          if (winner.winTask < totalMonthTask) {
-                            winner.winTask = totalMonthTask;
-                          }
-                        }
-                      }
-                    }
-                  }
-                  for (let i = 0; i < $rootScope.calendarLists.length; i++) {
-                    const list = $rootScope.calendarLists[i];
-                    if (list.name.toUpperCase() == "BIRTHDAY") {
-                      const listId = list.id;
-                      for (let j = 0; j < $rootScope.calendarCards.length; j++) {
-                        const card = $rootScope.calendarCards[j];
-                        if (listId == card.idList && member.id == card.idMembers) {
-                          memberBirthday = card.name;
-                        }
-                      }
-                    }
-                    if (list.name.toUpperCase() == "ENTERING DATE") {
-                      const listId = list.id;
-                      for (let j = 0; j < $rootScope.calendarCards.length; j++) {
-                        const card = $rootScope.calendarCards[j];
-                        if (listId == card.idList && member.id == card.idMembers) {
-                          enterDate = card.name.substr(0,card.name.indexOf(' '));
-                          startSalary = card.name.substr(card.name.indexOf(' ')+1);
-                        }
-                      }
-                    }
-                  }
-                  memberWorked.push({id:member.id, fullName:member.fullName, birthday:memberBirthday, enterDate:enterDate, startSalary:startSalary, totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
-                }
-                $rootScope.workedInfo = memberWorked;
-                // console.log($rootScope.workedInfo);
-                $rootScope.monthWin = monthlyWin;
-                // console.log($rootScope.monthWin);
+      apiS.calendarBoardLists(key, token).then((response) => {
+        $rootScope.calendarLists = response.data ; /** workist calendar lists */
 
+        apiS.calendarBoardCards(key, token).then((response) => {
+          $rootScope.calendarCards = response.data; /** workist calendar cards */
+
+          apiS.getBoardLists(key, token).then((response) => {
+            $rootScope.boardLists = response.data; /**  Get Boards Lists */
+  
+            apiS.getBoardCards(key, token).then((response) => {
+              $rootScope.boardCards = response.data; /** Get Boards Cards */
+              
+              let monthlyWin = []; /** Holds the winners per month */
+              let memberWorked = []; /** Holds members Worked Data */
+
+              for (let y = 0; y < $rootScope.boardMembers.length; y++) {
+                const member = $rootScope.boardMembers[y];
+                let totalYearTime = 0;
+                let totalYearTask = 0;
+                let totalYearDay = 0;
+                let enterDate;
+                let startSalary;
+                let memberBirthday;
+                let nationality;
+                let monthsWorked = [];
+                /** we loop 12 times to show per month */
+                for (let month = 1; month < 13; month++) {
+                  
+                  let listWorkData = []; /** Holds Lists Data */
+                  for (let i = 0; i < $rootScope.boardLists.length; i++) {
+                    const list = $rootScope.boardLists[i];
+                    listName = new Date(x = list.name.substr(0,list.name.indexOf(' ')));
+                    listDate = `${listName.getFullYear()}/${listName.getMonth() + 1}/${listName.getDate()}`;
+                    toAdd = false; /** this will tell if the list Data should be assigned */
+      
+                    let listWithCard = {id:0, time:0, task:0, idMember:0}; /** Holds Cards Data */
+                    for (let x = 0; x < $rootScope.boardCards.length; x++) {
+                      const card = $rootScope.boardCards[x];
+                      if (card.idList == list.id && card.idMembers == member.id && $rootScope.dt.year == listName.getFullYear() && (listName.getMonth() + 1) == month) {
+                        toAdd = true; /** will assign the cards to the listWithCard */
+                        try { /** 8-12+14-16 = 6*/
+                          cardName = card.name;
+                          let number = 0;
+                          if (cardName.match(/[a-z]/i) || /\/.*\//.test( cardName )) { /* we filter if the card name is legit **/
+                            number = 0;
+                          }else{
+                            var numbers = cardName.split(/\+|\-/);
+                            if(numbers.length%2==1){
+                                number = 0;
+                            }
+                            number = Math.abs(eval(cardName));
+                          }
+                          // cardName = Math.abs(eval(card.name));
+                          /** the card data to be pushed to members cards */
+                          listWithCard.id = card.id;
+                          listWithCard.time = number;
+                          listWithCard.task = card.badges.checkItemsChecked;
+                          listWithCard.idMember = card.idMembers[0];
+                          // listWithCard.push({id:card.id, time:cardName, task:card.badges.checkItemsChecked, idMember:card.idMembers[0]});
+                          } catch (error) {}
+                      }
+                    }
+                    if (toAdd == true) {
+                      listWorkData.push({id:list.id, dateFull:listDate, day:listName.getDate(), month:(listName.getMonth()+1), year:listName.getFullYear(), cards:listWithCard}); /** the data to pushed on workData */
+                      toAdd = false;
+                    }
+                  }
+                  let totalMonthTime = 0;
+                  let totalMonthTask = 0;
+                  let totalMonthDay = 0;
+                  
+                  for (let z = 0; z < listWorkData.length; z++) {
+                    const card = listWorkData[z].cards;
+                    // console.log(data)
+                    cardDay = 0;
+                    if (card.time >= 8) {
+                        cardDay = 1;
+                    }else if (card.time <= 8 && card.time > 4) {
+                        cardDay = 0.5;
+                    }else if (card.time <= 4) {
+                        cardDay = 0;
+                    }
+                    /** will add the monthly data */
+                    totalMonthDay = totalMonthDay + cardDay;
+                    totalMonthTime = totalMonthTime + card.time;
+                    totalMonthTask = totalMonthTask + card.task;
+                    /** will add the yearly data */
+                    totalYearDay = totalYearDay + cardDay;
+                    totalYearTime = totalYearTime + card.time;
+                    totalYearTask = totalYearTask + card.task;
+                  }
+                  monthsWorked.push({month:month, monthTime: totalMonthTime, monthTask: totalMonthTask, monthWorked:totalMonthDay, worked:listWorkData});
+        
+                  while (monthlyWin.length < month) {
+                    monthlyWin.push({month:month, winTime:totalMonthTime, winTask:totalMonthTask});
+                  }
+                  if (monthlyWin.length >= 12) {
+                    for (let j = 0; j < monthlyWin.length; j++) {
+                      const winner = monthlyWin[j];
+                      if (winner.month == month) {
+                        if (winner.winTime < totalMonthTime) {
+                          winner.winTime = totalMonthTime;
+                        }
+                        if (winner.winTask < totalMonthTask) {
+                          winner.winTask = totalMonthTask;
+                        }
+                      }
+                    }
+                  }
+                }
+                for (let i = 0; i < $rootScope.calendarLists.length; i++) {                 
+                  const list = $rootScope.calendarLists[i];
+                  const listName = list.name.toUpperCase();
+
+                  switch (listName) {
+                    case "BIRTHDAY":
+                      const birthCard = $rootScope.calendarCards.find((card) => list.id == card.idList && member.id == card.idMembers);
+                      memberBirthday = birthCard.name;
+                      break;
+                    case "ENTERING DATE":
+                      const enterDateCard = $rootScope.calendarCards.find((card) => list.id == card.idList && member.id == card.idMembers);
+                      if (enterDateCard) {
+                        enterDate = enterDateCard.name.substr(0,enterDateCard.name.indexOf(' '));
+                        startSalary = enterDateCard.name.substr(enterDateCard.name.indexOf(' ')+1);
+                      }
+                      break;
+                    case "NATIONALITY":
+                      for (let x = 0; x < $rootScope.calendarCards.length; x++) {
+                        const card = $rootScope.calendarCards[x];
+                        for (let y = 0; y < card.idMembers.length; y++) {
+                          const cardMember = card.idMembers[y];
+                          if (cardMember == member.id) {
+                            nationality = card.name;
+                          }
+                        }
+                      }
+                      break;
+                    default:
+                      break;
+                  }
+                }
+                memberWorked.push({id:member.id, fullName:member.fullName, nationality:nationality, birthday:memberBirthday, enterDate:enterDate, startSalary:startSalary, totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
+              }
+              $rootScope.workedInfo = memberWorked;
+              console.log($rootScope.workedInfo);
+              $rootScope.monthWin = monthlyWin;
+              // console.log($rootScope.monthWin);
+
+              let userToken = Trello.token(); /** We generate new token for the user */
+              // console.log(userToken);
+              apiS.privateData(key, userToken).then((response) => { /** Personal API starts here */
+                const privateData = response.data; 
                 // Authenticated API manipulation
                 let work = $rootScope.workedInfo.find((worker) => worker.id == privateData.id);
-                let myMonths = privateSalaryS.getMonths(new Date(work.enterDate), new Date());
-                console.log(myMonths);   
-              }); /** getBoardCards */
-            }); /** getBoardLists */
-  
-            let holidays = [] /** Holds the holidays per year each country */
-            for (let i = 0; i < $rootScope.calendarLists.length; i++) {
-                const list = $rootScope.calendarLists[i];
-                const listWords = list.name.split(" ");
-                let country;
-                let year; 
-                for (let j = 0; j < listWords.length; j++) {
-                    const word = listWords[j];
-                    if (word == "PHILIPPINES") {
-                        country = "PHILIPPINES";
-                    }
-                    if (word == "KOREA") {
-                        country = "KOREA";
-                    }
-                    if (!isNaN(word)) {
-                        year = word;
-                    }
-                }
-                let holiDates = []; /** Holds the dates of the holiday */
-                for (let x = 0; x < $rootScope.calendarCards.length; x++) {
-                    const card = $rootScope.calendarCards[x];
-                    if (card.idList == list.id) {
-                        cardDate = card.name.substr(0, card.name.indexOf(" ")); 
-                        fullDate = `${year}/${cardDate}`; /** We get the Holiday card date */
-                        holidayName = card.name.substr(card.name.indexOf(' ')+1); /** We get the name of the Holiday */
-                        holiDates.push({date:fullDate, name:holidayName});
-                    }
-                }
-                if (country != undefined || year != undefined) {
-                    holidays.push({country:country, year:year, dates:holiDates})
-                }
-            }
-            $rootScope.holidays = holidays;
-            // console.log($rootScope.holidays)
-  
-          }); /** calendarBoardCards End */
-        }); /** calendarBoardList End */
-      }); /** boardMembers End */
-    });
-  
-  }// API Manipulation ends here -------------------------------------------
+                let months = privateSalaryS.getMonths(new Date(work.enterDate), new Date());
+                months.forEach(month => {
+                  month.memberId = work.id;
+                  month.nationality = work.nationality;
+                  month.startSalary = work.startSalary;
+                  month.enterDate = work.enterDate;
+                  month.birthday = work.birthday;
+                });
+                $rootScope.myMonths = months;
+                console.log(months);   
+              });
+            }); /** getBoardCards */
+          }); /** getBoardLists */
+          let holidays = [] /** Holds the holidays per year each country */
+          for (let i = 0; i < $rootScope.calendarLists.length; i++) {
+              const list = $rootScope.calendarLists[i];
+              const listWords = list.name.split(" ");
+              let country;
+              let year; 
+              for (let j = 0; j < listWords.length; j++) {
+                  const word = listWords[j];
+                  if (word == "PHILIPPINES") {
+                      country = "PHILIPPINES";
+                  }
+                  if (word == "KOREA") {
+                      country = "KOREA";
+                  }
+                  if (!isNaN(word)) {
+                      year = word;
+                  }
+              }
+              let holiDates = []; /** Holds the dates of the holiday */
+              for (let x = 0; x < $rootScope.calendarCards.length; x++) {
+                  const card = $rootScope.calendarCards[x];
+                  if (card.idList == list.id) {
+                      cardDate = card.name.substr(0, card.name.indexOf(" ")); 
+                      fullDate = `${year}/${cardDate}`; /** We get the Holiday card date */
+                      holidayName = card.name.substr(card.name.indexOf(' ')+1); /** We get the name of the Holiday */
+                      holiDates.push({date:fullDate, name:holidayName});
+                  }
+              }
+              if (country != undefined || year != undefined) {
+                  holidays.push({country:country, year:year, dates:holiDates});
+              }
+          }
+          $rootScope.holidays = holidays;
+          // console.log($rootScope.holidays)
+        }); /** calendarBoardCards End */
+      }); /** calendarBoardList End */
+    }); /** boardMembers End */
+  };// API Manipulation ends here -------------------------------------------
 
   const authenticationSuccess = function() {
       console.log('Success authentication');
@@ -294,9 +308,9 @@ angular.module('workingHoursTrello', [
   $rootScope.$watch('moment', function(){
     $rootScope.dt = $rootScope.getDtOfMoment($rootScope.moment);
     Trello.authorize({
-      type: 'redirect',
+      type: 'popup',
       name: 'Workist',
-      persist: 1,
+      persist: 0,
       interactive: 1,
   
       // persist: 'true', // the token will be saved on localstorage
@@ -305,7 +319,7 @@ angular.module('workingHoursTrello', [
         write: false, 
         account: false 
       },
-      expiration: '1hour',
+      expiration: '1day',
       success: initApi,
       error: authenticationFailure
   });
@@ -314,7 +328,7 @@ angular.module('workingHoursTrello', [
 
  const t = window.TrelloPowerUp.iframe();
 
-}).controller('mainCtrl', function($scope, $compile, $rootScope) {
+}).controller('mainCtrl', function($scope, $rootScope) {
   
 	$scope.template = 'monthlys';
   $scope.subMenu = ['weekly', 'monthly', 'yearly'];
@@ -366,13 +380,13 @@ angular.module('workingHoursTrello', [
   };
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
-      if (event.target == $scope.modal) {
-          // showTarget.innerHTML=""
-          while ($scope.showTarget.firstChild) {
-            $scope.showTarget.removeChild($scope.showTarget.firstChild);
-          }
-          $scope.modal.style.display = "none";
-          }
+    if (event.target == $scope.modal) {
+      // showTarget.innerHTML=""
+      while ($scope.showTarget.firstChild) {
+        $scope.showTarget.removeChild($scope.showTarget.firstChild);
+      }
+      $scope.modal.style.display = "none";
+    }
   };
 
   $rootScope.showLoader = () => {
