@@ -194,7 +194,7 @@ angular.module('workingHoursTrello', [
                 const privateData = response.data; 
                 // Authenticated API manipulation
                 let work = $rootScope.workedInfo.find((worker) => worker.id == privateData.id);
-                let myMonths = privateSalaryS.getMonths(new Date(work.enterDate), new Date());
+                let myMonths = privateSalaryS.getMonths(work.id, new Date(work.enterDate), new Date());
                 console.log(myMonths);   
               });
             }); /** getBoardCards */
