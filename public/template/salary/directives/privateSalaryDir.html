@@ -29,22 +29,22 @@
         </th>
       </tr>
       <!-- repeating output base on Username -->
-      <tr class="t-26 b-64 h-50px c-686868" ng-repeat="member in $root.boardMembers">
-        <td><span class="f-12px lh-17px h-18">{{1}}</span></td>
+      <tr class="t-26 b-64 h-50px c-686868" ng-repeat="myMonth in $root.myMonths">
+        <td><span class="f-12px lh-17px h-18">{{myMonth.year}} {{ myMonth.Date.toLocaleString("en", { month: "short"  }) }}</span></td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">4</span>
+          <span class="f-12px lh-17px h-18">{{ myMonth.month + 1 }}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">15,000 PHP</span>
+          <span class="f-12px lh-17px h-18">{{ formatSalary(getCurrentSalary(myMonth.memberId, myMonth.month)) }}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">90%</span>
+          <span class="f-12px lh-17px h-18">{{ percentage = getPercentage(myMonth.memberId, myMonth.nationality, myMonth.Date, myMonth.year, myMonth.month + 1)}} {{(percentage > 0) ? " %" : " "}}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">5,000 PHP(Time)</span>
+          <span class="f-12px lh-17px h-18"> 😨 </span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">20,000 PHP</span>
+          <span class="f-12px lh-17px h-18">😅</span>
           <!-- for Testing
           <span class="f-12px lh-17px h-18">{{totalSalary = getTotalSalary(monthNumber, salary, percentage, bonuse.value, member.id)}}</span> -->
         </td>
