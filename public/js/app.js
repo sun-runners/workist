@@ -73,6 +73,7 @@ angular.module('workingHoursTrello', [
                 let enterDate;
                 let startSalary;
                 let memberBirthday;
+                let nationality;
                 let monthsWorked = [];
                 /** we loop 12 times to show per month */
                 for (let month = 1; month < 13; month++) {
@@ -159,32 +160,41 @@ angular.module('workingHoursTrello', [
                     }
                   }
                 }
-                for (let i = 0; i < $rootScope.calendarLists.length; i++) {
+                for (let i = 0; i < $rootScope.calendarLists.length; i++) {                 
                   const list = $rootScope.calendarLists[i];
-                  if (list.name.toUpperCase() == "BIRTHDAY") {
-                    const listId = list.id;
-                    for (let j = 0; j < $rootScope.calendarCards.length; j++) {
-                      const card = $rootScope.calendarCards[j];
-                      if (listId == card.idList && member.id == card.idMembers) {
-                        memberBirthday = card.name;
+                  const listName = list.name.toUpperCase();
+
+                  switch (listName) {
+                    case "BIRTHDAY":
+                      const birthCard = $rootScope.calendarCards.find((card) => list.id == card.idList && member.id == card.idMembers);
+                      memberBirthday = birthCard.name;
+                      break;
+                    case "ENTERING DATE":
+                      const enterDateCard = $rootScope.calendarCards.find((card) => list.id == card.idList && member.id == card.idMembers);
+                      if (enterDateCard) {
+                        enterDate = enterDateCard.name.substr(0,enterDateCard.name.indexOf(' '));
+                        startSalary = enterDateCard.name.substr(enterDateCard.name.indexOf(' ')+1);
                       }
-                    }
-                  }
-                  if (list.name.toUpperCase() == "ENTERING DATE") {
-                    const listId = list.id;
-                    for (let j = 0; j < $rootScope.calendarCards.length; j++) {
-                      const card = $rootScope.calendarCards[j];
-                      if (listId == card.idList && member.id == card.idMembers) {
-                        enterDate = card.name.substr(0,card.name.indexOf(' '));
-                        startSalary = card.name.substr(card.name.indexOf(' ')+1);
+                      break;
+                    case "NATIONALITY":
+                      for (let x = 0; x < $rootScope.calendarCards.length; x++) {
+                        const card = $rootScope.calendarCards[x];
+                        for (let y = 0; y < card.idMembers.length; y++) {
+                          const cardMember = card.idMembers[y];
+                          if (cardMember == member.id) {
+                            nationality = card.name;
+                          }
+                        }
                       }
-                    }
+                      break;
+                    default:
+                      break;
                   }
                 }
-                memberWorked.push({id:member.id, fullName:member.fullName, birthday:memberBirthday, enterDate:enterDate, startSalary:startSalary, totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
+                memberWorked.push({id:member.id, fullName:member.fullName, nationality:nationality, birthday:memberBirthday, enterDate:enterDate, startSalary:startSalary, totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
               }
               $rootScope.workedInfo = memberWorked;
-              // console.log($rootScope.workedInfo);
+              console.log($rootScope.workedInfo);
               $rootScope.monthWin = monthlyWin;
               // console.log($rootScope.monthWin);
 
@@ -194,8 +204,16 @@ angular.module('workingHoursTrello', [
                 const privateData = response.data; 
                 // Authenticated API manipulation
                 let work = $rootScope.workedInfo.find((worker) => worker.id == privateData.id);
-                let myMonths = privateSalaryS.getMonths(work.id, new Date(work.enterDate), new Date());
-                console.log(myMonths);   
+                let months = privateSalaryS.getMonths(new Date(work.enterDate), new Date());
+                months.forEach(month => {
+                  month.memberId = work.id;
+                  month.nationality = work.nationality;
+                  month.startSalary = work.startSalary;
+                  month.enterDate = work.enterDate;
+                  month.birthday = work.birthday;
+                });
+                $rootScope.myMonths = months;
+                console.log(months);   
               });
             }); /** getBoardCards */
           }); /** getBoardLists */
