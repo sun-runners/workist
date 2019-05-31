@@ -210,7 +210,7 @@ angular.module('workingHoursTrello', [
               $rootScope.workedInfo = memberWorked;
               // console.log($rootScope.workedInfo);
               $rootScope.monthWin = monthlyWin;
-              console.log($rootScope.monthWin);
+              // console.log($rootScope.monthWin);
 
               let userToken = Trello.token(); /** We generate new token for the user */
               // console.log(userToken);
@@ -324,7 +324,7 @@ angular.module('workingHoursTrello', [
     Trello.authorize({
       type: 'popup',
       name: 'Workist',
-      persist: 1,
+      persist: 0,
       interactive: 1,
   
       // persist: 'true', // the token will be saved on localstorage
