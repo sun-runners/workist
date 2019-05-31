@@ -9,20 +9,20 @@
 
         return timeOrderFn;
 
-        function timeOrderFn(item, time){
+        function timeOrderFn(item, time, month){
             for (let x = 0; x < item.length; x++) {
                 const win = item[x];
-                if (win.winTime == time) {
+                if (win.winTime == time && win.month == month) {
                     if (time != 0) {
                     return "1st";
                     }
                 }
-                if (win.time2nd == time) {
+                if (win.time2nd == time && win.month == month) {
                     if (time != 0) {
                         return "2nd";
                     }
                 }
-                if (win.time3rd == time) {
+                if (win.time3rd == time && win.month == month) {
                     if (time != 0) {
                         return "3rd";
                     }
