@@ -6,7 +6,6 @@ angular.module('workingHoursTrello')
 			link : function(scope, element, attrs){
           		function initialize() {
 					scope.menuItem = ['month', 'months', 'basic salary', 'percentage', 'bonus', 'total salary'];
-					scope.memberId = "5c32e94ce49690729ecd0794";
 
 					scope.getCurrentSalary = (memberId, monthNumber) => totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, monthNumber);
 					scope.formatSalary = (salary) => {
@@ -63,7 +62,7 @@ angular.module('workingHoursTrello')
 						// return "annual Leave: "+ myAnnualLeave + " Used Leave: " + usedLeave + " Available Leave: " + availableLeave + " --- " +  monthToWork + " Worked :" + currentWorked;
 						// return daysToWork + " - " + currentWorked + " available leave " + availableLeave
 					}
-					console.log($rootScope.myMonths);
+					// console.log($rootScope.myMonths);
 					scope.monthWorked = () => {
 						console.log(1)
 					}

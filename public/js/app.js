@@ -142,24 +142,38 @@ angular.module('workingHoursTrello', [
                     totalYearTask = totalYearTask + card.task;
                   }
                   monthsWorked.push({month:month, monthTime: totalMonthTime, monthTask: totalMonthTask, monthWorked:totalMonthDay, worked:listWorkData});
-        
+                  /** We are now determining which on has the highest time & task */
                   while (monthlyWin.length < month) {
-                    monthlyWin.push({month:month, winTime:totalMonthTime, winTask:totalMonthTask});
+                    monthlyWin.push({ month:month, winTime:totalMonthTime, time2nd:0, time3rd:0, winTask:totalMonthTask, task2nd:0, task3rd:0 });
                   }
                   if (monthlyWin.length >= 12) {
                     for (let j = 0; j < monthlyWin.length; j++) {
                       const winner = monthlyWin[j];
                       if (winner.month == month) {
                         if (winner.winTime < totalMonthTime) {
+                          winner.time3rd = winner.time2nd;
+                          winner.time2nd = winner.winTime
                           winner.winTime = totalMonthTime;
                         }
+                        else if (winner.time2nd < totalMonthTime && totalMonthTime < winner.winTime) {
+                          winner.time3rd = winner.time2nd
+                          winner.time2nd = totalMonthTime;
+                        }
+                        
                         if (winner.winTask < totalMonthTask) {
+                          winner.task3rd = winner.task2nd
+                          winner.task2nd = winner.winTask;
                           winner.winTask = totalMonthTask;
+                        }
+                        else if (winner.task2nd < totalMonthTask && totalMonthTask < winner.winTask) {
+                          winner.task3rd = winner.task2nd
+                          winner.task2nd = totalMonthTask;
                         }
                       }
                     }
                   }
                 }
+                /** We get the Nationality, Entering Date and Birthday */
                 for (let i = 0; i < $rootScope.calendarLists.length; i++) {                 
                   const list = $rootScope.calendarLists[i];
                   const listName = list.name.toUpperCase();
@@ -194,7 +208,7 @@ angular.module('workingHoursTrello', [
                 memberWorked.push({id:member.id, fullName:member.fullName, nationality:nationality, birthday:memberBirthday, enterDate:enterDate, startSalary:startSalary, totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
               }
               $rootScope.workedInfo = memberWorked;
-              console.log($rootScope.workedInfo);
+              // console.log($rootScope.workedInfo);
               $rootScope.monthWin = monthlyWin;
               // console.log($rootScope.monthWin);
 
@@ -212,8 +226,8 @@ angular.module('workingHoursTrello', [
                   month.enterDate = work.enterDate;
                   month.birthday = work.birthday;
                 });
-                $rootScope.myMonths = months;
-                console.log(months);   
+                $rootScope.myMonths = months; /** This holds and array of months the user worked */
+                // console.log(months);
               });
             }); /** getBoardCards */
           }); /** getBoardLists */
@@ -249,7 +263,7 @@ angular.module('workingHoursTrello', [
                   holidays.push({country:country, year:year, dates:holiDates});
               }
           }
-          $rootScope.holidays = holidays;
+          $rootScope.holidays = holidays; /** This holds an array of Holidays */
           // console.log($rootScope.holidays)
         }); /** calendarBoardCards End */
       }); /** calendarBoardList End */

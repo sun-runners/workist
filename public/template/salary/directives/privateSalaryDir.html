@@ -32,7 +32,7 @@
       <tr class="t-26 b-64 h-50px c-686868" ng-repeat="myMonth in $root.myMonths">
         <td><span class="f-12px lh-17px h-18">{{myMonth.year}} {{ myMonth.Date.toLocaleString("en", { month: "short"  }) }}</span></td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{ myMonth.month + 1 }}</span>
+          <span class="f-12px lh-17px h-18">{{ $index + 1 }}</span>
         </td>
         <td class="t-26 b-64">
           <span class="f-12px lh-17px h-18">{{ formatSalary(getCurrentSalary(myMonth.memberId, myMonth.month)) }}</span>
