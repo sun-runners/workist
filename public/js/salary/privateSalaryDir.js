@@ -59,10 +59,10 @@ angular.module('workingHoursTrello')
 						// return "annual Leave: "+ myAnnualLeave + " Used Leave: " + usedLeave + " Available Leave: " + availableLeave + " --- " +  monthToWork + " Worked :" + currentWorked;
 						// return daysToWork + " - " + currentWorked + " available leave " + availableLeave
 					}
-					scope.getBonuse = (memberId) => {
-						let monthlyTask = taskS.monthlyTasks($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);				
-						let monthlyTime = timeS.monthlyTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);
-						let bonuse = bonuseS.bonuseTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards, $rootScope.calendarCards);
+					scope.getBonuse = (memberId, workYear, workMonth) => {
+						let monthlyTask = taskS.monthlyTasks(workYear, workMonth, $rootScope.boardLists, memberId, $rootScope.boardCards);				
+						const monthlyTime = timeS.monthlyTime(workYear, workMonth, $rootScope.boardLists, memberId, $rootScope.boardCards);
+						const bonuse = bonuseS.bonuseWinners(workYear, workMonth, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards, $rootScope.calendarCards);
 						try {
 							if (memberId == bonuse.leader) {
 								return {bonuse:"LEADER", value:10000}
@@ -80,7 +80,7 @@ angular.module('workingHoursTrello')
 							if (bonuse.value != 0) {
 								return parseInt(bonuse.value).toLocaleString() + " PHP ( " + bonuse.bonuse + " )";
 							}else{
-								return "-";
+								return "0 PHP";
 							}
 						} catch (error) {}
 						return bonuse

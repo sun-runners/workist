@@ -41,7 +41,7 @@
           <span class="f-12px lh-17px h-18">{{ percentage = getPercentage(workedMonth.memberId, workedMonth.nationality, workedMonth.Date, workedMonth.year, workedMonth.month + 1)}} {{(percentage > 0) ? " %" : " "}}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">😨</span>
+          <span class="f-12px lh-17px h-18">{{getBonuse(workedMonth.memberId, workedMonth.year, workedMonth.month + 1)}}</span>
         </td>
         <td class="t-26 b-64">
           <span class="f-12px lh-17px h-18">{{totalSalary()}}</span>
