@@ -210,14 +210,16 @@ angular.module('workingHoursTrello', [
               $rootScope.workedInfo = memberWorked;
               // console.log($rootScope.workedInfo);
               $rootScope.monthWin = monthlyWin;
-              // console.log($rootScope.monthWin);
+              console.log($rootScope.monthWin);
 
               let userToken = Trello.token(); /** We generate new token for the user */
               // console.log(userToken);
               apiS.privateData(key, userToken).then((response) => { /** Personal API starts here */
                 const privateData = response.data; 
                 // Authenticated API manipulation
-                let work = $rootScope.workedInfo.find((worker) => worker.id == privateData.id);
+                let work = $rootScope.workedInfo.find((worker) => worker.id == "5a82bcb4fba0e27973ea6f29");
+                $rootScope.currentUser = work;
+                console.log(work);
                 let months = privateSalaryS.getMonths(new Date(work.enterDate), new Date());
                 months.forEach(month => {
                   month.memberId = work.id;
@@ -226,8 +228,8 @@ angular.module('workingHoursTrello', [
                   month.enterDate = work.enterDate;
                   month.birthday = work.birthday;
                 });
-                $rootScope.myMonths = months; /** This holds and array of months the user worked */
-                // console.log(months);
+                $rootScope.workedMonths = months; /** This holds and array of months the user worked */
+                console.log(months);
               });
             }); /** getBoardCards */
           }); /** getBoardLists */
@@ -324,7 +326,7 @@ angular.module('workingHoursTrello', [
     Trello.authorize({
       type: 'popup',
       name: 'Workist',
-      persist: 0,
+      persist: 1,
       interactive: 1,
   
       // persist: 'true', // the token will be saved on localstorage
@@ -405,11 +407,10 @@ angular.module('workingHoursTrello', [
 
   $rootScope.showLoader = () => {
     document.getElementById("tyle-loader").style.display = "block";
-    return setTimeout(showPage, 4000);
+    return setTimeout(() => {
+      document.getElementById("tyle-loader").style.display = "none";
+    }, 4000);
   }
-	const showPage = () => {
-		document.getElementById("tyle-loader").style.display = "none";
-	}
 	$rootScope.showLoader()
 });
 

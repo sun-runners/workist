@@ -29,7 +29,7 @@ angular.module('workingHoursTrello').service('bonuseS', function(weekS, monthS, 
         let winTime = {id:'0', time: 0};
         for (let i = 0; i < members.length; i++) {
             const member = members[i];
-            if (member.id != leader) {
+            if (member.id != leader && member.id != "53ca58ad2018034bbeb54e29" && member.id != "5a2de2c831a41435d465e564") {
                 if (winTask.tasks < member.tasks) {
                     winTask.tasks = member.tasks;
                     winTask.id = member.id;
@@ -38,7 +38,7 @@ angular.module('workingHoursTrello').service('bonuseS', function(weekS, monthS, 
         }
         for (let x = 0; x < members.length; x++) {
             const member = members[x];
-            if (member.id != winTask.id && member.id != leader) {
+            if (member.id != winTask.id && member.id != leader && member.id != "53ca58ad2018034bbeb54e29" && member.id != "5a2de2c831a41435d465e564") {
                 if (winTime.time < member.time) {
                     winTime.time = member.time;
                     winTime.id = member.id;
@@ -47,7 +47,7 @@ angular.module('workingHoursTrello').service('bonuseS', function(weekS, monthS, 
         }
         return winner = {winTask: winTask.tasks, winTime: winTime.time, leader: leader};
       }
-    this.bonuseTime = (year, month, boardMembers, boardLists, boardCards, calendarCards) => {
+    this.bonuseWinners = (year, month, boardMembers, boardLists, boardCards, calendarCards) => {
         try {
             let monthDateByDay = monthS.monthDaysDate(year, month); 
             let listsId = weekS.arrayListsID(monthDateByDay, boardLists); 
