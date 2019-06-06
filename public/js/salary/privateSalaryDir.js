@@ -1,13 +1,18 @@
 'use strict';
 
 angular.module('workingHoursTrello')
-	.directive('privateDir', function ($rootScope,  totalSalaryS, nationalityS, birthdayS, holidayS, weekS, monthS, taskS, timeS, bonuseS) {
+	.directive('privateDir', function ($rootScope,  totalSalaryS, birthdayS, holidayS, weekS, monthS, taskS, timeS, bonuseS) {
 		return {
 			link : function(scope, element, attrs){
           		function initialize() {
 					scope.menuItem = ['month', 'months', 'basic salary', 'percentage', 'bonus', 'total salary'];
 
-					scope.getCurrentSalary = (memberId, monthNumber) => totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, monthNumber);
+					scope.getCurrentSalary = (memberId, monthDate) => {
+						const lastDateOfMonth = new Date(monthDate.getFullYear(), monthDate.getMonth()+1, 0)
+						const thisMonthNumber = totalSalaryS.monthDuration($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', lastDateOfMonth, memberId);
+						const salary = totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, thisMonthNumber);
+						return salary;
+					}
 					scope.formatSalary = (salary) => {
 						try {
 							return salary.toLocaleString() + " PHP"
@@ -15,21 +20,21 @@ angular.module('workingHoursTrello')
 					}
 					scope.getPercentage = (memberId, nationality, workedDate, workedYear, workedMonth) => {
 						// We get the number of annual leave currently used
-						let possibleWork = totalSalaryS.prevMonthsToWorkDates($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', workedDate, memberId); /** for this month all working days holidays not considered */
-						let filterPrevBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", possibleWork); /** remove birthday from array dates */
-						let prevMonthToWork = holidayS.datesWithoutHoliday(nationality, workedYear, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday); /** all the working days with holidays remove */	
-						let allDatesToNow =  totalSalaryS.betweenDates(new Date(`${workedDate.getFullYear()}/01/1`), new Date(workedYear, workedMonth, 0), true); /** we get all the Dates */
-						let prevDates = totalSalaryS.prevDate(allDatesToNow, workedDate); /** we get all the previous dates */
-						let prevMonthsWork = weekS.getDaysTotalOutput(prevDates, memberId, $rootScope.boardLists, $rootScope.boardCards); /** all the days members have worked */
-						let usedLeave = prevMonthToWork - prevMonthsWork; /** annual Leave used */
+						const possibleWork = totalSalaryS.prevMonthsToWorkDates($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', workedDate, memberId); /** for this month all working days holidays not considered */
+						const filterPrevBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", possibleWork); /** remove birthday from array dates */
+						const prevMonthToWork = holidayS.datesWithoutHoliday(nationality, workedYear, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday); /** all the working days with holidays remove */	
+						const allDatesToNow =  totalSalaryS.betweenDates(new Date(`${workedDate.getFullYear()}/01/1`), new Date(workedYear, workedMonth, 0), true); /** we get all the Dates */
+						const prevDates = totalSalaryS.prevDate(allDatesToNow, workedDate); /** we get all the previous dates */
+						const prevMonthsWork = weekS.getDaysTotalOutput(prevDates, memberId, $rootScope.boardLists, $rootScope.boardCards); /** all the days members have worked */
+						const usedLeave = prevMonthToWork - prevMonthsWork; /** annual Leave used */
 						// We get the annual Leave members have
-						let myAnnualLeave = totalSalaryS.annualLeaves($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', workedDate, memberId) /** annual leave up to now */
+						const myAnnualLeave = totalSalaryS.annualLeaves($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', workedDate, memberId) /** annual leave up to now */
 						// We get the available annual Leave
 						let availableLeave = myAnnualLeave - usedLeave /** available annual Leave */
 						// We get the number of days to work for this month
-						let currentMonthsDate = monthS.monthsNeedtoWork(workedYear, workedMonth); /** dates of current Month */
-						let filterBirthMonthly = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", currentMonthsDate); /** remove birthday from array dates */
-						let monthToWork = holidayS.datesWithoutHoliday(nationality, workedYear, $rootScope.calendarLists, $rootScope.calendarCards, filterBirthMonthly);  /** this month current month to Work */
+						const currentMonthsDate = monthS.monthsNeedtoWork(workedYear, workedMonth); /** dates of current Month */
+						const filterBirthMonthly = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", currentMonthsDate); /** remove birthday from array dates */
+						const monthToWork = holidayS.datesWithoutHoliday(nationality, workedYear, $rootScope.calendarLists, $rootScope.calendarCards, filterBirthMonthly);  /** this month current month to Work */
 						// We get the number of days to work until now
 						let monthStarted = new Date(workedYear + '/' + workedMonth + '/1');
 						let monthToNow;
@@ -85,8 +90,28 @@ angular.module('workingHoursTrello')
 						} catch (error) {}
 						return bonuse
 					}
-					scope.totalSalary = () => {
-						return "\u{1F608}";
+					scope.getTotalSalary = (salary, percentage = 0, bonuse = 0, monthDuration, enterDate) => {
+						let mySalary = salary;
+						const enterDay = new Date(enterDate).getDate();
+						const remainingDay = 30 - enterDay;
+						if (monthDuration < 12) {
+							if (monthDuration == 6 || monthDuration == 12) {
+								const currentSalary = salary - 5000;
+								mySalary =  Math.ceil(((currentSalary * enterDay) + (salary * remainingDay))/30);
+							}
+						}else{
+							if (monthDuration % 12 === 0) {
+								const currentSalary = salary - 5000;
+								mySalary =  Math.ceil(((currentSalary * enterDay) + (salary * remainingDay))/30);
+							}
+						}
+						if (percentage < 100 && percentage > 0) {
+							return (mySalary * parseFloat(percentage/100)) + bonuse;
+						}else if(percentage == 0){
+							return 0
+						}else{
+							return mySalary + bonuse;
+						}
 					}
 				}
 				initialize();

@@ -35,18 +35,16 @@
           <span class="f-12px lh-17px h-18">{{ $index + 1 }}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{ formatSalary(getCurrentSalary(workedMonth.memberId, $index)) }}</span>
+          <span class="f-12px lh-17px h-18">{{ formatSalary(salary = getCurrentSalary(workedMonth.memberId, workedMonth.Date)) }} {{$index}}</span>
         </td>
         <td class="t-26 b-64">
           <span class="f-12px lh-17px h-18">{{ percentage = getPercentage(workedMonth.memberId, workedMonth.nationality, workedMonth.Date, workedMonth.year, workedMonth.month + 1)}} {{(percentage > 0) ? " %" : " "}}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{getBonuse(workedMonth.memberId, workedMonth.year, workedMonth.month + 1)}}</span>
+          <span class="f-12px lh-17px h-18">{{formatBonuse(bonus = getBonuse(workedMonth.memberId, workedMonth.year, workedMonth.month + 1))}}</span>
         </td>
         <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{totalSalary()}}</span>
-          <!-- for Testing
-          <span class="f-12px lh-17px h-18">{{totalSalary = getTotalSalary(monthNumber, salary, percentage, bonuse.value, member.id)}}</span> -->
+          <span class="f-12px lh-17px h-18">{{ formatSalary(totalSalary = getTotalSalary(salary, percentage, bonus.value, $index, workedMonth.enterDate)) }}</span>
         </td>
       </tr>
     </table>

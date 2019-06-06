@@ -210,14 +210,15 @@ angular.module('workingHoursTrello', [
               $rootScope.workedInfo = memberWorked;
               // console.log($rootScope.workedInfo);
               $rootScope.monthWin = monthlyWin;
-              console.log($rootScope.monthWin);
+              // console.log($rootScope.monthWin);
 
               let userToken = Trello.token(); /** We generate new token for the user */
               // console.log(userToken);
               apiS.privateData(key, userToken).then((response) => { /** Personal API starts here */
                 const privateData = response.data; 
                 // Authenticated API manipulation
-                let work = $rootScope.workedInfo.find((worker) => worker.id == "5a82bcb4fba0e27973ea6f29");
+                // const work = $rootScope.workedInfo.find((worker) => worker.id == "5c1e4c6f88a03b8640170363");
+                const work = $rootScope.workedInfo.find((worker) => worker.id == privateData.id);
                 $rootScope.currentUser = work;
                 console.log(work);
                 let months = privateSalaryS.getMonths(new Date(work.enterDate), new Date());
@@ -229,7 +230,7 @@ angular.module('workingHoursTrello', [
                   month.birthday = work.birthday;
                 });
                 $rootScope.workedMonths = months; /** This holds and array of months the user worked */
-                console.log(months);
+                // console.log(months);
               });
             }); /** getBoardCards */
           }); /** getBoardLists */

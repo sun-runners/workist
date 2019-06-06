@@ -39,7 +39,7 @@ angular.module('workingHoursTrello')
 					scope.getBonuse = (memberId) => {
 						const monthlyTask = taskS.monthlyTasks($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);				
 						const monthlyTime = timeS.monthlyTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);
-						const bonuse = bonuseS.bonuseTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards, $rootScope.calendarCards);
+						const bonuse = bonuseS.bonuseWinners($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards, $rootScope.calendarCards);
 						try {
 							if (memberId == bonuse.leader) {
 								return {bonuse:"LEADER", value:10000}
