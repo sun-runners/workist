@@ -28,4 +28,8 @@ angular.module('workingHoursTrello').service('apiS', function($http){
       return $http.get(`https://api.trello.com//1/boards/5c6cb6171cf49a5579a42e7d/cards?key=${key}&token=${token}`);
       // return $http.get('https://api.trello.com//1/boards/5c6cb6171cf49a5579a42e7d/cards?key=86b2621fa79c88d61ff3a95b82ec2bd7&token=7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118');
     }
+    this.privateData = function(key, token) {
+      return $http.get(`https://api.trello.com/1/members/me/?key=${key}&token=${token}`);
+      // return $http.get(`https://api.trello.com/1/members/me/?key=86b2621fa79c88d61ff3a95b82ec2bd7&token=7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118`);
+    }
   });

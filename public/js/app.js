@@ -13,6 +13,9 @@ angular.module('workingHoursTrello', [
     .when("/yearly", {
         template : "<yearly-dir></yearly-dir>"
     })
+    .when("/private", {
+      template : "<private-dir></private-dir>"
+    })
     .when("/total", {
       template : "<salary-dir></salary-dir>"
     })
@@ -34,7 +37,7 @@ angular.module('workingHoursTrello', [
     .otherwise({
       template : "<weekly-dir></weekly-dir>"
     });
-}).run(function($rootScope, $http, apiS){
+}).run(function($rootScope, $http, apiS, privateSalaryS){
   
   $rootScope.selectedMember = null; /** this will indicate who current selected Member */
   $rootScope.changeSelectedMember = (memberId) => $rootScope.selectedMember = memberId; 
@@ -44,15 +47,14 @@ angular.module('workingHoursTrello', [
   const key ='86b2621fa79c88d61ff3a95b82ec2bd7';
 
   function initApi() {
-    // API Manipulation Starts here -------------------------------------------
     apiS.getBoardMembers(key, token).then((response) => {
       $rootScope.boardMembers = response.data; /** Get Boards Members */
       
       apiS.calendarBoardLists(key, token).then((response) => {
-        $rootScope.calendarLists = response.data ;
+        $rootScope.calendarLists = response.data ; /** workist calendar lists */
 
         apiS.calendarBoardCards(key, token).then((response) => {
-          $rootScope.calendarCards = response.data;
+          $rootScope.calendarCards = response.data; /** workist calendar cards */
 
           apiS.getBoardLists(key, token).then((response) => {
             $rootScope.boardLists = response.data; /**  Get Boards Lists */
@@ -68,7 +70,10 @@ angular.module('workingHoursTrello', [
                 let totalYearTime = 0;
                 let totalYearTask = 0;
                 let totalYearDay = 0;
+                let enterDate;
+                let startSalary;
                 let memberBirthday;
+                let nationality;
                 let monthsWorked = [];
                 /** we loop 12 times to show per month */
                 for (let month = 1; month < 13; month++) {
@@ -93,7 +98,7 @@ angular.module('workingHoursTrello', [
                           }else{
                             var numbers = cardName.split(/\+|\-/);
                             if(numbers.length%2==1){
-                               number = 0;
+                                number = 0;
                             }
                             number = Math.abs(eval(cardName));
                           }
@@ -137,45 +142,97 @@ angular.module('workingHoursTrello', [
                     totalYearTask = totalYearTask + card.task;
                   }
                   monthsWorked.push({month:month, monthTime: totalMonthTime, monthTask: totalMonthTask, monthWorked:totalMonthDay, worked:listWorkData});
-       
+                  /** We are now determining which on has the highest time & task */
                   while (monthlyWin.length < month) {
-                    monthlyWin.push({month:month, winTime:totalMonthTime, winTask:totalMonthTask});
+                    monthlyWin.push({ month:month, winTime:totalMonthTime, time2nd:0, time3rd:0, winTask:totalMonthTask, task2nd:0, task3rd:0 });
                   }
                   if (monthlyWin.length >= 12) {
                     for (let j = 0; j < monthlyWin.length; j++) {
                       const winner = monthlyWin[j];
                       if (winner.month == month) {
                         if (winner.winTime < totalMonthTime) {
+                          winner.time3rd = winner.time2nd;
+                          winner.time2nd = winner.winTime
                           winner.winTime = totalMonthTime;
                         }
+                        else if (winner.time2nd < totalMonthTime && totalMonthTime < winner.winTime) {
+                          winner.time3rd = winner.time2nd
+                          winner.time2nd = totalMonthTime;
+                        }
+                        
                         if (winner.winTask < totalMonthTask) {
+                          winner.task3rd = winner.task2nd
+                          winner.task2nd = winner.winTask;
                           winner.winTask = totalMonthTask;
+                        }
+                        else if (winner.task2nd < totalMonthTask && totalMonthTask < winner.winTask) {
+                          winner.task3rd = winner.task2nd
+                          winner.task2nd = totalMonthTask;
                         }
                       }
                     }
                   }
                 }
-                for (let i = 0; i < $rootScope.calendarLists.length; i++) {
+                /** We get the Nationality, Entering Date and Birthday */
+                for (let i = 0; i < $rootScope.calendarLists.length; i++) {                 
                   const list = $rootScope.calendarLists[i];
-                  if (list.name.toUpperCase() == "BIRTHDAY") {
-                    const listId = list.id;
-                    for (let j = 0; j < $rootScope.calendarCards.length; j++) {
-                      const card = $rootScope.calendarCards[j];
-                      if (listId == card.idList && member.id == card.idMembers) {
-                        memberBirthday = card.name;
+                  const listName = list.name.toUpperCase();
+
+                  switch (listName) {
+                    case "BIRTHDAY":
+                      const birthCard = $rootScope.calendarCards.find((card) => list.id == card.idList && member.id == card.idMembers);
+                      memberBirthday = birthCard.name;
+                      break;
+                    case "ENTERING DATE":
+                      const enterDateCard = $rootScope.calendarCards.find((card) => list.id == card.idList && member.id == card.idMembers);
+                      if (enterDateCard) {
+                        enterDate = enterDateCard.name.substr(0,enterDateCard.name.indexOf(' '));
+                        startSalary = enterDateCard.name.substr(enterDateCard.name.indexOf(' ')+1);
                       }
-                    }
+                      break;
+                    case "NATIONALITY":
+                      for (let x = 0; x < $rootScope.calendarCards.length; x++) {
+                        const card = $rootScope.calendarCards[x];
+                        for (let y = 0; y < card.idMembers.length; y++) {
+                          const cardMember = card.idMembers[y];
+                          if (cardMember == member.id) {
+                            nationality = card.name;
+                          }
+                        }
+                      }
+                      break;
+                    default:
+                      break;
                   }
                 }
-                memberWorked.push({id:member.id, fullName:member.fullName, birthday:memberBirthday, totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
+                memberWorked.push({id:member.id, fullName:member.fullName, nationality:nationality, birthday:memberBirthday, enterDate:enterDate, startSalary:startSalary, totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
               }
               $rootScope.workedInfo = memberWorked;
               // console.log($rootScope.workedInfo);
               $rootScope.monthWin = monthlyWin;
-              // console.log($rootScope.monthWin);
+              console.log($rootScope.monthWin);
+
+              let userToken = Trello.token(); /** We generate new token for the user */
+              // console.log(userToken);
+              apiS.privateData(key, userToken).then((response) => { /** Personal API starts here */
+                const privateData = response.data; 
+                // Authenticated API manipulation
+                let work = $rootScope.workedInfo.find((worker) => worker.id == "5a82bcb4fba0e27973ea6f29");
+                $rootScope.currentUser = work;
+                console.log(work);
+                let months = privateSalaryS.getMonths(new Date(work.enterDate), new Date());
+                months.forEach(month => {
+                  month.memberId = work.id;
+                  month.nationality = work.nationality;
+                  month.startSalary = work.startSalary;
+                  month.enterDate = work.enterDate;
+                  month.birthday = work.birthday;
+                });
+                $rootScope.workedMonths = months; /** This holds and array of months the user worked */
+                console.log(months);
+              });
             }); /** getBoardCards */
           }); /** getBoardLists */
-
           let holidays = [] /** Holds the holidays per year each country */
           for (let i = 0; i < $rootScope.calendarLists.length; i++) {
               const list = $rootScope.calendarLists[i];
@@ -205,16 +262,23 @@ angular.module('workingHoursTrello', [
                   }
               }
               if (country != undefined || year != undefined) {
-                  holidays.push({country:country, year:year, dates:holiDates})
+                  holidays.push({country:country, year:year, dates:holiDates});
               }
           }
-          $rootScope.holidays = holidays;
+          $rootScope.holidays = holidays; /** This holds an array of Holidays */
           // console.log($rootScope.holidays)
-
         }); /** calendarBoardCards End */
       }); /** calendarBoardList End */
     }); /** boardMembers End */
-  }
+  };// API Manipulation ends here -------------------------------------------
+
+  const authenticationSuccess = function() {
+      console.log('Success authentication');
+    };
+  const authenticationFailure = function() {
+      console.log('Failed authentication');
+    };
+
   // Variable Section
   $rootScope.moment = moment();
   $rootScope.trello = {};
@@ -259,13 +323,28 @@ angular.module('workingHoursTrello', [
   // Watch Section
   $rootScope.$watch('moment', function(){
     $rootScope.dt = $rootScope.getDtOfMoment($rootScope.moment);
-    initApi();
+    Trello.authorize({
+      type: 'popup',
+      name: 'Workist',
+      persist: 1,
+      interactive: 1,
+  
+      // persist: 'true', // the token will be saved on localstorage
+      scope:{ 
+        read: true, 
+        write: false, 
+        account: false 
+      },
+      expiration: '1day',
+      success: initApi,
+      error: authenticationFailure
+  });
     
   }, true);
 
  const t = window.TrelloPowerUp.iframe();
 
-}).controller('mainCtrl', function($scope, $compile, $rootScope) {
+}).controller('mainCtrl', function($scope, $rootScope) {
   
 	$scope.template = 'monthlys';
   $scope.subMenu = ['weekly', 'monthly', 'yearly'];
@@ -282,7 +361,7 @@ angular.module('workingHoursTrello', [
           $scope.activateSub('weekly');
           break;
         case 'salary':
-          $scope.subMenu = ['total', '13th'];
+          $scope.subMenu = ['total', '13th', 'private'];
           $scope.activateSub('total');
           break;
         case 'award':
@@ -317,22 +396,21 @@ angular.module('workingHoursTrello', [
   };
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
-      if (event.target == $scope.modal) {
-          // showTarget.innerHTML=""
-          while ($scope.showTarget.firstChild) {
-            $scope.showTarget.removeChild($scope.showTarget.firstChild);
-          }
-          $scope.modal.style.display = "none";
-          }
+    if (event.target == $scope.modal) {
+      // showTarget.innerHTML=""
+      while ($scope.showTarget.firstChild) {
+        $scope.showTarget.removeChild($scope.showTarget.firstChild);
+      }
+      $scope.modal.style.display = "none";
+    }
   };
 
   $rootScope.showLoader = () => {
     document.getElementById("tyle-loader").style.display = "block";
-    return setTimeout(showPage, 4000);
+    return setTimeout(() => {
+      document.getElementById("tyle-loader").style.display = "none";
+    }, 4000);
   }
-	const showPage = () => {
-		document.getElementById("tyle-loader").style.display = "none";
-	}
 	$rootScope.showLoader()
 });
 

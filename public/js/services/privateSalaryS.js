@@ -1,14 +1,18 @@
 angular.module('workingHoursTrello').service('privateSalaryS', function(totalSalaryS){
-    this.getListByName = (boardLists, nameToFind) => {
-        let foundList =  boardLists.find((list) => list.name == nameToFind)
-        return foundList.id;
-    }
-    this.getEntryDate = (boardCards, listId, memberId) => { /** we get the entry date of the member */
-        let foundCard = boardCards.find((card) => card.idMembers == memberId && card.idList == listId);
-        return new Date(foundCard.name.substr(0,foundCard.name.indexOf(' ')));
-    }
 
-    this.workedMonths = (boardLists) => {
-        return boardLists.length
-    }
+    this.getMonths = (fromDate, toDate) => { /** we get the dates by year and month from two dates */
+        const fromYear = fromDate.getFullYear();
+        const fromMonth = fromDate.getMonth();
+        const toYear = toDate.getFullYear();
+        const toMonth = toDate.getMonth();
+        const months = [];
+        for (let year = fromYear; year <= toYear; year++) {
+          let month = year === fromYear ? fromMonth : 0;
+          const monthLimit = year === toYear ? toMonth : 11;
+          for (; month <= monthLimit; month++) {
+            months.push({year, month, Date:new Date(`${year}/${month+1}/1`) });
+          }
+        }
+        return months;
+      };
   });

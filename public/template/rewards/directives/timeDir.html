@@ -38,7 +38,7 @@
         <td><span class="f-12px lh-17px h-18">{{workers.fullName}}</span></td>
         <td ng-repeat="dts in months" class="t-26 b-64">
           <span class="f-12px lh-17px h-18" ng-class="{'c-gn': time == ($root.monthWin | timeWinner : dts.value), 'c-black': time == 0 }"> 
-            {{formatTime(time = (workers | getMonthTime: dts.value))}}
+            {{formatTime(time = (workers | getMonthTime: dts.value))}} {{$root.monthWin | timeOrder : time : dts.value}}
           </span>     
         </td>
         <td class="t-26 b-64">
