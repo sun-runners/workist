@@ -1,56 +1,64 @@
 <div class="w-100 c-ACACAC">
-  <div class="w-100 h-69px d-fx fxd-c ai-c">
-    <div class="t-0 h-100 c-333333 fw-900 w-300px d-fx jc-c mt-11px">
-      <button class="w-35px h-27px mr-30px f-l fw-500" ng-click="$root.decreaseMonth();">
-        {{"<"}}
-      </button>
-      <span class="f-26px fw-900 cen-y f-l c-333333 lh-29px tt-u">
-        {{$root.dt.Date|date: 'MMMM'}}
-      </span>
-      <button class="w-35px h-27px ml-30px f-l c-333333 fw-500" ng-click="$root.increaseMonth();">
-        {{">"}}
-      </button>
+  <div class="w-100 mb-3px" style="box-shadow: 3px 3px #ccc;">
+    <div class="w-100 h-69px d-fx fxd-c ai-c">
+      <div class="t-0 h-100 c-333333 fw-900 w-300px d-fx jc-c mt-11px">
+        <button class="w-35px h-27px mr-30px f-l fw-500" ng-click="$root.decreaseMonth();">
+          {{"<"}}
+        </button>
+        <span class="f-26px fw-900 cen-y f-l c-333333 lh-29px tt-u">
+          {{$root.dt.Date|date: 'MMMM'}}
+        </span>
+        <button class="w-35px h-27px ml-30px f-l c-333333 fw-500" ng-click="$root.increaseMonth();">
+          {{">"}}
+        </button>
+      </div>
+      <div class="t-0 h-100 w-40px">
+        <span class="f-18px fw-900 cen-y lh-17px f-12px tt-u c-333333">
+          {{$root.dt.Date|date: 'yyyy'}}
+        </span>
+      </div>
     </div>
-    <div class="t-0 h-100 w-40px">
-      <span class="f-18px fw-900 cen-y lh-17px f-12px tt-u c-333333">
-        {{$root.dt.Date|date: 'yyyy'}}
-      </span>
+    <div class="w-100 h-1px b-gy o-30"></div>
+    <div class="w-100 bc-FFFFFF">
+      <table class="w-100 t-c">
+        <tr class="w-100 h-60px">
+          <!-- name -->
+          <th><span class="f-12px c-BDBDBD lh-17 h-18px">NAME</span></th>
+          <!-- dts -->
+          <td ng-repeat="dtr in monthlyWeeks">
+            <!-- month/Days -->
+            <p class="f-12px c-BDBDBD lh-17 h-18px">
+              week {{dtr.week}}</p><br>
+              <span class="f-9px lh-13 c-BDBDBD">{{dtr.start}}-{{dtr.end}}</span>
+          </td>
+          <!-- total -->
+          <th><span class="f-12px c-BDBDBD lh-17 h-18px">TOTAL</span></th>
+        </tr>
+        <!-- repeating output base on Username -->
+        <tr class="w-100 h-45px  c-686868" ng-repeat="member in $root.boardMembers" ng-click="$root.changeSelectedMember(member.fullName)" ng-class="{selected:  member.fullName == $root.selectedMember}">
+          <td>
+            <span class="f-12px lh-17px h-18">{{member.fullName}}</span>
+          </td>
+          <td ng-repeat="dtr in monthlyWeeks" class="t-26 b-64">
+            <span class="f-12px lh-17px h-18" ng-class="{'c-gn': getWeeklyCard(dtr, member.id) > getWeeklyTotal(member.id, dtr), 'c-red': getWeeklyCard(dtr, member.id) < getWeeklyTotal(member.id, dtr)}">
+                <!-- {{getWeeklyCard(dtr, member.id)}}/{{getWeeklyNeedWork(dtr)}} -->
+                {{getWeeklyCard(dtr, member.id)}}/{{getWeeklyTotal(member.id, dtr)}}
+            </span>
+          </td>
+          <td class="f-12px lh-15px">
+            <span class="f-12px lh-17px h-18" ng-class="{'c-gn': getMonthlyCard(member.id) > getMonthlyTotal(member.id), 'c-red': getMonthlyCard(member.id) < getMonthlyTotal(member.id)}">
+              {{getMonthlyCard(member.id)}}/{{getMonthlyTotal(member.id)}}
+            </span>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
-  <div class="w-100 h-1px b-gy o-30"></div>
-  <div class="w-100">
-      <!-- <div class="w-100 h-60px"> -->
-    <table class="w-100 t-c">
-      <tr class="w-100 h-60px">
-        <!-- name -->
-        <th><span class="f-12px c-BDBDBD lh-17 h-18px">NAME</span></th>
-        <!-- dts -->
-        <td ng-repeat="dtr in monthlyWeeks">
-          <!-- month/Days -->
-          <p class="f-12px c-BDBDBD lh-17 h-18px">
-            week {{dtr.week}}</p><br>
-            <span class="f-9px lh-13 c-BDBDBD">{{dtr.start}}-{{dtr.end}}</span>
-        </td>
-        <!-- total -->
-        <th><span class="f-12px c-BDBDBD lh-17 h-18px">TOTAL</span></th>
-      </tr>
-      <!-- repeating output base on Username -->
-      <tr class="w-100 h-45px  c-686868" ng-repeat="member in $root.boardMembers" ng-click="$root.changeSelectedMember(member.fullName)" ng-class="{selected:  member.fullName == $root.selectedMember}">
-        <td>
-          <span class="f-12px lh-17px h-18">{{member.fullName}}</span>
-        </td>
-        <td ng-repeat="dtr in monthlyWeeks" class="t-26 b-64">
-          <span class="f-12px lh-17px h-18" ng-class="{'c-gn': getWeeklyCard(dtr, member.id) > getWeeklyTotal(member.id, dtr), 'c-red': getWeeklyCard(dtr, member.id) < getWeeklyTotal(member.id, dtr)}">
-              <!-- {{getWeeklyCard(dtr, member.id)}}/{{getWeeklyNeedWork(dtr)}} -->
-              {{getWeeklyCard(dtr, member.id)}}/{{getWeeklyTotal(member.id, dtr)}}
-          </span>
-        </td>
-        <td class="f-12px lh-15px">
-          <span class="f-12px lh-17px h-18" ng-class="{'c-gn': getMonthlyCard(member.id) > getMonthlyTotal(member.id), 'c-red': getMonthlyCard(member.id) < getMonthlyTotal(member.id)}">
-            {{getMonthlyCard(member.id)}}/{{getMonthlyTotal(member.id)}}
-          </span>
-        </td>
-      </tr>
-    </table>
+  <br>
+  <div class="w-100 h-45px bc-E0E0E0">
+    <div class="pt-20px w-100">
+      <p style="text-align: left; font-size: 12px;"><strong style="font-weight: 900; color:green; font-size: 14px;">Green: </strong>Exceeded Working days. 
+        <strong style="font-weight: 900; color:red; font-size: 14px;">Red: </strong>Fewer Working days.</p>
+    </div>
   </div>
 </div>
