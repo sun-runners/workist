@@ -1,58 +1,69 @@
-<div class="h-400px w-100">
-    <div class="w-30 bo-gy bo_r-1px pt-40px">
-        <div class="w-100 h-400px d-fx fxd-c jc-c">
-            <div class="w-100 d-fx p-10px jc-c ai-c">
-                <button class="h-27px c-253339 " id="previous" ng-click="previous()">{{'<'}}</button>
+<div class="w-100">
+    <div class="w-100 mb-3px" style="box-shadow: 3px 3px #ccc;">
+        <div class="w-30 bo-gy bo_r-1px pt-40px bc-FFFFFF">
+            <div class="w-100 h-400px d-fx fxd-c jc-c">
+                <div class="w-100 d-fx p-10px jc-c ai-c">
+                    <button class="h-27px c-253339 " id="previous" ng-click="previous()">{{'<'}}</button>
                     <p class="ml-35px mr-35px c-253339 fw-500">{{currentMonthName}} {{currentYear}}</p>
-                <button class="h-27px c-253339" id="next" ng-click="next()">{{'>'}}</button>
+                    <button class="h-27px c-253339" id="next" ng-click="next()">{{'>'}}</button>
+                </div>
+                <br>
+                <div class="w-100 h-100 d-fx jc-c">
+                    <table class="w-100 h-100 pl-60px pr-60px" id="calendar" ng-model="calendar" ng-init="fff()">
+                        <thead class="">
+                            <tr class="mb-10px c-253339 f-12px">
+                                <th class="">Sun</th>
+                                <th class="">Mon</th>
+                                <th class="">Tue</th>
+                                <th class="">Wed</th>
+                                <th class="">Thu</th>
+                                <th class="">Fri</th>
+                                <th class="">Sat</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calendar-body" class="t-c p-20px" ng-model="calendarBody"
+                            data-ng-init="initiateCalendar()">
+                            {{initiateCalendar()}}
+                        </tbody>
+                    </table>
+                </div>
+                <br />
             </div>
-            <br>
-            <div class="w-100 h-100 d-fx jc-c">
-                <table class="w-100 h-100 pl-60px pr-60px" id="calendar" ng-model="calendar" ng-init="fff()">
-                    <thead class="">
-                        <tr class="mb-10px c-253339 f-12px">
-                            <th class="">Sun</th>
-                            <th class="">Mon</th>
-                            <th class="">Tue</th>
-                            <th class="">Wed</th>
-                            <th class="">Thu</th>
-                            <th class="">Fri</th>
-                            <th class="">Sat</th>
-                        </tr>
-                    </thead>
-                    <tbody id="calendar-body" class="t-c p-20px" ng-model="calendarBody" data-ng-init="initiateCalendar()">
-                        {{initiateCalendar()}}
-                    </tbody>
-                </table>
-            </div>
-            <br/>
+        </div>
+        <!-- Ledgers Name Here -->
+        <div class="w-70 h-400px bc-FFFFFF">
+            <table class="w-100 h-45px">
+                <tr class="h-46px t-91px">
+                    <th class="f-12px h-18px c-BDBDBD lh-17 tt-u w-25">Name</th>
+                    <th class="f-12px h-18px c-BDBDBD lh-17 tt-u w-25">Birthday</th>
+                    <th class="f-12px h-18px c-BDBDBD lh-17 tt-u w-25">Year</th>
+                    <th class="f-12px h-18px c-BDBDBD lh-17 tt-u w-25">Age</th>
+                </tr>
+            </table>
+            <div class="w-100 h-1px b-gy o-30"></div>
+            <table class="w-100 h-45px">
+                <tr>
+                    <th class="w-25"></th>
+                    <th class="w-25"></th>
+                    <th class="w-25"></th>
+                    <th class="w-25"></th>
+                </tr>
+                <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer c-686868 calendar-row"
+                    ng-repeat="member in $root.workedInfo"
+                    ng-class="{selected:  giveIdByBirthday(member.birthday) == selectedMember}"
+                    ng-click="getToBirthday(giveIdByBirthday(member.birthday), getMemberBirthMonth(member.birthday), currentYear, getMemberBirthDay(member.birthday))"
+                    id="{{giveIdByBirthday(member.birthday)}}">
+                    <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
+                    <td><span class="f-12px lh-17px h-18">{{getMemberBirthDate(member.birthday)}}</span></td>
+                    <td><span class="f-12px lh-17px h-18">{{getMemberBirthYear(member.birthday)}}</span></td>
+                    <td><span class="f-12px lh-17px h-18">{{getMemberAge(member.birthday)}}</span></td>
+                </tr>
+            </table>
         </div>
     </div>
-    <!-- Ledgers Name Here -->
-    <div class="w-70 h-400px">
-        <table class ="w-100 h-45px"> 
-            <tr class ="h-46px t-91px">
-                <th class="f-12px h-18px c-BDBDBD lh-17 tt-u w-25">Name</th>
-                <th class="f-12px h-18px c-BDBDBD lh-17 tt-u w-25">Birthday</th>
-                <th class="f-12px h-18px c-BDBDBD lh-17 tt-u w-25">Year</th>
-                <th class="f-12px h-18px c-BDBDBD lh-17 tt-u w-25">Age</th>
-            </tr>   
-        </table>
-        <div class="w-100 h-1px b-gy o-30"></div>
-        <table class ="w-100 h-45px">
-            <tr>
-                <th class="w-25"></th>
-                <th class="w-25"></th>
-                <th class="w-25"></th>
-                <th class="w-25"></th>
-            </tr>
-            <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer c-686868 calendar-row" ng-repeat="member in $root.workedInfo" ng-class="{selected:  giveIdByBirthday(member.birthday) == selectedMember}" 
-            ng-click="getToBirthday(giveIdByBirthday(member.birthday), getMemberBirthMonth(member.birthday), currentYear, getMemberBirthDay(member.birthday))" id="{{giveIdByBirthday(member.birthday)}}">
-                <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
-                <td><span class="f-12px lh-17px h-18">{{getMemberBirthDate(member.birthday)}}</span></td>
-                <td><span class="f-12px lh-17px h-18">{{getMemberBirthYear(member.birthday)}}</span></td>
-                <td><span class="f-12px lh-17px h-18">{{getMemberAge(member.birthday)}}</span></td>
-            </tr>
-        </table>
+    <div class="w-100 h-45px bc-E0E0E0">
+        <div class="pt-20px w-100">
+            
+        </div>
     </div>
 </div>

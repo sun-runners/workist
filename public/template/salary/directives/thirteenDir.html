@@ -1,5 +1,6 @@
-<div class="w-100 c-ACACAC">
-    <div class="w-100 h-69px d-fx fxd-c ai-c">
+<div class="w-100 c-ACACAC bc-E0E0E0">
+  <div class="w-100 mb-3px" style="box-shadow: 3px 3px #ccc;">
+    <div class="w-100 h-69px d-fx fxd-c ai-c bc-FFFFFF">
       <div class="t-0 h-100 c-333333 w-300px d-fx jc-c mt-11px">
         <button class="w-35px h-27px mr-30px f-l fw-500" ng-click="$root.decreaseMonth();">
           <span class="f-l">{{"<"}}</span>
@@ -7,42 +8,52 @@
         <span class="f-26px fw-900 cen-y f-l c-333333 lh-29px tt-u">
           {{$root.dt.Date|date: 'MMMM'}}
         </span>
-        <button class="w-35px h-27px ml-25px f-r c-333333 fw-500"  ng-click="$root.increaseMonth();">
+        <button class="w-35px h-27px ml-25px f-r c-333333 fw-500" ng-click="$root.increaseMonth();">
           <span class="f-r"> {{">"}}</span>
         </button>
+      </div>
+      <div class="t-0 h-100 w-40px">
+        <span class="f-18px fw-900 cen-y lh-17px f-12px tt-u c-333333">
+          {{$root.dt.Date|date: 'yyyy'}}
+        </span>
+      </div>
     </div>
-    <div class="t-0 h-100 w-40px">
-      <span class="f-18px fw-900 cen-y lh-17px f-12px tt-u c-333333">
-        {{$root.dt.Date|date: 'yyyy'}}
-      </span>
+    <div class="w-100 b-gy o-30" style="height:1px"></div>
+    <div class="w-100 bc-FFFFFF">
+      <table class="w-100 t-c">
+        <tr class="w-100 t-60px h-45px bg-FFFFFF  c-BDBDBD">
+          <th ng-repeat="item in menuItem">
+            <!-- month/Days -->
+            <p class="f-12px h-18 lh-17 tt-u">
+              {{item}}
+            </p>
+          </th>
+        </tr>
+        <!-- repeating output base on Username -->
+        <tr class="t-26 b-64 h-50px c-686868"
+          ng-repeat="member in $root.boardMembers | filter:{id:'!53ca58ad2018034bbeb54e29'} | filter:{id:'!5a2de2c831a41435d465e564'}"
+          ng-click="$root.changeSelectedMember(member.fullName)"
+          ng-class="{selected:  member.fullName == $root.selectedMember}">
+          <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
+          <td class="t-26 b-64">
+            <span class="f-12px lh-17px h-18">{{monthNumber = getMonthDuration(member.id)}}
+              {{(monthNumber > 0) ? "Months": ""}}</span>
+          </td>
+          <td class="t-26 b-64">
+            <span class="f-12px lh-17px h-18">{{formatSalary(salary = getCurrentSalary(member.id))}}</span>
+          </td>
+          <td class="t-26 b-64">
+            <span class="f-12px lh-17px h-18">{{totalThirteen(salary, monthNumber, member.id)}}</span>
+            <!-- <span class="f-12px lh-17px h-18">{{formatBonuse(getBonuse(member.id))}}</span> -->
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
-  <div class="w-100 b-gy o-30" style="height:1px"></div>
-  <div class="w-100">
-    <table class="w-100 t-c">
-      <tr class="w-100 t-60px h-45px bg-FFFFFF  c-BDBDBD">
-        <th ng-repeat="item in menuItem">
-          <!-- month/Days -->
-          <p class="f-12px h-18 lh-17 tt-u">
-            {{item}}
-          </p>
-        </th>
-      </tr>
-      <!-- repeating output base on Username -->
-      <tr class="t-26 b-64 h-50px c-686868" ng-repeat="member in $root.boardMembers | filter:{id:'!53ca58ad2018034bbeb54e29'} | filter:{id:'!5a2de2c831a41435d465e564'}" 
-      ng-click="$root.changeSelectedMember(member.fullName)" ng-class="{selected:  member.fullName == $root.selectedMember}">
-        <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
-        <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{monthNumber = getMonthDuration(member.id)}} {{(monthNumber > 0) ? "Months": ""}}</span>
-        </td>
-        <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{formatSalary(salary = getCurrentSalary(member.id))}}</span>
-        </td>
-        <td class="t-26 b-64">
-          <span class="f-12px lh-17px h-18">{{totalThirteen(salary, monthNumber, member.id)}}</span>
-          <!-- <span class="f-12px lh-17px h-18">{{formatBonuse(getBonuse(member.id))}}</span> -->
-        </td>
-      </tr>
-    </table>
+  <br>
+  <div class="w-100 h-45px bc-E0E0E0">
+    <div class="pt-20px w-100">
+      <p style="text-align: right; font-size: 12px; color: #333">*Computation: Total Salary * Work in months / 12 Months in a year = Total 13 Months Bonus.</p>
+    </div>
   </div>
 </div>
