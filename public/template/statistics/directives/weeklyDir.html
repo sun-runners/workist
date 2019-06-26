@@ -2,19 +2,19 @@
   <div class="w-100 mb-3px" style="box-shadow: 3px 3px #ccc;">
     <div class="w-100 h-69px d-fx fxd-c ai-c bc-FFFFFF">
       <div class="t-0 h-100 c-333333 w-300px d-fx jc-c mt-11px">
-        <button class="w-35px h-27px mr-30px f-l" ng-click="$root.decreaseWeek();">
+        <button class="w-35px h-27px mr-30px f-l" ng-click="decreaseWeek();">
           {{"<"}}
         </button>
         <span class="f-26px fw-900 cen-y f-l c-333333 lh-29px">
-          {{$root.dt.week}} WEEK
+          {{dt.week}} WEEK
         </span>
-        <button class="w-35px h-27px ml-30px f-l c-333333" ng-click="$root.increaseWeek();">
+        <button class="w-35px h-27px ml-30px f-l c-333333" ng-click="increaseWeek();">
           {{">"}}
         </button>
       </div>
       <div class="t-0 h-100 w-200px">
         <span class="f-18px fw-900 cen-y lh-17px f-12px tt-u c-333333">
-          <h3 class="t-c">{{$root.dt.Date|date: 'yyyy'}} {{$root.dt.Date|date: 'MMMM'}}</h3>
+          <h3 class="t-c">{{dt.Date|date: 'yyyy'}} {{dt.Date|date: 'MMMM'}}</h3>
         </span>
       </div>
     </div>
