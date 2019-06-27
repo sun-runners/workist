@@ -220,7 +220,7 @@ angular.module('workingHoursTrello', [
                 // const work = $rootScope.workedInfo.find((worker) => worker.id == "5c1e4c6f88a03b8640170363");
                 const work = $rootScope.workedInfo.find((worker) => worker.id == privateData.id);
                 $rootScope.currentUser = work;
-                console.log(work);
+                // console.log(work);
                 let months = privateSalaryS.getMonths(new Date(work.enterDate), new Date());
                 months.forEach(month => {
                   month.memberId = work.id;

@@ -17,17 +17,17 @@ angular.module('workingHoursTrello')
 				};
 				initialize();
 
-				scope.getMonthlyToWork = (memberId, month) => {
-					let country = nationalityS.membersNationality(memberId, $rootScope.calendarCards, $rootScope.calendarLists);
+				scope.getMonthlyToWork = (memberId, month, nationality) => {
 					let toWork = monthS.monthsNeedtoWork(scope.thisDate.year(), month); /** get the total days to work whith holiday not a factor  */
 					let filterPrevBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", toWork);
-					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday);
+					return holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday);
 				}
-				scope.getAnnualLeave = (memberId, allWorked) => {
+				scope.getAnnualLeave = (memberId, allWorked, nationality, entry) => {
+					if (entry == undefined) {
+						return "";
+					}
 					try {
-						let country = nationalityS.membersNationality(memberId, $rootScope.calendarCards, $rootScope.calendarLists);
-						let listId = totalSalaryS.getListByName($rootScope.calendarLists,'ENTERING DATE',);
-						let entryDate = totalSalaryS.getEntryDate($rootScope.calendarCards, listId, memberId);
+						let entryDate = new Date(entry)
 						let myAnnualLeave = totalSalaryS.annualLeaves($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId); /** annual leave up to now */
 						let datesToNow;
 						if (entryDate.getFullYear() == $rootScope.dt.year) {
@@ -36,17 +36,16 @@ angular.module('workingHoursTrello')
 							datesToNow = totalSalaryS.betweenDates(new Date(`${$rootScope.dt.year}/01/01`), $rootScope.dt.Date);
 						}
 						let filterPrevBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", datesToNow);
-						let allDatesToWork = holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday)
+						let allDatesToWork = holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday)
 						let haveWork = allDatesToWork - allWorked;
 						let availableLeave = (haveWork < 0) ? 0 : haveWork;
 						let usedLeave = myAnnualLeave - availableLeave;
 					return ((new Date().getFullYear() !== $rootScope.dt.year) ? ((usedLeave < 0)? 0:usedLeave) : usedLeave) + "/" + ((new Date().getFullYear() !== $rootScope.dt.year) ? 12 : myAnnualLeave);
 					} catch (error) {}
 				}
-				scope.getYearlyToWork = (memberId) => {
-					let country = nationalityS.membersNationality(memberId, $rootScope.calendarCards, $rootScope.calendarLists);
+				scope.getYearlyToWork = (memberId, nationality) => {
 					let toWork = yearS.yearsNeedToWork($rootScope.dt.year, scope.months); /** get the total days to work whith holiday not a factor  */
-					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, toWork);
+					return holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, toWork);
 				}
 				scope.showMonthly = (work, toWork) => (work != 0) ? work+' / '+toWork : '-';
 			},
