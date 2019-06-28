@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('workingHoursTrello')
-	.directive('yearlyDir', function ($rootScope, monthS, yearS, nationalityS, holidayS, totalSalaryS, birthdayS) {
+	.directive('yearlyDir', function ($rootScope, monthS, yearS, holidayS, totalSalaryS, birthdayS) {
 		return {
 			link : function(scope, element, attrs){
 
@@ -22,26 +22,47 @@ angular.module('workingHoursTrello')
 					let filterPrevBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", toWork);
 					return holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday);
 				}
-				scope.getAnnualLeave = (memberId, allWorked, nationality, entry) => {
+				scope.getAnnualLeave = (memberId, nationality, entry, workedData) => {
+					const entry_date = new Date(entry);
 					if (entry == undefined) {
 						return "";
 					}
-					try {
-						let entryDate = new Date(entry)
-						let myAnnualLeave = totalSalaryS.annualLeaves($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId); /** annual leave up to now */
-						let datesToNow;
-						if (entryDate.getFullYear() == $rootScope.dt.year) {
-							datesToNow =  totalSalaryS.betweenDates(new Date(`${entryDate.getFullYear()}/${entryDate.getMonth() + 1}/${entryDate.getDate()}`), $rootScope.dt.Date);
+					let this_month_score = 0;
+					// this will hold all the months woth annual leave available
+					let monthly_annual = [];
+					//  we will now get the annual leave with months
+					for (let y = 0; y < workedData.length; y++) {
+						const month_data = workedData[y];
+					
+						if (month_data.month == new Date().getMonth() + 1) {
+							const currently_worked = month_data.monthWorked;
+							const dates_to_now = totalSalaryS.betweenDates(	new Date(`${$rootScope.dt.year}/${$rootScope.dt.month}/01`), 
+																			new Date(`${$rootScope.dt.year}/${$rootScope.dt.month}/${new Date().getDate()}`
+																			));
+							const filter_prev_birthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", dates_to_now);
+							const days_to_work_till_now = holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filter_prev_birthday)
+							const worked = currently_worked - days_to_work_till_now;
+							this_month_score = worked;
+							break;
+						};
+						// we get the total days of the month members must work
+						const monthToWork = scope.getMonthlyToWork(memberId, month_data.month, nationality);
+						const worked = monthToWork - month_data.monthWorked;
+						const score = worked > 0 ? -worked : 1;
+						monthly_annual.push(score);
+					}
+					let available_annual_leave = 0;
+					for (let y = 0; y < monthly_annual.length; y++) {
+						const month_leave = monthly_annual[y];
+						if (y == 0) {
+							available_annual_leave = month_leave < 0 ? 0 : month_leave;
 						}else{
-							datesToNow = totalSalaryS.betweenDates(new Date(`${$rootScope.dt.year}/01/01`), $rootScope.dt.Date);
+							const current_leave_score = month_leave < 0 ? 0 : 1;
+							available_annual_leave = (available_annual_leave + current_leave_score < 0) ? 0 : available_annual_leave  + current_leave_score;
 						}
-						let filterPrevBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", datesToNow);
-						let allDatesToWork = holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday)
-						let haveWork = allDatesToWork - allWorked;
-						let availableLeave = (haveWork < 0) ? 0 : haveWork;
-						let usedLeave = myAnnualLeave - availableLeave;
-					return ((new Date().getFullYear() !== $rootScope.dt.year) ? ((usedLeave < 0)? 0:usedLeave) : usedLeave) + "/" + ((new Date().getFullYear() !== $rootScope.dt.year) ? 12 : myAnnualLeave);
-					} catch (error) {}
+					}	 	
+					// we add + 1 to available annual leave to include annual leave of theis
+					return parseFloat(available_annual_leave + 1) - parseFloat(Math.abs(this_month_score));
 				}
 				scope.getYearlyToWork = (memberId, nationality) => {
 					let toWork = yearS.yearsNeedToWork($rootScope.dt.year, scope.months); /** get the total days to work whith holiday not a factor  */
