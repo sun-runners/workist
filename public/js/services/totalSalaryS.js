@@ -17,12 +17,13 @@ angular.module('workingHoursTrello').service('totalSalaryS', function(){
         }
         return months;
     }
-    this.monthDuration = (boardLists, boardCards, nameToFind, currentDate, memberId) => {
+    this.monthDuration = (board_lists, board_cards, name_to_find, date_stop, member_id) => {
         try { /** we get the total duration per month */
-            let listId = this.getListByName(boardLists, nameToFind);
-            let entryDate = this.getEntryDate(boardCards, listId, memberId);
-            let Month = this.diffInMonths(entryDate, currentDate);
-        return  Month;
+            let list_id = this.getListByName(board_lists, name_to_find);
+            let entry_date = this.getEntryDate(board_cards, list_id, member_id);
+            date_stop = new Date(date_stop.getFullYear(), date_stop.getMonth()+1, 0);
+            let Month = this.diffInMonths(entry_date, date_stop);
+            return  Month;
         } catch (error) {
             return '-';
         }
