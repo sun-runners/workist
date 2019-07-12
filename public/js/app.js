@@ -67,14 +67,14 @@ angular.module('workingHoursTrello', [
 
               for (let y = 0; y < $rootScope.boardMembers.length; y++) {
                 const member = $rootScope.boardMembers[y];
-                let totalYearTime = 0;
-                let totalYearTask = 0;
-                let totalYearDay = 0;
-                let enterDate;
-                let startSalary;
-                let memberBirthday;
+                let total_year_time = 0;
+                let total_year_task = 0;
+                let total_year_day = 0;
+                let enter_date;
+                let start_salary;
+                let member_birthday;
                 let nationality;
-                let monthsWorked = [];
+                let months_worked = [];
                 /** we loop 12 times to show per month */
                 for (let month = 1; month < 13; month++) {
                   
@@ -137,11 +137,11 @@ angular.module('workingHoursTrello', [
                     totalMonthTime = totalMonthTime + card.time;
                     totalMonthTask = totalMonthTask + card.task;
                     /** will add the yearly data */
-                    totalYearDay = totalYearDay + cardDay;
-                    totalYearTime = totalYearTime + card.time;
-                    totalYearTask = totalYearTask + card.task;
+                    total_year_day = total_year_day + cardDay;
+                    total_year_time = total_year_time + card.time;
+                    total_year_task = total_year_task + card.task;
                   }
-                  monthsWorked.push({month:month, monthTime: totalMonthTime, monthTask: totalMonthTask, monthWorked:totalMonthDay, worked:listWorkData});
+                  months_worked.push({month:month, monthTime: totalMonthTime, monthTask: totalMonthTask, monthWorked:totalMonthDay, worked:listWorkData});
                   /** We are now determining which on has the highest time & task */
                   while (monthlyWin.length < month) {
                     monthlyWin.push({ month:month, winTime:totalMonthTime, time2nd:0, time3rd:0, winTask:totalMonthTask, task2nd:0, task3rd:0 });
@@ -181,13 +181,13 @@ angular.module('workingHoursTrello', [
                   switch (listName) {
                     case "BIRTHDAY":
                       const birthCard = $rootScope.calendarCards.find((card) => list.id == card.idList && member.id == card.idMembers);
-                      memberBirthday = birthCard.name;
+                      member_birthday = birthCard.name;
                       break;
                     case "ENTERING DATE":
-                      const enterDateCard = $rootScope.calendarCards.find((card) => list.id == card.idList && member.id == card.idMembers);
-                      if (enterDateCard) {
-                        enterDate = enterDateCard.name.substr(0,enterDateCard.name.indexOf(' '));
-                        startSalary = enterDateCard.name.substr(enterDateCard.name.indexOf(' ')+1);
+                      const enter_date_card = $rootScope.calendarCards.find((card) => list.id == card.idList && member.id == card.idMembers);
+                      if (enter_date_card) {
+                        enter_date = enter_date_card.name.substr(0,enter_date_card.name.indexOf(' '));
+                        start_salary = enter_date_card.name.substr(enter_date_card.name.indexOf(' ')+1);
                       }
                       break;
                     case "NATIONALITY":
@@ -205,7 +205,7 @@ angular.module('workingHoursTrello', [
                       break;
                   }
                 }
-                memberWorked.push({id:member.id, fullName:member.fullName, nationality:nationality, birthday:memberBirthday, enterDate:enterDate, startSalary:startSalary, totYearTime: totalYearTime, totYearTask: totalYearTask, totYearWorked: totalYearDay, workedData:monthsWorked});
+                memberWorked.push({id:member.id, fullName:member.fullName, nationality:nationality, birthday:member_birthday, enterDate:enter_date, startSalary:start_salary, totYearTime: total_year_time, totYearTask: total_year_task, totYearWorked: total_year_day, workedData:months_worked});
               }
               $rootScope.workedInfo = memberWorked;
               // console.log($rootScope.workedInfo);
@@ -215,10 +215,10 @@ angular.module('workingHoursTrello', [
               let userToken = Trello.token(); /** We generate new token for the user */
               // console.log(userToken);
               apiS.privateData(key, userToken).then((response) => { /** Personal API starts here */
-                const privateData = response.data; 
+                const private_data = response.data; 
                 // Authenticated API manipulation
                 // const work = $rootScope.workedInfo.find((worker) => worker.id == "5c1e4c6f88a03b8640170363");
-                const work = $rootScope.workedInfo.find((worker) => worker.id == privateData.id);
+                const work = $rootScope.workedInfo.find((worker) => worker.id == private_data.id);
                 $rootScope.currentUser = work;
                 // console.log(work);
                 let months = privateSalaryS.getMonths(new Date(work.enterDate), new Date());
@@ -237,11 +237,11 @@ angular.module('workingHoursTrello', [
           let holidays = [] /** Holds the holidays per year each country */
           for (let i = 0; i < $rootScope.calendarLists.length; i++) {
               const list = $rootScope.calendarLists[i];
-              const listWords = list.name.split(" ");
+              const list_words = list.name.split(" ");
               let country;
               let year; 
-              for (let j = 0; j < listWords.length; j++) {
-                  const word = listWords[j];
+              for (let j = 0; j < list_words.length; j++) {
+                  const word = list_words[j];
                   if (word == "PHILIPPINES") {
                       country = "PHILIPPINES";
                   }
@@ -327,7 +327,7 @@ angular.module('workingHoursTrello', [
     Trello.authorize({
       type: 'popup',
       name: 'Workist',
-      persist: 1,
+      persist: 0,
       interactive: 1,
   
       // persist: 'true', // the token will be saved on localstorage
