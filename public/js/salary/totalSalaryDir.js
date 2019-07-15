@@ -12,55 +12,55 @@ angular.module('workingHoursTrello')
 					scope.getCurrentSalary = (memberId, monthNumber) => totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, monthNumber);
 					scope.getPercentage = (memberId, nationality) => {
 						// We get the number of annual leave currently used
-						let possibleWork = totalSalaryS.prevMonthsToWorkDates($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId); /** for this month all working days holidays not considered */
-						let filterPrevBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", possibleWork); /** remove birthday from array dates */
-						let prevMonthToWork = holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday); /** all the working days with holidays remove */	
-						let allDatesToNow =  totalSalaryS.betweenDates(new Date(`${$rootScope.dt.Date.getFullYear()}/01/1`), $rootScope.dt.Date, true); /** we get all the Dates */
-						let prevDates = totalSalaryS.prevDate(allDatesToNow, $rootScope.dt.Date); /** we get all the previous dates */
-						let prevMonthsWork = weekS.getDaysTotalOutput(prevDates, memberId, $rootScope.boardLists, $rootScope.boardCards); /** all the days members have worked */
-						let usedLeave = prevMonthToWork - prevMonthsWork; /** annual Leave used */
+						let possible_work = totalSalaryS.prevMonthsToWorkDates($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId); /** for this month all working days holidays not considered */
+						let filter_prev_birthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", possible_work); /** remove birthday from array dates */
+						let prev_month_to_work = holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filter_prev_birthday); /** all the working days with holidays remove */	
+						let all_dates_to_now =  totalSalaryS.betweenDates(new Date(`${$rootScope.dt.Date.getFullYear()}/01/1`), $rootScope.dt.Date, true); /** we get all the Dates */
+						let prev_dates = totalSalaryS.prevDate(all_dates_to_now, $rootScope.dt.Date); /** we get all the previous dates */
+						let prev_monthsWork = weekS.getDaysTotalOutput(prev_dates, memberId, $rootScope.boardLists, $rootScope.boardCards); /** all the days members have worked */
+						let used_leave = prev_month_to_work - prev_monthsWork; /** annual Leave used */
 						// We get the annual Leave members have
-						let myAnnualLeave = totalSalaryS.annualLeaves($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId) /** annual leave up to now */
+						let my_annual_leave = totalSalaryS.annualLeaves($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId) /** annual leave up to now */
 						// We get the available annual Leave
-						let availableLeave = myAnnualLeave - usedLeave /** available annual Leave */
+						let available_leave = my_annual_leave - used_leave /** available annual Leave */
 						// We get the number of days to work for this month
-						let currentMonthsDate = monthS.monthsNeedtoWork($rootScope.dt.year, $rootScope.dt.month); /** dates of current Month */
-						let filterBirthMonthly = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", currentMonthsDate); /** remove birthday from array dates */
-						let monthToWork = holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterBirthMonthly);  /** this month current month to Work */
+						let current_months_date = monthS.monthsNeedtoWork($rootScope.dt.year, $rootScope.dt.month); /** dates of current Month */
+						let filter_birth_monthly = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", current_months_date); /** remove birthday from array dates */
+						let month_to_work = holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filter_birth_monthly);  /** this month current month to Work */
 						// We get the number of days to work until now
-						let monthStarted = new Date($rootScope.dt.year + '/' + $rootScope.dt.month + '/1');
-						let monthToNow = totalSalaryS.betweenDates(monthStarted, $rootScope.dt.Date);
-						let filterBirthToNow = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", monthToNow);
-						let daysToWork = holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterBirthToNow);
+						let month_started = new Date($rootScope.dt.year + '/' + $rootScope.dt.month + '/1');
+						let month_to_now = totalSalaryS.betweenDates(month_started, $rootScope.dt.Date);
+						let filter_birth_to_now = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", month_to_now);
+						let days_to_work = holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filter_birth_to_now);
 						// We get the number of days have worked 
-						let currentWorked = monthS.getMonthsValue($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);
-						let datesToWork = null;
+						let current_worked = monthS.getMonthsValue($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);
+						let dates_to_work = null;
 						if ($rootScope.dt.Date.getMonth() == new Date().getMonth() && $rootScope.dt.year == new Date().getFullYear()) {
-							datesToWork = daysToWork;
+							dates_to_work = days_to_work;
 						}else{
-							datesToWork = monthToWork;
+							dates_to_work = month_to_work;
 						}
-						while (datesToWork > currentWorked) {
-							if (availableLeave > 0) {
-								currentWorked = currentWorked + 0.5;
-								availableLeave = availableLeave - 0.5;
+						while (dates_to_work > current_worked) {
+							if (available_leave > 0) {
+								current_worked = current_worked + 0.5;
+								available_leave = available_leave - 0.5;
 							}else{ break;}
 						}
-						let percentage =  totalSalaryS.percentage(currentWorked, monthToWork);
+						let percentage =  totalSalaryS.percentage(current_worked, month_to_work);
 						return percentage
-						// return "annual Leave: "+ myAnnualLeave + " Used Leave: " + usedLeave + " Available Leave: " + availableLeave + " --- " +  monthToWork + " Worked :" + currentWorked;
-						// return daysToWork + " - " + currentWorked + " available leave " + availableLeave
+						// return "annual Leave: "+ my_annual_leave + " Used Leave: " + used_leave + " Available Leave: " + available_leave + " --- " +  month_to_work + " Worked :" + current_worked;
+						// return daysToWork + " - " + current_worked + " available leave " + available_leave
 					}
 					scope.getBonuse = (memberId) => {
-						let monthlyTask = taskS.monthlyTasks($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);				
-						let monthlyTime = timeS.monthlyTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);
+						let monthly_task = taskS.monthlyTasks($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);				
+						let monthly_time = timeS.monthlyTime($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardLists, memberId, $rootScope.boardCards);
 						let bonuse = bonuseS.bonuseWinners($rootScope.dt.year, $rootScope.dt.month, $rootScope.boardMembers, $rootScope.boardLists, $rootScope.boardCards, $rootScope.calendarCards);
 						try {
 							if (memberId == bonuse.leader) {
 								return {bonuse:"LEADER", value:10000}
-							}else if (monthlyTask == bonuse.winTask) {
+							}else if (monthly_task == bonuse.winTask) {
 								return {bonuse:"TASKS", value:5000}
-							}else if (monthlyTime == bonuse.winTime) {
+							}else if (monthly_time == bonuse.winTime) {
 								return {bonuse:'TIME', value:5000}
 							}else{
 								return {bonuse:'', value:0}
@@ -84,14 +84,14 @@ angular.module('workingHoursTrello')
 					}
 					scope.getTotalSalary = (monthNumber, salary, percentage, bonuse = 0, memberId) => {
 						try {
-							let oldSalary = totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, monthNumber - 1);
-							let totalSalary = totalSalaryS.totalSalary(monthNumber, salary, oldSalary,  $rootScope.calendarLists, $rootScope.calendarCards, memberId, 'ENTERING DATE');
+							let old_salary = totalSalaryS.salary($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', memberId, monthNumber - 1);
+							let total_salary = totalSalaryS.totalSalary(monthNumber, salary, old_salary,  $rootScope.calendarLists, $rootScope.calendarCards, memberId, 'ENTERING DATE');
 							if (percentage < 100 && percentage > 0) {
-								return (totalSalary * parseFloat(percentage/100)) + bonuse;
+								return (total_salary * parseFloat(percentage/100)) + bonuse;
 							}else if(percentage == 0){
 								return 0
 							}else{
-								return totalSalary + bonuse;
+								return total_salary + bonuse;
 							}
 						} catch (error) {}
 					}
