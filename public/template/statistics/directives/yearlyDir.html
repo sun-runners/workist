@@ -45,7 +45,7 @@
           </td>
           <td>
             <span class="f-12px lh-17px h-18" ng-class="{'c-gn': work > toWork, 'c-red': work < toWork, 'c-bk': work == 0}">
-                  {{yearWork = (workers | getYearValue)}} / {{toWork = getYearlyToWork(workers.id, workers.nationality)}}
+                  {{yearWork = (workers | getYearValue)}} / {{toWork = getYearlyToWork(workers.nationality)}}
             </span>
           </td>
         </tr>
