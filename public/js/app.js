@@ -70,10 +70,10 @@ angular.module('workingHoursTrello', [
                 let total_year_time = 0;
                 let total_year_task = 0;
                 let total_year_day = 0;
-                let enter_date;
+           
                 let start_salary;
-                let member_birthday;
-                let nationality;
+                
+            
                 let months_worked = [];
                 /** we loop 12 times to show per month */
                 for (let month = 1; month < 13; month++) {
@@ -173,6 +173,9 @@ angular.module('workingHoursTrello', [
                     }
                   }
                 }
+                let enter_date;
+                var member_birthday;
+                let nationality;
                 /** We get the Nationality, Entering Date and Birthday */
                 for (let i = 0; i < $rootScope.calendarLists.length; i++) {                 
                   const list = $rootScope.calendarLists[i];
@@ -180,8 +183,13 @@ angular.module('workingHoursTrello', [
 
                   switch (list_name) {
                     case "BIRTHDAY":
-                      const birthCard = $rootScope.calendarCards.find((card) => list.id == card.idList && member.id == card.idMembers);
-                      member_birthday = birthCard.name;
+                      const birth_card = $rootScope.calendarCards.find((card) => list.id == card.idList && member.id == card.idMembers);
+                      // if members birthday is undefined make newyear as it's birthday.
+                      if(birth_card == undefined){
+                        member_birthday = "2019/01/01";
+                      }else{
+                        member_birthday = birth_card.name;
+                      }
                       break;
                     case "ENTERING DATE":
                       const enter_date_card = $rootScope.calendarCards.find((card) => list.id == card.idList && member.id == card.idMembers);
@@ -204,6 +212,10 @@ angular.module('workingHoursTrello', [
                     default:
                       break;
                   }
+                }
+                // we check if members nationality is not present on cardData board make it KOREA
+                if (nationality == undefined) {
+                  nationality = "KOREA";
                 }
                 memberWorked.push({id:member.id, fullName:member.fullName, nationality:nationality, birthday:member_birthday, enterDate:enter_date, startSalary:start_salary, totYearTime: total_year_time, totYearTask: total_year_task, totYearWorked: total_year_day, workedData:months_worked});
               }

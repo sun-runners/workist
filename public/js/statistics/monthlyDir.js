@@ -50,11 +50,10 @@ angular.module('workingHoursTrello')
 					let filterTheBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", weeklyToWork);
 					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterTheBirthday);
 				}
-				scope.getMonthlyTotal = (memberId) => { /** we get the holidays base on nationality */
-					let country = nationalityS.membersNationality(memberId, $rootScope.calendarCards, $rootScope.calendarLists);
+				scope.getMonthlyTotal = (memberId, nationality) => { /** we get the holidays base on nationality */
 					let monthlyToWork = monthS.monthsNeedtoWork(scope.thisDate.year(), scope.thisDate.month()+1);
 					let filterTheBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", monthlyToWork);
-					return holidayS.datesWithoutHoliday(country, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterTheBirthday); 
+					return holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterTheBirthday); 
 				}
 			},
 			restrict: "EA",

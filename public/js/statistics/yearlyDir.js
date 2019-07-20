@@ -33,10 +33,16 @@ angular.module('workingHoursTrello')
 					for (let y = 0; y < workedData.length; y++) {
 						const month_data = workedData[y];
 					
-						if (month_data.month == new Date().getMonth() + 1) {
+						if (month_data.month == $rootScope.dt.month) {
 							const currently_worked = month_data.monthWorked;
-							const dates_to_now = totalSalaryS.betweenDates(	new Date(`${$rootScope.dt.year}/${$rootScope.dt.month}/01`), 
-																			new Date(`${$rootScope.dt.year}/${$rootScope.dt.month}/${new Date().getDate()}`
+							let day_of_month;
+							if ($rootScope.dt.month != new Date().getMonth() + 1 || $rootScope.dt.year != new Date().getFullYear()) {
+								day_of_month = new Date( $rootScope.dt.year, $rootScope.dt.month+1, 0).getDate()
+							}else{
+								day_of_month = new Date().getDate();
+							}
+							const dates_to_now = totalSalaryS.betweenDates(new Date(`${$rootScope.dt.year}/${$rootScope.dt.month}/01`), 
+																			new Date(`${$rootScope.dt.year}/${$rootScope.dt.month}/${day_of_month}`
 																			));
 							const filter_prev_birthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", dates_to_now);
 							const days_to_work_till_now = holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filter_prev_birthday)
