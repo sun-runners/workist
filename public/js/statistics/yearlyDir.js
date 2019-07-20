@@ -37,7 +37,7 @@ angular.module('workingHoursTrello')
 							const currently_worked = month_data.monthWorked;
 							let day_of_month;
 							if ($rootScope.dt.month != new Date().getMonth() + 1 || $rootScope.dt.year != new Date().getFullYear()) {
-								day_of_month = new Date( $rootScope.dt.year, $rootScope.dt.month+1, 0).getDate()
+								day_of_month = new Date( $rootScope.dt.year, $rootScope.dt.month, 0).getDate()
 							}else{
 								day_of_month = new Date().getDate();
 							}
@@ -56,20 +56,20 @@ angular.module('workingHoursTrello')
 						const score = worked < 0 ? worked : worked > 1 ? 1 : worked;
 						monthly_annual.push(score);
 					}
-					let prev_value;
+					let annual_leave;
 					for (let i = 0; i < monthly_annual.length; i++) {
 						const value = monthly_annual[i];
-						if (prev_value == undefined) {
-							prev_value = value;
+						if (annual_leave == undefined) {
+							annual_leave = value;
 						}else{
-							if (prev_value > 0) {
-								prev_value = value + prev_value;
+							if (annual_leave > 0) {
+								annual_leave = value + annual_leave;
 							}else{
-								prev_value = value;
+								annual_leave = value;
 							}
 						}
 					}
-					return prev_value;
+					return annual_leave;
 					// we add + 1 to available annual leave to include annual leave of theis
 				}
 				scope.getYearlyToWork = (nationality) => {
