@@ -23,7 +23,6 @@ angular.module('workingHoursTrello')
 					return holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday);
 				}
 				scope.getAnnualLeave = (memberId, nationality, entry, workedData) => {
-					const entry_date = new Date(entry);
 					if (entry == undefined) {
 						return "";
 					}
