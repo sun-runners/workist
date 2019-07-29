@@ -46,7 +46,7 @@
             <span class="f-12px lh-17px h-18">{{formatSalary(salary = getCurrentSalary(member.id, monthNumber))}}</span>
           </td>
           <td class="t-26 b-64">
-            <span class="f-12px lh-17px h-18">{{percentage = getPercentage(member.id, member.nationality)}}
+            <span class="f-12px lh-17px h-18">{{percentage = getPercentage(member.id, member.nationality, member.enterDate, member.workedData)}}
               {{(percentage > 0) ? " %" : " "}}</span>
           </td>
           <td class="t-26 b-64">

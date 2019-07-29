@@ -17,8 +17,20 @@ angular.module('workingHoursTrello')
 				};
 				initialize();
 
-				scope.getMonthlyToWork = (memberId, month, nationality) => {
-					let toWork = monthS.monthsNeedtoWork(scope.thisDate.year(), month); /** get the total days to work whith holiday not a factor  */
+				scope.getMonthlyToWork = (memberId, month, nationality, entry) => {
+					const entered_date = new Date(entry);
+					const started_full_date =  `${entered_date.getFullYear()}/${entered_date.getMonth()+1}/${entered_date.getDate()}`;
+					const end_date = new Date($rootScope.dt.year, month, 0).getDate();
+					const end_full_date = `${$rootScope.dt.year}/${month}/${end_date}`;
+
+					let toWork;
+					if (entered_date.getFullYear() == $rootScope.dt.year && entered_date.getMonth()+1 == month) {
+						const month_to_work = monthS.monthsNeedtoWork(scope.thisDate.year(), month);
+						toWork = monthS.getInBetweenDates(month_to_work, started_full_date, end_full_date) 
+
+					}else{
+						toWork = monthS.monthsNeedtoWork(scope.thisDate.year(), month); /** get the total days to work whith holiday not a factor  */
+					}
 					let filterPrevBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", toWork);
 					return holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday);
 				}
@@ -50,7 +62,7 @@ angular.module('workingHoursTrello')
 							break;
 						};
 						// we get the total days of the month members must work
-						const monthToWork = scope.getMonthlyToWork(memberId, month_data.month, nationality);
+						const monthToWork = scope.getMonthlyToWork(memberId, month_data.month, nationality, entry);
 						const worked = (month_data.monthWorked + 1) - monthToWork;
 						const score = worked < 0 ? worked : worked > 1 ? 1 : worked;
 						monthly_annual.push(score);
