@@ -30,19 +30,6 @@ angular.module('workingHoursTrello')
 						return holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterPrevBirthday);
 					}
 					scope.getPercentage = (memberId, nationality, entry, workedData) => {
-						// We get the number of annual leave currently used
-						// let possible_work = totalSalaryS.prevMonthsToWorkDates($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId); /** for this month all working days holidays not considered */
-						// let filter_prev_birthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", possible_work); /** remove birthday from array dates */
-						// let prev_month_to_work = holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filter_prev_birthday); /** all the working days with holidays remove */	
-						// let all_dates_to_now =  totalSalaryS.betweenDates(new Date(`${$rootScope.dt.Date.getFullYear()}/01/1`), $rootScope.dt.Date, true); /** we get all the Dates */
-						// let prev_dates = totalSalaryS.prevDate(all_dates_to_now, $rootScope.dt.Date); /** we get all the previous dates */
-						// let prev_monthsWork = weekS.getDaysTotalOutput(prev_dates, memberId, $rootScope.boardLists, $rootScope.boardCards); /** all the days members have worked */
-						// let used_leave = prev_month_to_work - prev_monthsWork; /** annual Leave used */
-						// // We get the annual Leave members have
-						// let my_annual_leave = totalSalaryS.annualLeaves($rootScope.calendarLists, $rootScope.calendarCards, 'ENTERING DATE', $rootScope.dt.Date, memberId) /** annual leave up to now */
-						// // We get the available annual Leave
-						// let available_leave = my_annual_leave - used_leave /** available annual Leave */
-
 						// this will hold all the months woth annual leave available
 						let monthly_annual = [];
 						//  we will now get the annual leave of the previous months
