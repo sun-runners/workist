@@ -37,7 +37,7 @@
             <th><span class="f-12px c-BDBDBD lh-17 h-18px">TOTAL</span></th>
           </tr>
           <!-- repeating output base on Username -->
-          <tr class="w-100 h-45px c-686868" ng-repeat="member in $root.boardMembers" ng-click="$root.changeSelectedMember(member.fullName)" ng-class="{selected:  member.fullName == $root.selectedMember}">
+          <tr class="w-100 h-45px c-686868" ng-repeat="member in $root.workedInfo" ng-click="$root.changeSelectedMember(member.fullName)" ng-class="{selected:  member.fullName == $root.selectedMember}">
             <!-- name -->
             <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
             <!-- dts -->
@@ -47,7 +47,7 @@
             </td>
             <!-- total -->
             <td><span class="f-12px lh-17px h-18" ng-class="{'c-gn': getWeeklyCard(dts, member.id) > getHolidays(member.id, dts), 'c-red': getWeeklyCard(dts, member.id) < getHolidays(member.id, dts)}">
-              {{getWeeklyCard(dts, member.id)}}/{{getHolidays(member.id, dts)}}
+              {{getWeeklyCard(dts, member.id)}}/{{getHolidays(member.id, dts, member.nationality)}}
             </span>
           </td>
             <!-- <td><span class="f-12px lh-17px h-18  c-686868">{{getWeeklyCard(dts, member.id)}}/{{getWeeklyNeedWork(dts)}}</span></td> -->
