@@ -339,7 +339,7 @@ angular.module('workingHoursTrello', [
     Trello.authorize({
       type: 'popup',
       name: 'Workist',
-      persist: 0,
+      persist: 1,
       interactive: 1,
   
       // persist: 'true', // the token will be saved on localstorage

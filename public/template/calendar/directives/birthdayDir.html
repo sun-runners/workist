@@ -9,7 +9,7 @@
                 </div>
                 <br>
                 <div class="w-100 h-100 d-fx jc-c">
-                    <table class="w-100 h-100 pl-60px pr-60px" id="calendar" ng-model="calendar" ng-init="fff()">
+                    <table class="w-100 h-100 pl-60px pr-60px" id="calendar">
                         <thead class="">
                             <tr class="mb-10px c-253339 f-12px">
                                 <th class="">Sun</th>
@@ -21,8 +21,7 @@
                                 <th class="">Sat</th>
                             </tr>
                         </thead>
-                        <tbody id="calendar-body" class="t-c p-20px" ng-model="calendarBody"
-                            data-ng-init="initiateCalendar()">
+                        <tbody id="calendar-body" class="t-c p-20px" data-ng-init="initiateCalendar()">
                             {{initiateCalendar()}}
                         </tbody>
                     </table>

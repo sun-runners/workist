@@ -131,9 +131,7 @@ angular.module('workingHoursTrello')
 				scope.giveIdByBirthday = birthday => parseInt(new Date(birthday).getDate()+ "" + new Date(birthday).getMonth()+ "" + new Date(birthday).getFullYear());
 				
 				/** Function to show Calendar */
-				scope.initiateCalendar = () => scope.showCalendar(scope.currentMonth, scope.currentYear, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", scope.targetDay); 
-					
-					
+				scope.initiateCalendar = () => scope.showCalendar(scope.currentMonth, scope.currentYear, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", scope.targetDay);
 			},
 			restrict: "EA",
 			replace: true,
