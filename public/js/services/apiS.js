@@ -3,11 +3,12 @@
 
 angular.module('workingHoursTrello').service('apiS', function($http){
 
-  var board_id;
   const board_id = '';
   // '5dcd7d0c27af8274facec10a' // 2018
   // '5ba38efef50b8979566922d0' // 2019-1
   // '5dcd7774e4baf82151826445' // 2019-2
+
+  // '5dbef82f254450628c955f30' // OOJOOGO
 
   // the board of board where members data are stored
   const board_data = '5c6cb6171cf49a5579a42e7d';

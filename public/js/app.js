@@ -38,18 +38,18 @@ angular.module('workingHoursTrello', [
       template : "<weekly-dir></weekly-dir>"
     });
 }).run(function($rootScope, $http, apiS, privateSalaryS){
-  
+
   $rootScope.selectedMember = null; /** this will indicate who current selected Member */
-  $rootScope.changeSelectedMember = (memberId) => $rootScope.selectedMember = memberId; 
+  $rootScope.changeSelectedMember = (memberId) => $rootScope.selectedMember = memberId;
 
   // We get the Api from trello
-  const token = '7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118';
-  const key ='86b2621fa79c88d61ff3a95b82ec2bd7';
+  const key ='83fc2b66ce8cb9fa5d195fe9b10b28ce';
+  const token = '501cd596f1b8d08229629d931c91b5d1b2ae1f2c09c740192e9686f27ece6f33';
 
   function initApi() {
     apiS.getBoardMembers(key, token).then((response) => {
       $rootScope.boardMembers = response.data; /** Get Boards Members */
-      
+
       apiS.calendarBoardLists(key, token).then((response) => {
         $rootScope.calendarLists = response.data ; /** workist calendar lists */
 
@@ -58,10 +58,10 @@ angular.module('workingHoursTrello', [
 
           apiS.getBoardLists(key, token).then((response) => {
             $rootScope.boardLists = response.data; /**  Get Boards Lists */
-  
+
             apiS.getBoardCards(key, token).then((response) => {
               $rootScope.boardCards = response.data; /** Get Boards Cards */
-              
+
               let monthlyWin = []; /** Holds the winners per month */
               let memberWorked = []; /** Holds members Worked Data */
 
@@ -70,21 +70,21 @@ angular.module('workingHoursTrello', [
                 let total_year_time = 0;
                 let total_year_task = 0;
                 let total_year_day = 0;
-           
+
                 let start_salary;
-                
-            
+
+
                 let months_worked = [];
                 /** we loop 12 times to show per month */
                 for (let month = 1; month < 13; month++) {
-                  
+
                   let listWorkData = []; /** Holds Lists Data */
                   for (let i = 0; i < $rootScope.boardLists.length; i++) {
                     const list = $rootScope.boardLists[i];
                     list_name = new Date(x = list.name.substr(0,list.name.indexOf(' ')));
                     listDate = `${list_name.getFullYear()}/${list_name.getMonth() + 1}/${list_name.getDate()}`;
                     toAdd = false; /** this will tell if the list Data should be assigned */
-      
+
                     let list_with_card = {id:0, time:0, task:0, idMember:0}; /** Holds Cards Data */
                     for (let x = 0; x < $rootScope.boardCards.length; x++) {
                       const card = $rootScope.boardCards[x];
@@ -120,7 +120,7 @@ angular.module('workingHoursTrello', [
                   let total_month_time = 0;
                   let total_month_task = 0;
                   let total_month_day = 0;
-                  
+
                   for (let z = 0; z < listWorkData.length; z++) {
                     const card = listWorkData[z].cards;
                     // console.log(data)
@@ -159,7 +159,7 @@ angular.module('workingHoursTrello', [
                           winner.time3rd = winner.time2nd
                           winner.time2nd = total_month_time;
                         }
-                        
+
                         if (winner.winTask < total_month_task) {
                           winner.task3rd = winner.task2nd
                           winner.task2nd = winner.winTask;
@@ -177,7 +177,7 @@ angular.module('workingHoursTrello', [
                 var member_birthday;
                 let nationality;
                 /** We get the Nationality, Entering Date and Birthday */
-                for (let i = 0; i < $rootScope.calendarLists.length; i++) {                 
+                for (let i = 0; i < $rootScope.calendarLists.length; i++) {
                   const list = $rootScope.calendarLists[i];
                   const list_name = list.name.toUpperCase();
 
@@ -227,7 +227,7 @@ angular.module('workingHoursTrello', [
               let userToken = Trello.token(); /** We generate new token for the user */
               // console.log(userToken);
               apiS.privateData(key, userToken).then((response) => { /** Personal API starts here */
-                const private_data = response.data; 
+                const private_data = response.data;
                 // Authenticated API manipulation
                 // const work = $rootScope.workedInfo.find((worker) => worker.id == "5c1e4c6f88a03b8640170363");
                 const work = $rootScope.workedInfo.find((worker) => worker.id == private_data.id);
@@ -251,7 +251,7 @@ angular.module('workingHoursTrello', [
               const list = $rootScope.calendarLists[i];
               const list_words = list.name.split(" ");
               let country;
-              let year; 
+              let year;
               for (let j = 0; j < list_words.length; j++) {
                   const word = list_words[j];
                   if (word == "PHILIPPINES") {
@@ -268,7 +268,7 @@ angular.module('workingHoursTrello', [
               for (let x = 0; x < $rootScope.calendarCards.length; x++) {
                   const card = $rootScope.calendarCards[x];
                   if (card.idList == list.id) {
-                      cardDate = card.name.substr(0, card.name.indexOf(" ")); 
+                      cardDate = card.name.substr(0, card.name.indexOf(" "));
                       fullDate = `${year}/${cardDate}`; /** We get the Holiday card date */
                       holidayName = card.name.substr(card.name.indexOf(' ')+1); /** We get the name of the Holiday */
                       holiDates.push({date:fullDate, name:holidayName});
@@ -341,32 +341,32 @@ angular.module('workingHoursTrello', [
       name: 'Workist',
       persist: 1,
       interactive: 1,
-  
+
       // persist: 'true', // the token will be saved on localstorage
-      scope:{ 
-        read: true, 
-        write: false, 
-        account: false 
+      scope:{
+        read: true,
+        write: false,
+        account: false
       },
       expiration: '1day',
       success: initApi,
       error: authenticationFailure
   });
-    
+
   }, true);
 
  const t = window.TrelloPowerUp.iframe();
 
 }).controller('mainCtrl', function($scope, $rootScope) {
-  
+
 	$scope.template = 'monthlys';
   $scope.subMenu = ['weekly', 'monthly', 'yearly'];
   $scope.mainMenu = [{title:'attendance', active:'weekly'}, {title:'award', active:'time'}, {title:'salary', active:'total'}, {title:'calendar', active:'birthday'}];
   $scope.activeSub = 'weekly';
-  $scope.activateSub = (target) => $scope.activeSub = target; 
+  $scope.activateSub = (target) => $scope.activeSub = target;
   $scope.activeMenu = 'attendance';
   $scope.activateMenu = (target) => $scope.activeMenu = target;
-  
+
 	$scope.switchSub = (menuOf) => {
       switch (menuOf) {
         case 'attendance':
@@ -386,14 +386,14 @@ angular.module('workingHoursTrello', [
           $scope.activateSub('birthday');
           break;
       }
-    }	
+    }
   $scope.openModal = function() {
     $scope.target = document.querySelector('#targetDiv');
     // the div where we append the target
     $scope.showTarget = document.querySelector('#showTarget')
     // Get the modal
     $scope.modal = document.querySelector('#modalTimist');
-    // When the user clicks the button, open the modal 
+    // When the user clicks the button, open the modal
     $scope.modal.style.display = "block";
       // showTarget.removeChild(canvas);
       html2canvas($scope.target).then(function(canvas) {
@@ -426,4 +426,3 @@ angular.module('workingHoursTrello', [
   }
 	$rootScope.showLoader()
 });
-
