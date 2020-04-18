@@ -13,15 +13,15 @@ angular.module('workingHoursTrello', [
     .when("/yearly", {
         template : "<yearly-dir></yearly-dir>"
     })
-    .when("/private", {
-      template : "<private-dir></private-dir>"
-    })
-    .when("/total", {
-      template : "<salary-dir></salary-dir>"
-    })
-    .when("/13th", {
-      template : "<thirteen-dir></thirteen-dir>"
-    })
+    // .when("/private", {
+    //   template : "<private-dir></private-dir>"
+    // })
+    // .when("/total", {
+    //   template : "<salary-dir></salary-dir>"
+    // })
+    // .when("/13th", {
+    //   template : "<thirteen-dir></thirteen-dir>"
+    // })
     .when("/time", {
         template : "<time-dir></time-dir>"
     })
@@ -277,13 +277,6 @@ angular.module('workingHoursTrello', [
 
   initApi()
 
-  const authenticationSuccess = function() {
-      console.log('Success authentication');
-    };
-  const authenticationFailure = function() {
-      console.log('Failed authentication');
-    };
-
   // Variable Section
   $rootScope.moment = moment();
   $rootScope.trello = {};
@@ -329,22 +322,6 @@ angular.module('workingHoursTrello', [
   $rootScope.$watch('moment', function(){
     console.log("fire watcher")
     $rootScope.dt = $rootScope.getDtOfMoment($rootScope.moment);
-  //   Trello.authorize({
-  //     type: 'popup',
-  //     name: 'Workist',
-  //     persist: 1,
-  //     interactive: 1,
-
-  //     // persist: 'true', // the token will be saved on localstorage
-  //     scope:{
-  //       read: true,
-  //       write: false,
-  //       account: false
-  //     },
-  //     expiration: '1day',
-  //     success: initApi,
-  //     error: authenticationFailure
-  // });
 
   }, true);
 
@@ -354,7 +331,7 @@ angular.module('workingHoursTrello', [
 
 	$scope.template = 'monthlys';
   $scope.subMenu = ['weekly', 'monthly', 'yearly'];
-  $scope.mainMenu = [{title:'attendance', active:'weekly'}, {title:'award', active:'time'}, {title:'salary', active:'total'}, {title:'calendar', active:'birthday'}];
+  $scope.mainMenu = [{title:'attendance', active:'weekly'}, {title:'award', active:'time'},/** {title:'salary', active:'total'}, */ {title:'calendar', active:'birthday'}];
   $scope.activeSub = 'weekly';
   $scope.activateSub = (target) => $scope.activeSub = target;
   $scope.activeMenu = 'attendance';
@@ -366,10 +343,10 @@ angular.module('workingHoursTrello', [
           $scope.subMenu = ['weekly', 'monthly', 'yearly'];
           $scope.activateSub('weekly');
           break;
-        case 'salary':
-          $scope.subMenu = ['total', '13th', 'private'];
-          $scope.activateSub('total');
-          break;
+        // case 'salary':
+        //   $scope.subMenu = ['total', '13th', 'private'];
+        //   $scope.activateSub('total');
+        //   break;
         case 'award':
           $scope.subMenu = ['time', 'task'];
           $scope.activateSub('time');
