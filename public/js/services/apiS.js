@@ -34,7 +34,4 @@ angular.module('workingHoursTrello').service('apiS', function($http){
   this.calendarBoardCards = function(key, token) {
     return $http.get(`https://api.trello.com//1/boards/${board_data}/cards?key=${key}&token=${token}`);
   }
-  this.privateData = function(key, token) {
-    return $http.get(`https://api.trello.com/1/members/me/?key=${key}&token=${token}`);
-  }
 });

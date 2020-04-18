@@ -218,27 +218,6 @@ angular.module('workingHoursTrello', [
     $rootScope.monthWin = monthlyWin;
     // console.log($rootScope.monthWin);
 
-    let userToken = Trello.token(); /** We generate new token for the user */
-    // console.log(userToken);
-    apiS.privateData(key, token).then((response) => { /** Personal API starts here */
-      const private_data = response.data;
-      // Authenticated API manipulation
-      // const work = $rootScope.workedInfo.find((worker) => worker.id == "5c1e4c6f88a03b8640170363");
-      const work = $rootScope.workedInfo.find((worker) => worker.id == private_data.id);
-      $rootScope.currentUser = work;
-      // console.log(work);
-      let months = privateSalaryS.getMonths(new Date(work.enterDate), new Date());
-      months.forEach(month => {
-        month.memberId = work.id;
-        month.nationality = work.nationality;
-        month.startSalary = work.startSalary;
-        month.enterDate = work.enterDate;
-        month.birthday = work.birthday;
-      });
-      $rootScope.workedMonths = months; /** This holds and array of months the user worked */
-      // console.log(months);
-    });
-
     let holidays = [] /** Holds the holidays per year each country */
     for (let i = 0; i < $rootScope.calendarLists.length; i++) {
         const list = $rootScope.calendarLists[i];
