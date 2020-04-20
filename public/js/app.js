@@ -13,15 +13,15 @@ angular.module('workingHoursTrello', [
     .when("/yearly", {
         template : "<yearly-dir></yearly-dir>"
     })
-    .when("/private", {
-      template : "<private-dir></private-dir>"
-    })
-    .when("/total", {
-      template : "<salary-dir></salary-dir>"
-    })
-    .when("/13th", {
-      template : "<thirteen-dir></thirteen-dir>"
-    })
+    // .when("/private", {
+    //   template : "<private-dir></private-dir>"
+    // })
+    // .when("/total", {
+    //   template : "<salary-dir></salary-dir>"
+    // })
+    // .when("/13th", {
+    //   template : "<thirteen-dir></thirteen-dir>"
+    // })
     .when("/time", {
         template : "<time-dir></time-dir>"
     })
@@ -37,7 +37,7 @@ angular.module('workingHoursTrello', [
     .otherwise({
       template : "<weekly-dir></weekly-dir>"
     });
-}).run(function($rootScope, $http, apiS, privateSalaryS){
+}).run(function($rootScope, apiS){
 
   $rootScope.selectedMember = null; /** this will indicate who current selected Member */
   $rootScope.changeSelectedMember = (memberId) => $rootScope.selectedMember = memberId;
@@ -47,7 +47,6 @@ angular.module('workingHoursTrello', [
   const token = '7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118';
 
   async function initApi() {
-    console.log("init")
     $rootScope.boardMembers = await apiS.getBoardMembers(key, token).then(res => res.data)
     $rootScope.boardLists = await apiS.getBoardLists(key,token).then(res => res.data)
     $rootScope.boardCards = await apiS.getBoardCards(key, token).then(res => res.data)
@@ -218,27 +217,6 @@ angular.module('workingHoursTrello', [
     $rootScope.monthWin = monthlyWin;
     // console.log($rootScope.monthWin);
 
-    let userToken = Trello.token(); /** We generate new token for the user */
-    // console.log(userToken);
-    apiS.privateData(key, token).then((response) => { /** Personal API starts here */
-      const private_data = response.data;
-      // Authenticated API manipulation
-      // const work = $rootScope.workedInfo.find((worker) => worker.id == "5c1e4c6f88a03b8640170363");
-      const work = $rootScope.workedInfo.find((worker) => worker.id == private_data.id);
-      $rootScope.currentUser = work;
-      // console.log(work);
-      let months = privateSalaryS.getMonths(new Date(work.enterDate), new Date());
-      months.forEach(month => {
-        month.memberId = work.id;
-        month.nationality = work.nationality;
-        month.startSalary = work.startSalary;
-        month.enterDate = work.enterDate;
-        month.birthday = work.birthday;
-      });
-      $rootScope.workedMonths = months; /** This holds and array of months the user worked */
-      // console.log(months);
-    });
-
     let holidays = [] /** Holds the holidays per year each country */
     for (let i = 0; i < $rootScope.calendarLists.length; i++) {
         const list = $rootScope.calendarLists[i];
@@ -272,20 +250,29 @@ angular.module('workingHoursTrello', [
         }
     }
     $rootScope.holidays = holidays; /** This holds an array of Holidays */
-
+  
+    $rootScope.$apply(function () {               
+      $rootScope.initDom = true
+    });
   };// API Manipulation ends here -------------------------------------------
 
   initApi()
 
-  const authenticationSuccess = function() {
-      console.log('Success authentication');
-    };
-  const authenticationFailure = function() {
-      console.log('Failed authentication');
-    };
 
   // Variable Section
   $rootScope.moment = moment();
+
+  $rootScope.workedInfo = null;
+  $rootScope.holidays = null;
+  $rootScope.monthWin = null;
+  $rootScope.boardMembers = null;
+  $rootScope.boardLists = null; 
+  $rootScope.boardCards = null;
+  $rootScope.calendarLists = null;
+  $rootScope.calendarCards = null;
+
+  $rootScope.initDom = false
+
   $rootScope.trello = {};
 
   // Increase Function Section
@@ -327,25 +314,7 @@ angular.module('workingHoursTrello', [
 
   // Watch Section
   $rootScope.$watch('moment', function(){
-    console.log("fire watcher")
     $rootScope.dt = $rootScope.getDtOfMoment($rootScope.moment);
-  //   Trello.authorize({
-  //     type: 'popup',
-  //     name: 'Workist',
-  //     persist: 1,
-  //     interactive: 1,
-
-  //     // persist: 'true', // the token will be saved on localstorage
-  //     scope:{
-  //       read: true,
-  //       write: false,
-  //       account: false
-  //     },
-  //     expiration: '1day',
-  //     success: initApi,
-  //     error: authenticationFailure
-  // });
-
   }, true);
 
  const t = window.TrelloPowerUp.iframe();
@@ -354,7 +323,7 @@ angular.module('workingHoursTrello', [
 
 	$scope.template = 'monthlys';
   $scope.subMenu = ['weekly', 'monthly', 'yearly'];
-  $scope.mainMenu = [{title:'attendance', active:'weekly'}, {title:'award', active:'time'}, {title:'salary', active:'total'}, {title:'calendar', active:'birthday'}];
+  $scope.mainMenu = [{title:'attendance', active:'weekly'}, {title:'award', active:'time'},/** {title:'salary', active:'total'}, */ {title:'calendar', active:'birthday'}];
   $scope.activeSub = 'weekly';
   $scope.activateSub = (target) => $scope.activeSub = target;
   $scope.activeMenu = 'attendance';
@@ -366,10 +335,10 @@ angular.module('workingHoursTrello', [
           $scope.subMenu = ['weekly', 'monthly', 'yearly'];
           $scope.activateSub('weekly');
           break;
-        case 'salary':
-          $scope.subMenu = ['total', '13th', 'private'];
-          $scope.activateSub('total');
-          break;
+        // case 'salary':
+        //   $scope.subMenu = ['total', '13th', 'private'];
+        //   $scope.activateSub('total');
+        //   break;
         case 'award':
           $scope.subMenu = ['time', 'task'];
           $scope.activateSub('time');
