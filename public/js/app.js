@@ -37,7 +37,7 @@ angular.module('workingHoursTrello', [
     .otherwise({
       template : "<weekly-dir></weekly-dir>"
     });
-}).run(function($rootScope, $http, apiS, privateSalaryS){
+}).run(function($rootScope, apiS){
 
   $rootScope.selectedMember = null; /** this will indicate who current selected Member */
   $rootScope.changeSelectedMember = (memberId) => $rootScope.selectedMember = memberId;
@@ -47,7 +47,6 @@ angular.module('workingHoursTrello', [
   const token = '7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118';
 
   async function initApi() {
-    console.log("init")
     $rootScope.boardMembers = await apiS.getBoardMembers(key, token).then(res => res.data)
     $rootScope.boardLists = await apiS.getBoardLists(key,token).then(res => res.data)
     $rootScope.boardCards = await apiS.getBoardCards(key, token).then(res => res.data)
@@ -251,13 +250,29 @@ angular.module('workingHoursTrello', [
         }
     }
     $rootScope.holidays = holidays; /** This holds an array of Holidays */
-
+  
+    $rootScope.$apply(function () {               
+      $rootScope.initDom = true
+    });
   };// API Manipulation ends here -------------------------------------------
 
   initApi()
 
+
   // Variable Section
   $rootScope.moment = moment();
+
+  $rootScope.workedInfo = null;
+  $rootScope.holidays = null;
+  $rootScope.monthWin = null;
+  $rootScope.boardMembers = null;
+  $rootScope.boardLists = null; 
+  $rootScope.boardCards = null;
+  $rootScope.calendarLists = null;
+  $rootScope.calendarCards = null;
+
+  $rootScope.initDom = false
+
   $rootScope.trello = {};
 
   // Increase Function Section
@@ -299,9 +314,7 @@ angular.module('workingHoursTrello', [
 
   // Watch Section
   $rootScope.$watch('moment', function(){
-    console.log("fire watcher")
     $rootScope.dt = $rootScope.getDtOfMoment($rootScope.moment);
-
   }, true);
 
  const t = window.TrelloPowerUp.iframe();
