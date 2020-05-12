@@ -1,7 +1,7 @@
 //  ---------------------------------- Services To Get Daily Output------------------------------------------------- //
   
   
-angular.module('workingHoursTrello').service('dayS', function() {
+angular.module('workingHoursTrello').service('dayS', function($rootScope) {
   
     this.getYmd = (theDate) => {
       return getDate = theDate.getFullYear() + '/' + ('0' + (theDate.getMonth() + 1)).slice(-2) + '/' + theDate.getDate();
@@ -44,22 +44,16 @@ angular.module('workingHoursTrello').service('dayS', function() {
         return cardsDay = 0;
       }
     };
-    this.getDailyCardValue = (dateWanted, ownerId, listsArray, cardsArray) => {
-      try {
-        // Get the Dase with proper format
-        let theDate = this.getYmd(dateWanted);
-        // Get the lists base on the Dates
-        let theList = this.findBoardList(listsArray, theDate);
-        // Find the Card of the Lists in the Given Day base on it's memberId.
-        let theCard = this.findListMemberCard(cardsArray, ownerId, theList);
-        // Get the Total number of hours base on the Cards Name; ex: "11-13+21-23+23.5-24"
-        let totalCardHours = this.calculateCardNameToHours(theCard);
-        // Get the Day of the Card: 1, 0.5, 0. 
-        let CardsDay = this.calculateTheCardsHourToDay(totalCardHours);
-        return CardsDay;
-      } catch(e) {
-        return 0;
-        // console.log(e);
+    this.getDailyCardValue = (dateOfDay, memberId) => {
+      const member_worked_data = $rootScope.workedInfo.find(item => item.id == memberId)
+      const current_month_worked = member_worked_data.workedData[dateOfDay.getMonth()]
+      const current_day_worked = current_month_worked.worked.find(item => item.day == dateOfDay.getDate())
+      if (current_day_worked) {
+        const time = current_day_worked.cards.time
+        if (time >= 8) return 1;
+        if (time < 8 && time > 4) return 0.5;
+        if (time > 4) return 0;
       }
+      return 0
     };
   });

@@ -1,5 +1,5 @@
 angular.module('workingHoursTrello')
-	.directive('weeklyDir',  function ($rootScope, apiS, dayS, weekS, nationalityS, holidayS, birthdayS) {
+	.directive('weeklyDir',  function ($rootScope, dayS, weekS, holidayS, birthdayS) {
 		return {
 			link : function(scope, element, attrs){
 				// Initialize Function Section
@@ -43,14 +43,18 @@ angular.module('workingHoursTrello')
 					initialize();
 			  	}, true);   
 				scope.getDailyCard = (dateOfDay, memberId) => { /** Get daily card output */
-					return dayS.getDailyCardValue(dateOfDay, memberId, $rootScope.boardLists, $rootScope.boardCards)
+					return dayS.getDailyCardValue(dateOfDay, memberId)
 				}
 				scope.getWeeklyCard = (dateWeeks, memberId) => { /** To calculate the total working days of the member */
-					let datesOfTheWeek = weekS.weekDatesArray(dateWeeks);					
-					return weekS.getDaysTotalOutput(datesOfTheWeek, memberId, $rootScope.boardLists, $rootScope.boardCards);
+					let totalTime = 0
+					for (const dates of dateWeeks) {
+						const result = dayS.getDailyCardValue(dates.Date, memberId)
+						totalTime = totalTime + result
+					}
+					return totalTime
 				}
-				scope.getHolidays = (memberId, dates, nationality) => { /** we get the holidays base on nationality */
-					let weeklyToWork = weekS.weeklyNeedToWork(dates);
+				scope.getHolidays = (memberId, dateWeeks, nationality) => { /** we get the holidays base on nationality */
+					let weeklyToWork = weekS.weeklyNeedToWork(dateWeeks);
 					let filterTheBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", weeklyToWork);
 					return holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterTheBirthday);
 				}
