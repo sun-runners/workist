@@ -1,7 +1,7 @@
 //  ---------------------------------- Services To Get Daily Output------------------------------------------------- //
   
   
-angular.module('workingHoursTrello').service('dayS', function($rootScope) {
+angular.module('workingHoursTrello').service('dayS', function() {
   
     this.getYmd = (theDate) => {
       return getDate = theDate.getFullYear() + '/' + ('0' + (theDate.getMonth() + 1)).slice(-2) + '/' + theDate.getDate();
@@ -44,15 +44,17 @@ angular.module('workingHoursTrello').service('dayS', function($rootScope) {
         return cardsDay = 0;
       }
     };
-    this.getDailyCardValue = (dateOfDay, memberId) => {
-      const member_worked_data = $rootScope.workedInfo.find(item => item.id == memberId)
-      const current_month_worked = member_worked_data.workedData[dateOfDay.getMonth()]
-      const current_day_worked = current_month_worked.worked.find(item => item.day == dateOfDay.getDate())
-      if (current_day_worked) {
-        const time = current_day_worked.cards.time
-        if (time >= 8) return 1;
-        if (time < 8 && time > 4) return 0.5;
-        if (time > 4) return 0;
+    this.getDailyCardValue = (dateOfDay, member) => {
+      if (member.workedData) {
+        const current_month_worked = member.workedData[dateOfDay.getMonth()]
+        const current_day_worked = current_month_worked.worked.find(item => item.day == dateOfDay.getDate())
+        if (current_day_worked) {
+          const time = current_day_worked.cards.time
+          if (time >= 8) return 1;
+          if (time < 8 && time > 4) return 0.5;
+          if (time > 4) return 0;
+        }
+        return 0
       }
       return 0
     };
