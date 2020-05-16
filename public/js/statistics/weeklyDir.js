@@ -54,7 +54,7 @@ angular.module('workingHoursTrello')
 					return totalTime
 				}
 				scope.getWeeklyNeedWork = (dateWeeks, member) => { /** we get the holidays base on nationality */
-		
+  
 					const foundCurrentHolidays = $rootScope.holidays.find(holiday => {
 						if (member.nationality) {
 							return holiday.country.toLowerCase() == member.nationality.toLowerCase() && holiday.year == $rootScope.dt.year;
