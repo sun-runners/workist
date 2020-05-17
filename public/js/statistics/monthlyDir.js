@@ -91,7 +91,7 @@ angular.module('workingHoursTrello')
 							return holiday.country.toLowerCase() == member.nationality.toLowerCase() && holiday.year == $rootScope.dt.year;
 						}
 					});
-					return monthS.monthNeedToWork(member, monthWeeksDates, foundCurrentHolidays);
+					return monthS.datesNeedToWork(member, monthWeeksDates, foundCurrentHolidays);
 				}
 			},
 			restrict: "EA",
