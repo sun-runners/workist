@@ -31,21 +31,23 @@
           <th><span class="f-12px lh-17 h-18px c-BDBDBD">TOTAL</span></th>
         </tr>
         <!-- repeating output base on Username -->
-        <tr class="w-100 h-45px" ng-repeat="workers in $root.workedInfo" ng-click="$root.changeSelectedMember(workers.fullName)" ng-class="{selected:  workers.fullName == $root.selectedMember}">
-          <td><span class="f-12px lh-17px h-18">{{workers.fullName}}</span></td>
+        <tr class="w-100 h-45px" ng-repeat="member in $root.workedInfo" ng-click="$root.changeSelectedMember(member.fullName)" ng-class="{selected:  member.fullName == $root.selectedMember}">
+          <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
           <td ng-repeat="dts in months" class="t-26 b-64">
-              <span class="f-12px lh-17px h-18" ng-class="{'c-gn': work > toWork, 'c-red': work < toWork}">
-              <span ng-class="{'c-gy': overall == '-'}">{{overall = showMonthly(work = (workers | getMonthValue: dts.value), toWork = getMonthlyToWork(workers.id, dts.value, workers.nationality))}}</span>
+              <span class="f-12px lh-17px h-18">
+              <span ng-class="{'c-gy': overall == '-'}">
+                {{ getMonthlyWork(dts, member) }} / {{ getMonthlyNeedWork(dts, member) }}
+              </span>
             </span>
           </td>
           <td>
             <span class="f-12px lh-17px h-18">
-                  {{getAnnualLeave(workers.id, workers.nationality, workers.enterDate, workers.workedData)}}
+                  {{getAnnualLeave(member.id, member.nationality, member.enterDate, member.workedData)}}
             </span>
           </td>
           <td>
             <span class="f-12px lh-17px h-18" ng-class="{'c-gn': work > toWork, 'c-red': work < toWork, 'c-bk': work == 0}">
-                  {{yearWork = (workers | getYearValue)}} / {{toWork = getYearlyToWork(workers.nationality)}}
+                  {{yearWork = (member | getYearValue)}} / {{toWork = getYearlyToWork(member.nationality)}}
             </span>
           </td>
         </tr>

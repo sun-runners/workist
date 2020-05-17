@@ -13,9 +13,33 @@ angular.module('workingHoursTrello')
 						{month: "Jan", value: 1},{month: "Feb",value:2},
 						{month:"Mar", value: 3},{month:"Apr", value: 4},{month:"May", value: 5},{month:"Jun", value: 6},
 						{month: "Jul", value: 7},{month:"Aug", value:8},{month:"Sep", value: 9},{month:"Oct",value:10}, {month:"Nov",value:11},{month:"Dec", value:12}
-						];	
+					];
+					scope.months.forEach(month => {
+						let date = new Date(scope.thisDate.year(), month.value - 1, 1);
+						let result = [];
+						while (date.getMonth() == month.value - 1) {
+							result.push({
+								Date: new Date(date.getFullYear()+ "/" + (date.getMonth() + 1) +"/"+ date.getDate())
+							});
+							date.setDate(date.getDate() + 1);
+						}
+						month.dates = result;
+					})
 				};
 				initialize();
+
+				scope.getMonthlyWork = (month, member) =>  member.workedData[month.value-1].monthWorked;
+
+				scope.getMonthlyNeedWork = (month, member) => {
+					
+					const monthWeeksDates = month.dates.map(item => item).flat(Infinity);
+					const foundCurrentHolidays = $rootScope.holidays.find(holiday => {
+						if (member.nationality) {
+							return holiday.country.toLowerCase() == member.nationality.toLowerCase() && holiday.year == $rootScope.dt.year;
+						}
+					});
+					return monthS.monthNeedToWork(member, monthWeeksDates, foundCurrentHolidays);
+				}
 
 				scope.getMonthlyToWork = (memberId, month, nationality, entry) => {
 					const entered_date = new Date(entry);
