@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('workingHoursTrello')
-	.directive('monthlyDir',  function ($rootScope, monthS, weekS, dayS, holidayS, birthdayS) {
+	.directive('monthlyDir',  function ($rootScope, monthS, weekS, dayS) {
 		return {
 			link : function(scope, element, attrs){
 
@@ -11,7 +11,7 @@ angular.module('workingHoursTrello')
 					let dt_original = $rootScope.getDtOfMoment(moment_original);
 					scope.thisDate = moment_original;
 				
-				let getWeeksDates = (start, end) => { 
+				let getDates = (start, end) => { 
 					let date = start;
 					let result = [];
 					while (date.getMonth() == end.getMonth() && date.getDate() <= end.getDate()) {
@@ -35,7 +35,7 @@ angular.module('workingHoursTrello')
 				    while(start<=numDays){
 						const weeksStart = new Date(year + "/" + monthMonthly + "/" + start);
 						const weeksEnd = new Date(year + "/" + monthMonthly + "/" + end);
-						const weeksDates = getWeeksDates(weeksStart, weeksEnd)
+						const weeksDates = getDates(weeksStart, weeksEnd)
 						weeks.push({
 							year: year, 
 							month: monthMonthly, 
@@ -47,14 +47,14 @@ angular.module('workingHoursTrello')
 							dates: weeksDates
 						});
 
-				        weekNumber = weekNumber + 1;
-				        start = end + 1;
-				        end = end + 7;
-				        if(end>numDays) end=numDays;    
-				    }        
+						weekNumber = weekNumber + 1;
+						start = end + 1;
+						end = end + 7;
+						if(end>numDays) end=numDays;
+				    }
 					return weeks;
 				};
-				 scope.monthlyWeeks =  getWeeklyMonth(scope.thisDate.month(), scope.thisDate.year());
+				scope.monthlyWeeks =  getWeeklyMonth(scope.thisDate.month(), scope.thisDate.year());
 				};
 				// Watch Function Section
 				$rootScope.$watch('moment', function(){
@@ -70,7 +70,6 @@ angular.module('workingHoursTrello')
 					}
 					return totalTime
 				}
-
 				scope.getWeeklyNeedWork = (dateWeeks, member) => { /** we get the Total works needed for the week */
 
 					const foundCurrentHolidays = $rootScope.holidays.find(holiday => {
@@ -82,15 +81,17 @@ angular.module('workingHoursTrello')
 						return weekS.weekNeedsToWork(dateWeeks.dates, member, foundCurrentHolidays);
 					}
 				}
+				scope.getMonthlyWork = (member) =>  member.workedData[scope.thisDate.month()].monthWorked;
+				
+				scope.getMonthlyNeedWork = (member) => { /** we get the holidays base on nationality */
 
-				scope.getMonthlyCard = (memberId) => { /** To calculate the total working days of the member per month*/
-					return monthS.getMonthsValue(scope.thisDate.year(), scope.thisDate.month()+1, $rootScope.boardLists, memberId, $rootScope.boardCards);
-				}
-
-				scope.getMonthlyTotal = (memberId, nationality) => { /** we get the holidays base on nationality */
-					let monthlyToWork = monthS.monthsNeedtoWork(scope.thisDate.year(), scope.thisDate.month()+1);
-					let filterTheBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", monthlyToWork);
-					return holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterTheBirthday); 
+					const monthWeeksDates = scope.monthlyWeeks.map(item => item.dates).flat(Infinity);
+					const foundCurrentHolidays = $rootScope.holidays.find(holiday => {
+						if (member.nationality) {
+							return holiday.country.toLowerCase() == member.nationality.toLowerCase() && holiday.year == $rootScope.dt.year;
+						}
+					});
+					return monthS.monthNeedToWork(member, monthWeeksDates, foundCurrentHolidays);
 				}
 			},
 			restrict: "EA",

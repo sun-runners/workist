@@ -41,12 +41,12 @@
           </td>
           <td ng-repeat="dts in monthlyWeeks" class="t-26 b-64">
             <span class="f-12px lh-17px h-18">
-                {{ getWeeklyCard(dts, member)}}/{{getWeeklyNeedWork( dts, member) }}
+                {{ getWeeklyCard(dts, member) }}/{{ getWeeklyNeedWork( dts, member) }}
             </span>
           </td>
           <td class="f-12px lh-15px">
             <span class="f-12px lh-17px h-18">
-              {{getMonthlyCard(member.id)}}/{{getMonthlyTotal(member.id, member.nationality)}}
+              {{ getMonthlyWork(member) }}/{{ getMonthlyNeedWork(member) }}
             </span>
           </td>
         </tr>
