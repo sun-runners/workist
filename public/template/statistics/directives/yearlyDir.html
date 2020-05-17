@@ -27,7 +27,7 @@
             </p>
           </th>
           <!-- total -->
-          <th><span class="f-11px lh-1 h-1px c-BDBDBD">Annual</span><br><span class="f-11px lh-1 h-1px c-BDBDBD">Leave</span></th>
+          <!-- <th><span class="f-11px lh-1 h-1px c-BDBDBD">Annual</span><br><span class="f-11px lh-1 h-1px c-BDBDBD">Leave</span></th> -->
           <th><span class="f-12px lh-17 h-18px c-BDBDBD">TOTAL</span></th>
         </tr>
         <!-- repeating output base on Username -->
@@ -40,11 +40,11 @@
               </span>
             </span>
           </td>
-          <td>
+          <!-- <td>
             <span class="f-12px lh-17px h-18">
                   {{getAnnualLeave(member.id, member.nationality, member.enterDate, member.workedData)}}
             </span>
-          </td>
+          </td> -->
           <td>
             <span class="f-12px lh-17px h-18" ng-class="{'c-gn': work > toWork, 'c-red': work < toWork, 'c-bk': work == 0}">
                   {{yearWork = (member | getYearValue)}} / {{toWork = getYearlyToWork(member.nationality)}}
