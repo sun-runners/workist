@@ -125,10 +125,30 @@ angular.module('workingHoursTrello').service('weekS', function(dayS){
       }
       return datesNewDates;
     };
+    
     this.weeklyNeedToWork = (weeklyDates) => { /** this will give you the total days members should work */
       let weeksDatesByDay = this.weekDatesArray(weeklyDates);
       let weeksWorkingDates = this.removeWeekEnds(weeksDatesByDay);
       // return weeksWorkingDates.length;
       return weeksWorkingDates
     };
+
+    this.weekNeedsToWork = (dateWeeks, member, allHolidays) => {
+      let workingDays = dateWeeks.filter(item => { // remove sat & sun
+        return item.Date.getDay() != 6 && item.Date.getDay() != 0;
+      });
+      workingDays = workingDays.filter(item => { // remove birthday
+        let bd = new Date(member.birthday) 
+        return `${item.month}/${item.date}` != `${bd.getMonth()+1}/${bd.getDate()}`
+      });
+
+      const holidays = allHolidays.dates.map(item => {
+        const hd = new Date(item.date);
+        return `${hd.getMonth()+1}/${hd.getDate()}`; 
+      });
+      workingDays = workingDays.filter(item => {
+        return !holidays.includes(`${item.month}/${item.date}`);
+      });
+      return workingDays.length;
+    }
   });

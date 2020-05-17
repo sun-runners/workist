@@ -43,11 +43,11 @@
             <!-- dts -->
             <!-- lists and card -->
             <td ng-repeat="dt in dts" class="t-26 b-64">
-              <span class="f-12px lh-17px h-18">{{getDailyCard(dt.Date, member.id)}}</span>
+              <span class="f-12px lh-17px h-18">{{getDailyCard(dt.Date, member)}}</span>
             </td>
             <!-- total -->
-            <td><span class="f-12px lh-17px h-18" ng-class="{'c-gn': getWeeklyCard(dts, member.id) > getHolidays(member.id, dts), 'c-red': getWeeklyCard(dts, member.id) < getHolidays(member.id, dts)}">
-              {{getWeeklyCard(dts, member.id)}}/{{getHolidays(member.id, dts, member.nationality)}}
+            <td><span class="f-12px lh-17px h-18">
+              {{ getWeeklyCard(dts, member) }}/{{ getWeeklyNeedWork(dts, member) }}
             </span>
           </td>
             <!-- <td><span class="f-12px lh-17px h-18  c-686868">{{getWeeklyCard(dts, member.id)}}/{{getWeeklyNeedWork(dts)}}</span></td> -->

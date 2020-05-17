@@ -1,5 +1,5 @@
 angular.module('workingHoursTrello')
-	.directive('weeklyDir',  function ($rootScope, apiS, dayS, weekS, nationalityS, holidayS, birthdayS) {
+	.directive('weeklyDir',  function ($rootScope, dayS, weekS) {
 		return {
 			link : function(scope, element, attrs){
 				// Initialize Function Section
@@ -42,17 +42,27 @@ angular.module('workingHoursTrello')
 					scope.dt = scope.getDtOfMoment(scope.moment);
 					initialize();
 			  	}, true);   
-				scope.getDailyCard = (dateOfDay, memberId) => { /** Get daily card output */
-					return dayS.getDailyCardValue(dateOfDay, memberId, $rootScope.boardLists, $rootScope.boardCards)
+				scope.getDailyCard = (dateOfDay, member) => { /** Get daily card output */
+					return dayS.getDailyCardValue(dateOfDay, member)
 				}
-				scope.getWeeklyCard = (dateWeeks, memberId) => { /** To calculate the total working days of the member */
-					let datesOfTheWeek = weekS.weekDatesArray(dateWeeks);					
-					return weekS.getDaysTotalOutput(datesOfTheWeek, memberId, $rootScope.boardLists, $rootScope.boardCards);
+				scope.getWeeklyCard = (dateWeeks, member) => { /** To calculate the total working days of the member */
+					let totalTime = 0
+					for (const dates of dateWeeks) {
+						const result = dayS.getDailyCardValue(dates.Date, member)
+						totalTime = totalTime + result
+					}
+					return totalTime
 				}
-				scope.getHolidays = (memberId, dates, nationality) => { /** we get the holidays base on nationality */
-					let weeklyToWork = weekS.weeklyNeedToWork(dates);
-					let filterTheBirthday = birthdayS.removeBirthdate(memberId, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", weeklyToWork);
-					return holidayS.datesWithoutHoliday(nationality, $rootScope.dt.year, $rootScope.calendarLists, $rootScope.calendarCards, filterTheBirthday);
+				scope.getWeeklyNeedWork = (dateWeeks, member) => { /** we get the holidays base on nationality */
+		
+					const foundCurrentHolidays = $rootScope.holidays.find(holiday => {
+						if (member.nationality) {
+							return holiday.country.toLowerCase() == member.nationality.toLowerCase() && holiday.year == $rootScope.dt.year;
+						}
+					});
+					if (foundCurrentHolidays) {
+						return weekS.weekNeedsToWork(dateWeeks, member, foundCurrentHolidays);
+					}
 				}
 			},
 			restrict: "EA",
