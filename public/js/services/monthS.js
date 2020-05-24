@@ -72,7 +72,7 @@ angular.module('workingHoursTrello').service('monthS', function(weekS) {
       return monthsToWorkDates;
     }
 
-    this.monthNeedToWork = (member, monthWeeksDates, allHolidays) => {
+    this.datesNeedToWork = (member, monthWeeksDates, allHolidays) => {
       let monthWorkingDays =  monthWeeksDates.filter(item => { // remove sat & sun
         return item.Date.getDay() != 6 && item.Date.getDay() != 0;
       });
