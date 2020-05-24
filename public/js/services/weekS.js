@@ -139,7 +139,7 @@ angular.module('workingHoursTrello').service('weekS', function(dayS){
       });
       workingDays = workingDays.filter(item => { // remove birthday
         let bd = new Date(member.birthday) 
-        return `${item.month}/${item.date}` != `${bd.getMonth()+1}/${bd.getDate()}`
+        return `${item.Date.getMonth()+1}/${item.Date.getDate()}` != `${bd.getMonth()+1}/${bd.getDate()}`
       });
 
       const holidays = allHolidays.dates.map(item => {
@@ -147,7 +147,7 @@ angular.module('workingHoursTrello').service('weekS', function(dayS){
         return `${hd.getMonth()+1}/${hd.getDate()}`; 
       });
       workingDays = workingDays.filter(item => {
-        return !holidays.includes(`${item.month}/${item.date}`);
+        return !holidays.includes(`${item.Date.getMonth()+1}/${item.Date.getDate()}`);
       });
       return workingDays.length;
     }
