@@ -13,15 +13,6 @@ angular.module('workingHoursTrello', [
     .when("/yearly", {
         template : "<yearly-dir></yearly-dir>"
     })
-    // .when("/private", {
-    //   template : "<private-dir></private-dir>"
-    // })
-    // .when("/total", {
-    //   template : "<salary-dir></salary-dir>"
-    // })
-    // .when("/13th", {
-    //   template : "<thirteen-dir></thirteen-dir>"
-    // })
     .when("/time", {
         template : "<time-dir></time-dir>"
     })
@@ -335,10 +326,6 @@ angular.module('workingHoursTrello', [
           $scope.subMenu = ['weekly', 'monthly', 'yearly'];
           $scope.activateSub('weekly');
           break;
-        // case 'salary':
-        //   $scope.subMenu = ['total', '13th', 'private'];
-        //   $scope.activateSub('total');
-        //   break;
         case 'award':
           $scope.subMenu = ['time', 'task'];
           $scope.activateSub('time');
