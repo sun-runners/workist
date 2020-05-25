@@ -45,8 +45,8 @@
             </span>
           </td>
           <td class="f-12px lh-15px">
-            <span class="f-12px lh-17px h-18">
-              {{ getMonthlyWork(member) }}/{{ getMonthlyNeedWork(member) }}
+            <span class="f-12px lh-17px h-18" ng-class="{'more-than': monthWork > monthToWork, 'less-than': monthToWork > monthWork }">
+              {{ monthWork = getMonthlyWork(member) }}/{{ monthToWork = getMonthlyNeedWork(member) }}
             </span>
           </td>
         </tr>
