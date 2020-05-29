@@ -1,5 +1,5 @@
 angular.module('workingHoursTrello')
-	.directive('birthdayDir',  function ($rootScope, $compile, birthdayS) {
+	.directive('birthdayDir',  function ($rootScope, $compile) {
 		return {
 			link : function(scope, element, attrs){
 				// Initialize Function Section
@@ -9,10 +9,10 @@ angular.module('workingHoursTrello')
 					scope.selectedMember = id;
 					document.getElementById(id).scrollIntoView();
 				}
-				scope.showCalendar = function(month, year, boardLists = 0, boardCards = 0, strName = 0, targetDay = 0, nation = 0) {
+				scope.showCalendar = function(month, year, targetDay = 0) {
 					try {
-						// let nonWorkingDays = calendarS.getNonWorkingDays(boardLists, boardCards, strName, year, nation)
-						let nonWorkingDays = birthdayS.getBirthdays(boardLists, boardCards, strName)
+						const birthdays = $rootScope.workedInfo.map(item => new Date(item.birthday))
+						// console.log(birthdays);
 						let today = new Date();
 						let firstDay = (new Date(year, month)).getDay();
 						let daysInMonth = 32 - new Date(year, month, 32).getDate();
@@ -42,9 +42,9 @@ angular.module('workingHoursTrello')
 									if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
 										span.classList.add("bg-today");	
 									} // color today's date
-									if (nonWorkingDays != 0) {
-										for (let x = 0; x < nonWorkingDays.length; x++) {
-											let dateOfBirth = nonWorkingDays[x];
+									if (birthdays != 0) {
+										for (let x = 0; x < birthdays.length; x++) {
+											let dateOfBirth = birthdays[x];
 											let dateToId = parseInt(dateOfBirth.getDate()+ "" + dateOfBirth.getMonth()+ "" + dateOfBirth.getFullYear());
 											// if date is birthdate color and add click event
 											if (date == dateOfBirth.getDate() && month == dateOfBirth.getMonth()) {
@@ -131,7 +131,7 @@ angular.module('workingHoursTrello')
 				scope.giveIdByBirthday = birthday => parseInt(new Date(birthday).getDate()+ "" + new Date(birthday).getMonth()+ "" + new Date(birthday).getFullYear());
 				
 				/** Function to show Calendar */
-				scope.initiateCalendar = () => scope.showCalendar(scope.currentMonth, scope.currentYear, $rootScope.calendarLists, $rootScope.calendarCards, "BIRTHDAY", scope.targetDay);
+				scope.initiateCalendar = () => scope.showCalendar(scope.currentMonth, scope.currentYear, scope.targetDay);
 			},
 			restrict: "EA",
 			replace: true,
