@@ -94,3 +94,13 @@ tbody tr:nth-child(even) {
   text-decoration: none;
   cursor: pointer;
   }
+
+  /************ colors result *****************/
+  .more-than{
+    color: green;
+    /* font-weight: bold; */
+  }
+  .less-than{
+    color: red;
+    /* font-weight: bold; */
+  }
