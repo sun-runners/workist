@@ -35,8 +35,8 @@
           <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
           <td ng-repeat="dts in months" class="t-26 b-64">
               <span class="f-12px lh-17px h-18">
-              <span ng-class="{'c-gy': overall == '-'}">
-                {{ getMonthlyWork(dts, member) }} / {{ getMonthlyNeedWork(dts, member) }}
+              <span>
+                {{ getMonthlyWork(dts, member) }} / {{  getMonthlyNeedWork(dts, member) }}
               </span>
             </span>
           </td>
@@ -46,8 +46,8 @@
             </span>
           </td> -->
           <td>
-            <span class="f-12px lh-17px h-18" ng-class="{'c-gn': work > toWork, 'c-red': work < toWork, 'c-bk': work == 0}">
-                  {{yearWork = (member | getYearValue)}} / {{toWork = getYearlyToWork(member)}}
+            <span class="f-12px lh-17px h-18" ng-class="{'more-than': yearWork > yearToWork, 'less-than': yearToWork > yearWork }">
+                  {{yearWork = (member | getYearValue)}} / {{yearToWork = getYearlyToWork(member)}}
             </span>
           </td>
         </tr>

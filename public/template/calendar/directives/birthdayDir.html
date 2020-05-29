@@ -30,8 +30,8 @@
             </div>
         </div>
         <!-- Ledgers Name Here -->
-        <div class="w-70 h-400px bc-FFFFFF">
-            <table class="w-100 h-45px">
+        <div class="w-70 h-400px">
+            <table class="w-100 h-45px t-91px l-365px">
                 <tr class="h-46px t-91px">
                     <th class="f-12px h-18px c-BDBDBD lh-17 tt-u w-25">Name</th>
                     <th class="f-12px h-18px c-BDBDBD lh-17 tt-u w-25">Birthday</th>
@@ -39,25 +39,26 @@
                     <th class="f-12px h-18px c-BDBDBD lh-17 tt-u w-25">Age</th>
                 </tr>
             </table>
-            <div class="w-100 h-1px b-gy o-30"></div>
-            <table class="w-100 h-45px">
-                <tr>
-                    <th class="w-25"></th>
-                    <th class="w-25"></th>
-                    <th class="w-25"></th>
-                    <th class="w-25"></th>
-                </tr>
-                <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer c-686868 calendar-row"
-                    ng-repeat="member in $root.workedInfo"
-                    ng-class="{selected:  giveIdByBirthday(member.birthday) == selectedMember}"
-                    ng-click="getToBirthday(giveIdByBirthday(member.birthday), getMemberBirthMonth(member.birthday), currentYear, getMemberBirthDay(member.birthday))"
-                    id="{{giveIdByBirthday(member.birthday)}}">
-                    <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
-                    <td><span class="f-12px lh-17px h-18">{{getMemberBirthDate(member.birthday)}}</span></td>
-                    <td><span class="f-12px lh-17px h-18">{{getMemberBirthYear(member.birthday)}}</span></td>
-                    <td><span class="f-12px lh-17px h-18">{{getMemberAge(member.birthday)}}</span></td>
-                </tr>
-            </table>
+            <div class="w-100 h-390px dates-cont">
+                <table class="w-100 h-45px t-91px l-365px">
+                    <tr>
+                        <th class="w-25"></th>
+                        <th class="w-25"></th>
+                        <th class="w-25"></th>
+                        <th class="w-25"></th>
+                    </tr>
+                    <tr class="w-100 h-36px t-155px l-365px t-c cursor-pointer c-686868 calendar-row"
+                        ng-repeat="member in $root.workedInfo"
+                        ng-class="{selected:  giveIdByBirthday(member.birthday) == selectedMember}"
+                        ng-click="getToBirthday(giveIdByBirthday(member.birthday), getMemberBirthMonth(member.birthday), currentYear, getMemberBirthDay(member.birthday))"
+                        id="{{giveIdByBirthday(member.birthday)}}">
+                        <td><span class="f-12px lh-17px h-18">{{member.fullName}}</span></td>
+                        <td><span class="f-12px lh-17px h-18">{{getMemberBirthDate(member.birthday)}}</span></td>
+                        <td><span class="f-12px lh-17px h-18">{{getMemberBirthYear(member.birthday)}}</span></td>
+                        <td><span class="f-12px lh-17px h-18">{{getMemberAge(member.birthday)}}</span></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
     <div class="w-100 h-45px bc-E0E0E0">

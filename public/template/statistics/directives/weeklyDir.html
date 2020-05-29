@@ -46,8 +46,8 @@
               <span class="f-12px lh-17px h-18">{{getDailyCard(dt.Date, member)}}</span>
             </td>
             <!-- total -->
-            <td><span class="f-12px lh-17px h-18">
-              {{ getWeeklyCard(dts, member) }}/{{ getWeeklyNeedWork(dts, member) }}
+            <td><span class="f-12px lh-17px h-18" ng-class="{'more-than': work > toWork, 'less-than': toWork > work }">
+              {{ work = getWeeklyCard(dts, member) }}/{{ toWork = getWeeklyNeedWork(dts, member) }}
             </span>
           </td>
             <!-- <td><span class="f-12px lh-17px h-18  c-686868">{{getWeeklyCard(dts, member.id)}}/{{getWeeklyNeedWork(dts)}}</span></td> -->
