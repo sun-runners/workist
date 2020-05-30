@@ -34,8 +34,8 @@ angular.module('workingHoursTrello', [
   $rootScope.changeSelectedMember = (memberId) => $rootScope.selectedMember = memberId;
 
   // We get the Api from trello
-  const key ='86b2621fa79c88d61ff3a95b82ec2bd7';
-  const token = '7be1976d0063e2ca94d145fbf01604667dfee015cfe1b4cd41a355d76a1ca118';
+  const key = credentials.key;
+  const token = credentials.token;
 
   async function initApi() {
     $rootScope.boardMembers = await apiS.getBoardMembers(key, token).then(res => res.data)
