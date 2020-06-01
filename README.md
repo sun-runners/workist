@@ -12,6 +12,11 @@ It is a Trello power-up that calculates Time, Attendance, Tasks etc . . .
 
     * enter this: https://github.com/KimSunWook/workist.git
 
+    * navigate to `public/app.config.js`
+
+        * add api-key, token, boardid
+
+
 1. Use **Trello.com**:
     
     * navigate to https://trello.com/power-ups/admin/
