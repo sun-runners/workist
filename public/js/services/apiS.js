@@ -13,7 +13,7 @@ angular.module('workingHoursTrello').service('apiS', function($http){
   }
   // get boars Lists
   this.getBoardLists = function(key, token) {
-    return $http.get(`https://api.trello.com//1/boards/${board_id}/lists?key=${key}&token=${token}`);
+    return $http.get(`https://api.trello.com/1/boards/${board_id}/lists?key=${key}&token=${token}`);
   }
   //get boards Cards
   this.getBoardCards = function(key, token) {
@@ -22,10 +22,10 @@ angular.module('workingHoursTrello').service('apiS', function($http){
 
   // get Calendar Data Board's Lists
   this.calendarBoardLists = function(key, token) {
-    return $http.get(`https://api.trello.com//1/boards/${board_data}/lists?key=${key}&token=${token}`);
+    return $http.get(`https://api.trello.com/1/boards/${board_data}/lists?key=${key}&token=${token}`);
   }
   // get Calendar Data Board's Lists
   this.calendarBoardCards = function(key, token) {
-    return $http.get(`https://api.trello.com//1/boards/${board_data}/cards?key=${key}&token=${token}`);
+    return $http.get(`https://api.trello.com/1/boards/${board_data}/cards?key=${key}&token=${token}`);
   }
 });
